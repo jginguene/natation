@@ -1,6 +1,5 @@
 package fr.natation.model;
 
-
 public class Capacite {
 
     private int id;
@@ -22,4 +21,8 @@ public class Capacite {
         this.nom = nom;
     }
 
+    @Override
+    public String toString() {
+        return this.nom;
+    }
 }

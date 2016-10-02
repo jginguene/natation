@@ -35,7 +35,7 @@ public class EleveService {
             }
             return -1;
         } catch (Exception e) {
-            throw new Exception("getRefCount() failed", e);
+            throw new Exception("getNbEleve(" + groupeId + ") failed", e);
         } finally {
             connection.close();
         }

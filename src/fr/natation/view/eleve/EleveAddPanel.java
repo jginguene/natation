@@ -4,7 +4,6 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -21,8 +20,8 @@ import fr.natation.model.Eleve;
 import fr.natation.model.Groupe;
 import fr.natation.service.EleveService;
 import fr.natation.service.GroupeService;
+import fr.natation.view.CustomComboBoxModel;
 import fr.natation.view.IRefreshListener;
-import fr.natation.view.groupe.GroupeComboboxModel;
 
 public class EleveAddPanel extends JPanel implements IRefreshListener {
 
@@ -134,8 +133,7 @@ public class EleveAddPanel extends JPanel implements IRefreshListener {
     }
 
     private void refreshGroupes() throws Exception {
-        List<Groupe> groupes = GroupeService.getAll();
-        GroupeComboboxModel model = new GroupeComboboxModel(groupes);
+        CustomComboBoxModel<Groupe> model = new CustomComboBoxModel<Groupe>(GroupeService.getAll());
         this.inputGroupe.setModel(model);
     }
 

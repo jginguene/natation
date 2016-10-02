@@ -1,4 +1,4 @@
-package fr.natation.view.eleve;
+package fr.natation.view.aptitude;
 
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
@@ -14,20 +14,23 @@ import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
 
+import fr.natation.service.AptitudeService;
 import fr.natation.service.EleveService;
 import fr.natation.view.ButtonColumn;
 import fr.natation.view.IRefreshListener;
 
-public class EleveListPanel extends JPanel implements IRefreshListener {
+public class AptitudeListPanel extends JPanel implements IRefreshListener {
 
     private static final long serialVersionUID = 1L;
 
-    private final static Logger LOGGER = Logger.getLogger(EleveListPanel.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(AptitudeListPanel.class.getName());
 
     private final JTable table = new JTable();
 
-    public EleveListPanel() throws Exception {
-        this.setBorder(BorderFactory.createTitledBorder("Liste des élèves"));
+    public AptitudeListPanel() throws Exception {
+        this.setBorder(BorderFactory.createTitledBorder("Liste des aptitudes"));
+        this.add(new JScrollPane(this.table));
+
         JScrollPane pane = new JScrollPane(this.table);
 
         this.add(pane);
@@ -47,7 +50,7 @@ public class EleveListPanel extends JPanel implements IRefreshListener {
     @Override
     public void refresh() throws Exception {
 
-        EleveTableModel model = new EleveTableModel(EleveService.getAll());
+        AptitudeTableModel model = new AptitudeTableModel(AptitudeService.getAll());
         this.table.setModel(model);
 
         Action delete = new AbstractAction() {
@@ -59,15 +62,13 @@ public class EleveListPanel extends JPanel implements IRefreshListener {
                 table.getSelectedRow();
 
                 int modelRow = Integer.valueOf(e.getActionCommand());
-                EleveTableModel model = (EleveTableModel) table.getModel();
-                Integer id = (Integer) (model).getValueAt(modelRow, EleveTableModel.COLUMN_ID);
+                AptitudeTableModel model = (AptitudeTableModel) table.getModel();
+                Integer id = (Integer) (model).getValueAt(modelRow, AptitudeTableModel.COLUMN_ID);
 
                 int answer = JOptionPane.showConfirmDialog(
                         null,
-                        "Voulez vous supprimer l'élève "
-                                + model.getValueAt(modelRow, EleveTableModel.COLUMN_PRENOM)
-                                + " "
-                                + model.getValueAt(modelRow, EleveTableModel.COLUMN_NOM)
+                        "Voulez vous supprimer l'aptitude "
+                                + model.getValueAt(modelRow, AptitudeTableModel.COLUMN_DESC)
                                 + " de l'application?",
                         "Confirmation",
                         JOptionPane.YES_NO_OPTION);
@@ -75,7 +76,7 @@ public class EleveListPanel extends JPanel implements IRefreshListener {
                 if (answer == JOptionPane.YES_OPTION) {
                     try {
                         EleveService.delete(id.intValue());
-                        EleveListPanel.this.refresh();
+                        AptitudeListPanel.this.refresh();
 
                     } catch (Exception e1) {
                         JOptionPane.showMessageDialog(null, "La suppression a échouée", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -85,10 +86,11 @@ public class EleveListPanel extends JPanel implements IRefreshListener {
             }
         };
 
-        new ButtonColumn(this.table, delete, EleveTableModel.COLUMN_ACTION, new ImageIcon("delete.png"), null);
+        new ButtonColumn(this.table, delete, AptitudeTableModel.COLUMN_ACTION, new ImageIcon("delete.png"), null);
 
-        this.setColumnWidth(EleveTableModel.COLUMN_ID, 60);
-        this.setColumnWidth(EleveTableModel.COLUMN_GROUPE, 60);
-        this.setColumnWidth(EleveTableModel.COLUMN_ACTION, 60);
+        this.setColumnWidth(AptitudeTableModel.COLUMN_ID, 60);
+        this.setColumnWidth(AptitudeTableModel.COLUMN_DESC, 500);
+        this.setColumnWidth(AptitudeTableModel.COLUMN_ACTION, 60);
+
     }
 }

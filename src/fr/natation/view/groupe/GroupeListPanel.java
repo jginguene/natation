@@ -1,5 +1,6 @@
 package fr.natation.view.groupe;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
@@ -29,8 +30,20 @@ public class GroupeListPanel extends JPanel implements IRefreshListener {
 
     public GroupeListPanel() throws Exception {
         this.setBorder(BorderFactory.createTitledBorder("Liste des groupes"));
-        this.add(new JScrollPane(this.table));
+
+        JScrollPane pane = new JScrollPane(this.table);
+        this.add(pane);
+
+        pane.setPreferredSize(new Dimension(800, 140));
+
         this.refresh();
+
+    }
+
+    private void setColumnWidth(int column, int Width) {
+        this.table.getColumnModel().getColumn(column).setWidth(Width);
+        this.table.getColumnModel().getColumn(column).setMinWidth(Width);
+        this.table.getColumnModel().getColumn(column).setMaxWidth(Width);
     }
 
     private void hideColumn(int column) {
@@ -88,6 +101,11 @@ public class GroupeListPanel extends JPanel implements IRefreshListener {
                 return nbEleve == 0;
             }
         });
+
+        this.setColumnWidth(GroupeTableModel.COLUMN_NOM, 60);
+        // this.setColumnWidth(GroupeTableModel.COLUMN_DESCRIPTION, 500);
+        this.setColumnWidth(GroupeTableModel.COLUMN_NB_ELEVE, 60);
+        this.setColumnWidth(GroupeTableModel.COLUMN_ACTION, 60);
 
     }
 }

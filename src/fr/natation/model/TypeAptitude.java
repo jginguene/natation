@@ -1,6 +1,6 @@
 package fr.natation.model;
 
-public class Niveau {
+public class TypeAptitude {
 
     private int id;
     private String nom;
@@ -23,7 +23,7 @@ public class Niveau {
 
     @Override
     public String toString() {
-        return "Niveau " + this.nom;
+        return this.nom;
     }
 
 }

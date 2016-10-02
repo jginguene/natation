@@ -8,6 +8,7 @@ import javax.swing.event.ChangeListener;
 
 import org.apache.log4j.Logger;
 
+import fr.natation.view.aptitude.AptitudeTabPanel;
 import fr.natation.view.eleve.EleveTabPanel;
 import fr.natation.view.groupe.GroupeTabPanel;
 
@@ -19,19 +20,21 @@ public class NatationFrame extends JFrame {
 
     private final EleveTabPanel eleveTabPanel = new EleveTabPanel();
     private final GroupeTabPanel groupeTabPanel = new GroupeTabPanel();
+    private final AptitudeTabPanel aptitudeTabPanel = new AptitudeTabPanel();
 
     public NatationFrame() throws Exception {
         super("Natation");
 
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // add the table to the frame
-
         final JTabbedPane tabbedPane = new JTabbedPane();
         tabbedPane.addTab("Liste des élèves", null, this.eleveTabPanel, "");
         // tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
 
         tabbedPane.addTab("Liste des groupes", null, this.groupeTabPanel, "");
+
+        tabbedPane.addTab("Liste des aptitudes", null, this.aptitudeTabPanel, "");
+
         // tabbedPane.setMnemonicAt(1, KeyEvent.VK_1);
 
         tabbedPane.addChangeListener(new ChangeListener() {
@@ -46,13 +49,14 @@ public class NatationFrame extends JFrame {
                         NatationFrame.this.groupeTabPanel.refresh();
                     }
 
+                    if (tabbedPane.getSelectedIndex() == 3) {
+                        NatationFrame.this.aptitudeTabPanel.refresh();
+                    }
+
                 } catch (Exception e1) {
                     JOptionPane.showMessageDialog(null, "Le rafraichissement de l'onglet a échoué");
                     NatationFrame.LOGGER.error("Le rafraichissement de l'onglet a échoué", e1);
                 }
-
-                System.out.println("Tab: " + tabbedPane.getSelectedIndex());
-                // Prints the string 3 times if there are 3 tabs etc
             }
         });
 

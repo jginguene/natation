@@ -33,9 +33,10 @@ import javax.swing.table.TableColumnModel;
  * number of the button that was clicked.
  * 
  */
-public class ButtonColumn extends AbstractCellEditor
-        implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener
-{
+public class ButtonColumn extends AbstractCellEditor implements TableCellRenderer, TableCellEditor, ActionListener, MouseListener {
+
+    private static final long serialVersionUID = 1L;
+
     private final JTable table;
     private final Action action;
     private int mnemonic;
