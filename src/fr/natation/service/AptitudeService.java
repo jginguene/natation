@@ -114,6 +114,9 @@ public class AptitudeService {
     private static Aptitude convert(ResultSet res) throws SQLException {
         Aptitude aptitude = new Aptitude();
         aptitude.setId(res.getInt("id"));
+        aptitude.setNiveauId(res.getInt("niveau_id"));
+        aptitude.setTypeId(res.getInt("type_id"));
+        aptitude.setCapaciteId(res.getInt("capacite_id"));
         aptitude.setDescription(res.getString("description"));
         return aptitude;
     }

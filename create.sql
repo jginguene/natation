@@ -13,6 +13,9 @@ create table niveau(
     CONSTRAINT nom_unique UNIQUE (Nom )
 );
 
+
+
+
 create table capacite(
     id integer primary key autoincrement,
     Nom varchar2(200) not null,
@@ -20,13 +23,20 @@ create table capacite(
     CONSTRAINT nom_unique UNIQUE (Nom)
 );
 
+create table type_aptitude(
+    id integer primary key autoincrement,
+    Nom varchar2(200) not null,
+    CONSTRAINT nom_unique UNIQUE (Nom)
+);
 
 create table Aptitude(
     id integer primary key autoincrement,
     description varchar2(1000),
-    niveau_id integer,
-    capactite_id integer,    
-    FOREIGN KEY(capactite_Id) REFERENCES Capacite(id),
+    niveau_id integer not null,
+    type_id integer not null, 
+    capacite_id integer,    
+    FOREIGN KEY(capacite_id) REFERENCES Capacite(id),
+    FOREIGN KEY(type_id) REFERENCES type_aptitude(id),
     FOREIGN KEY(niveau_id) REFERENCES Niveau(id)
 );
 
@@ -46,6 +56,13 @@ insert into Groupe(nom,description ) values ("A","Petit bassin - Petite profonde
 insert into Groupe(nom,description ) values ("B","Petit bassin - Moyenne profondeur");
 insert into Groupe(nom,description ) values ("C","Grand bassin - Moyenne profondeur");
 insert into Groupe(nom,description ) values ("D","Grand bassin - Grande profondeur");
+
+insert into type_aptitude(nom) values ("Entrée dans l'eau");
+insert into type_aptitude(nom) values ("Equilibre");
+insert into type_aptitude(nom) values ("Immersion");
+insert into type_aptitude(nom) values ("Respiration");
+insert into type_aptitude(nom) values ("Propulsion");
+
 
 insert into niveau (nom) values (1);
 insert into niveau (nom) values (2);

@@ -718,3 +718,266 @@ Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing datab
 2016-10-01 23:13:20.497 [main] DEBUG fr.natation.Launcher - Start
 2016-10-01 23:14:37.055 [main] DEBUG fr.natation.Launcher - Start
 2016-10-02 09:27:31.228 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 19:07:19.141 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:19:25.009 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:20:34.544 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:21:03.440 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:21:31.362 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:35:59.460 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:36:20.108 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:37:27.844 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:37:51.085 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:38:40.904 [AWT-EventQueue-0] ERROR fr.natation.view.aptitude.AptitudeAddPanel - L'ajout a échoué
+java.lang.ClassCastException: fr.natation.model.TypeAptitude cannot be cast to fr.natation.model.Niveau
+	at fr.natation.view.aptitude.AptitudeAddPanel.onAddButton(AptitudeAddPanel.java:134) [bin/:?]
+	at fr.natation.view.aptitude.AptitudeAddPanel$1.actionPerformed(AptitudeAddPanel.java:95) [bin/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source) [?:1.7.0_15]
+	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source) [?:1.7.0_15]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source) [?:1.7.0_15]
+	at javax.swing.DefaultButtonModel.setPressed(Unknown Source) [?:1.7.0_15]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.processMouseEvent(Unknown Source) [?:1.7.0_15]
+	at javax.swing.JComponent.processMouseEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.processEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Container.processEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Container.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.LightweightDispatcher.processMouseEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.LightweightDispatcher.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Container.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Window.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue.access$200(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$3.run(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$3.run(Unknown Source) [?:1.7.0_15]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.7.0_15]
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source) [?:1.7.0_15]
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$4.run(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$4.run(Unknown Source) [?:1.7.0_15]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.7.0_15]
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.run(Unknown Source) [?:1.7.0_15]
+2016-10-02 21:39:31.961 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:40:01.320 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:40:17.130 [AWT-EventQueue-0] ERROR fr.natation.view.aptitude.AptitudeAddPanel - L'ajout a échoué
+java.lang.Exception: create(!fr.natation.model.Aptitude
+description: "Entrer dans l'eau par les escaliers sans s'immerger seul ou \u00e0 plusieurs."
+niveauId: 1
+typeId: 1
+) failed
+	at fr.natation.service.AptitudeService.create(AptitudeService.java:72) ~[bin/:?]
+	at fr.natation.view.aptitude.AptitudeAddPanel.onAddButton(AptitudeAddPanel.java:139) [bin/:?]
+	at fr.natation.view.aptitude.AptitudeAddPanel$1.actionPerformed(AptitudeAddPanel.java:95) [bin/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source) [?:1.7.0_15]
+	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source) [?:1.7.0_15]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source) [?:1.7.0_15]
+	at javax.swing.DefaultButtonModel.setPressed(Unknown Source) [?:1.7.0_15]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.processMouseEvent(Unknown Source) [?:1.7.0_15]
+	at javax.swing.JComponent.processMouseEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.processEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Container.processEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Container.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.LightweightDispatcher.processMouseEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.LightweightDispatcher.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Container.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Window.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue.access$200(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$3.run(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$3.run(Unknown Source) [?:1.7.0_15]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.7.0_15]
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source) [?:1.7.0_15]
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$4.run(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$4.run(Unknown Source) [?:1.7.0_15]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.7.0_15]
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.run(Unknown Source) [?:1.7.0_15]
+Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (table aptitude has no column named type_id)
+	at org.sqlite.core.DB.newSQLException(DB.java:918) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.DB.newSQLException(DB.java:930) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.DB.throwex(DB.java:895) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.NativeDB.prepare(Native Method) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.DB.prepare(DB.java:227) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:41) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:30) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:19) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:48) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:254) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:226) ~[sqlite-jdbc-3.14.2.jar:?]
+	at fr.natation.service.AptitudeService.create(AptitudeService.java:60) ~[bin/:?]
+	... 38 more
+2016-10-02 21:41:25.006 [AWT-EventQueue-0] ERROR fr.natation.view.aptitude.AptitudeAddPanel - L'ajout a échoué
+java.lang.Exception: create(!fr.natation.model.Aptitude
+description: "Entrer dans l'eau par les escaliers sans s'immerger seul ou \u00e0 plusieurs."
+niveauId: 1
+typeId: 1
+) failed
+	at fr.natation.service.AptitudeService.create(AptitudeService.java:72) ~[bin/:?]
+	at fr.natation.view.aptitude.AptitudeAddPanel.onAddButton(AptitudeAddPanel.java:139) [bin/:?]
+	at fr.natation.view.aptitude.AptitudeAddPanel$1.actionPerformed(AptitudeAddPanel.java:95) [bin/:?]
+	at javax.swing.AbstractButton.fireActionPerformed(Unknown Source) [?:1.7.0_15]
+	at javax.swing.AbstractButton$Handler.actionPerformed(Unknown Source) [?:1.7.0_15]
+	at javax.swing.DefaultButtonModel.fireActionPerformed(Unknown Source) [?:1.7.0_15]
+	at javax.swing.DefaultButtonModel.setPressed(Unknown Source) [?:1.7.0_15]
+	at javax.swing.plaf.basic.BasicButtonListener.mouseReleased(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.processMouseEvent(Unknown Source) [?:1.7.0_15]
+	at javax.swing.JComponent.processMouseEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.processEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Container.processEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Container.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.LightweightDispatcher.processMouseEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.LightweightDispatcher.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Container.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Window.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue.access$200(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$3.run(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$3.run(Unknown Source) [?:1.7.0_15]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.7.0_15]
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source) [?:1.7.0_15]
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$4.run(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$4.run(Unknown Source) [?:1.7.0_15]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.7.0_15]
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.run(Unknown Source) [?:1.7.0_15]
+Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (table aptitude has no column named capacite_id)
+	at org.sqlite.core.DB.newSQLException(DB.java:918) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.DB.newSQLException(DB.java:930) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.DB.throwex(DB.java:895) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.NativeDB.prepare(Native Method) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.DB.prepare(DB.java:227) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:41) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:30) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:19) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:48) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:254) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:226) ~[sqlite-jdbc-3.14.2.jar:?]
+	at fr.natation.service.AptitudeService.create(AptitudeService.java:60) ~[bin/:?]
+	... 38 more
+2016-10-02 21:46:21.168 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:46:49.355 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:47:17.467 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:48:18.898 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:51:38.869 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:51:53.311 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:52:37.279 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:56:06.576 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:56:35.213 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:57:05.572 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:57:25.617 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:57:43.223 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:58:54.331 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 21:59:17.385 [AWT-EventQueue-0] ERROR fr.natation.view.aptitude.AptitudeTableModel - La mise à jour a échouée
+java.lang.Exception: update(!fr.natation.model.Aptitude
+id: 1
+description: "Entrer dans l'eau par les escaliers sans s'immerger seul ou \u00e0 plusieurs."
+) failed
+	at fr.natation.service.AptitudeService.update(AptitudeService.java:108) ~[bin/:?]
+	at fr.natation.view.aptitude.AptitudeTableModel.setValueAt(AptitudeTableModel.java:96) [bin/:?]
+	at javax.swing.JTable.setValueAt(Unknown Source) [?:1.7.0_15]
+	at javax.swing.JTable.editingStopped(Unknown Source) [?:1.7.0_15]
+	at javax.swing.AbstractCellEditor.fireEditingStopped(Unknown Source) [?:1.7.0_15]
+	at javax.swing.DefaultCellEditor$EditorDelegate.stopCellEditing(Unknown Source) [?:1.7.0_15]
+	at javax.swing.DefaultCellEditor.stopCellEditing(Unknown Source) [?:1.7.0_15]
+	at javax.swing.JTable$GenericEditor.stopCellEditing(Unknown Source) [?:1.7.0_15]
+	at javax.swing.JTable.columnMoved(Unknown Source) [?:1.7.0_15]
+	at javax.swing.table.DefaultTableColumnModel.fireColumnMoved(Unknown Source) [?:1.7.0_15]
+	at javax.swing.table.DefaultTableColumnModel.moveColumn(Unknown Source) [?:1.7.0_15]
+	at javax.swing.plaf.basic.BasicTableHeaderUI$MouseInputHandler.setDraggedDistance(Unknown Source) [?:1.7.0_15]
+	at javax.swing.plaf.basic.BasicTableHeaderUI$MouseInputHandler.mouseReleased(Unknown Source) [?:1.7.0_15]
+	at java.awt.AWTEventMulticaster.mouseReleased(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.processMouseEvent(Unknown Source) [?:1.7.0_15]
+	at javax.swing.JComponent.processMouseEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.processEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Container.processEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Container.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.LightweightDispatcher.retargetMouseEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.LightweightDispatcher.processMouseEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.LightweightDispatcher.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.Container.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Window.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.Component.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue.dispatchEventImpl(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue.access$200(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$3.run(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$3.run(Unknown Source) [?:1.7.0_15]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.7.0_15]
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source) [?:1.7.0_15]
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$4.run(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue$4.run(Unknown Source) [?:1.7.0_15]
+	at java.security.AccessController.doPrivileged(Native Method) ~[?:1.7.0_15]
+	at java.security.ProtectionDomain$1.doIntersectionPrivilege(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventQueue.dispatchEvent(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpOneEventForFilters(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEventsForFilter(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEventsForHierarchy(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.pumpEvents(Unknown Source) [?:1.7.0_15]
+	at java.awt.EventDispatchThread.run(Unknown Source) [?:1.7.0_15]
+Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing database (no such table: capacite_id)
+	at org.sqlite.core.DB.newSQLException(DB.java:918) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.DB.newSQLException(DB.java:930) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.DB.throwex(DB.java:895) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.NativeDB.prepare(Native Method) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.DB.prepare(DB.java:227) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.core.CorePreparedStatement.<init>(CorePreparedStatement.java:41) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc3.JDBC3PreparedStatement.<init>(JDBC3PreparedStatement.java:30) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc4.JDBC4PreparedStatement.<init>(JDBC4PreparedStatement.java:19) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc4.JDBC4Connection.prepareStatement(JDBC4Connection.java:48) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:254) ~[sqlite-jdbc-3.14.2.jar:?]
+	at org.sqlite.jdbc3.JDBC3Connection.prepareStatement(JDBC3Connection.java:226) ~[sqlite-jdbc-3.14.2.jar:?]
+	at fr.natation.service.AptitudeService.update(AptitudeService.java:99) ~[bin/:?]
+	... 44 more
+2016-10-02 22:02:11.066 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:02:33.990 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:03:07.379 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:03:30.543 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:04:38.941 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:05:07.089 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:06:11.018 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:07:44.031 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:08:18.044 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:10:59.838 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:12:44.582 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:14:36.882 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:15:53.213 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:16:24.721 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:17:44.642 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:19:20.063 [main] DEBUG fr.natation.Launcher - Start
+2016-10-02 22:20:02.676 [main] DEBUG fr.natation.Launcher - Start

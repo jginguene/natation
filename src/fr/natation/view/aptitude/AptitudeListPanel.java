@@ -15,7 +15,6 @@ import javax.swing.JTable;
 import org.apache.log4j.Logger;
 
 import fr.natation.service.AptitudeService;
-import fr.natation.service.EleveService;
 import fr.natation.view.ButtonColumn;
 import fr.natation.view.IRefreshListener;
 
@@ -75,7 +74,7 @@ public class AptitudeListPanel extends JPanel implements IRefreshListener {
 
                 if (answer == JOptionPane.YES_OPTION) {
                     try {
-                        EleveService.delete(id.intValue());
+                        AptitudeService.delete(id.intValue());
                         AptitudeListPanel.this.refresh();
 
                     } catch (Exception e1) {
@@ -88,8 +87,10 @@ public class AptitudeListPanel extends JPanel implements IRefreshListener {
 
         new ButtonColumn(this.table, delete, AptitudeTableModel.COLUMN_ACTION, new ImageIcon("delete.png"), null);
 
-        this.setColumnWidth(AptitudeTableModel.COLUMN_ID, 60);
-        this.setColumnWidth(AptitudeTableModel.COLUMN_DESC, 500);
+        this.setColumnWidth(AptitudeTableModel.COLUMN_ID, 30);
+        this.setColumnWidth(AptitudeTableModel.COLUMN_NIVEAU, 50);
+        this.setColumnWidth(AptitudeTableModel.COLUMN_TYPE, 100);
+        this.setColumnWidth(AptitudeTableModel.COLUMN_CAPACITE, 50);
         this.setColumnWidth(AptitudeTableModel.COLUMN_ACTION, 60);
 
     }
