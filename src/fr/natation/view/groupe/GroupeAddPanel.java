@@ -1,5 +1,6 @@
 package fr.natation.view.groupe;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -38,31 +39,36 @@ public class GroupeAddPanel extends JPanel implements IRefreshListener {
     public GroupeAddPanel() throws Exception {
 
         this.setBorder(BorderFactory.createTitledBorder("Ajouter un groupe"));
-
         this.refreshGroupes();
 
-        this.setLayout(new GridBagLayout());
+        JPanel panel = new JPanel();
+        this.setLayout(new BorderLayout());
+
+        this.add(panel, BorderLayout.WEST);
+
+        panel.setLayout(new GridBagLayout());
+
         GridBagConstraints constraint = new GridBagConstraints();
         constraint.fill = GridBagConstraints.HORIZONTAL;
         constraint.gridx = 0;
         constraint.gridy = 0;
         constraint.gridwidth = 1;
-        this.add(this.labelNom, constraint);
+        panel.add(this.labelNom, constraint);
 
         constraint.gridx = 1;
-        this.add(this.inputNom, constraint);
+        panel.add(this.inputNom, constraint);
 
         constraint.gridy = 1;
         constraint.gridx = 0;
-        this.add(this.labelDescription, constraint);
+        panel.add(this.labelDescription, constraint);
 
         constraint.gridx = 1;
-        this.add(this.inputDescription, constraint);
+        panel.add(this.inputDescription, constraint);
 
         constraint.gridx = 0;
         constraint.gridy = 3;
         constraint.gridwidth = 2;
-        this.add(this.addButton, constraint);
+        panel.add(this.addButton, constraint);
 
         this.addButton.addActionListener(new ActionListener() {
 

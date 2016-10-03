@@ -1,5 +1,6 @@
 package fr.natation.view.aptitude;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -52,42 +53,49 @@ public class AptitudeAddPanel extends JPanel implements IRefreshListener {
 
         this.setBorder(BorderFactory.createTitledBorder("Ajouter un aptitude"));
 
-        this.setLayout(new GridBagLayout());
+        JPanel panel = new JPanel();
+        this.setLayout(new BorderLayout());
+
+        this.add(panel, BorderLayout.WEST);
+
+        panel.setLayout(new GridBagLayout());
         GridBagConstraints constraint = new GridBagConstraints();
         constraint.fill = GridBagConstraints.HORIZONTAL;
         constraint.gridx = 0;
         constraint.gridy = 0;
         constraint.gridwidth = 1;
-        this.add(this.labelDescription, constraint);
+        panel.add(this.labelDescription, constraint);
 
         constraint.gridx = 1;
-        this.add(this.inputDescription, constraint);
+        constraint.gridwidth = 3;
+        panel.add(this.inputDescription, constraint);
 
+        constraint.gridwidth = 1;
         constraint.gridy = 1;
         constraint.gridx = 0;
-        this.add(this.labelNiveau, constraint);
+        panel.add(this.labelNiveau, constraint);
 
         constraint.gridx = 1;
-        this.add(this.inputNiveau, constraint);
+        panel.add(this.inputNiveau, constraint);
 
         constraint.gridy = 2;
         constraint.gridx = 0;
-        this.add(this.labelType, constraint);
+        panel.add(this.labelType, constraint);
 
         constraint.gridx = 1;
-        this.add(this.inputType, constraint);
+        panel.add(this.inputType, constraint);
 
         constraint.gridy = 3;
         constraint.gridx = 0;
-        this.add(this.labelCapacite, constraint);
+        panel.add(this.labelCapacite, constraint);
 
         constraint.gridx = 1;
-        this.add(this.inputCapacite, constraint);
+        panel.add(this.inputCapacite, constraint);
 
         constraint.gridx = 0;
         constraint.gridy = 4;
         constraint.gridwidth = 2;
-        this.add(this.addButton, constraint);
+        panel.add(this.addButton, constraint);
 
         this.addButton.addActionListener(new ActionListener() {
             @Override

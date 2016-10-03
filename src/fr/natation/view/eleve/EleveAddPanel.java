@@ -1,5 +1,6 @@
 package fr.natation.view.eleve;
 
+import java.awt.BorderLayout;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
@@ -47,35 +48,49 @@ public class EleveAddPanel extends JPanel implements IRefreshListener {
 
         this.refreshGroupes();
 
-        this.setLayout(new GridBagLayout());
+        JPanel panel = new JPanel();
+        this.setLayout(new BorderLayout());
+
+        this.add(panel, BorderLayout.WEST);
+
+        panel.setLayout(new GridBagLayout());
         GridBagConstraints constraint = new GridBagConstraints();
         constraint.fill = GridBagConstraints.HORIZONTAL;
+        constraint.anchor = GridBagConstraints.WEST;
         constraint.gridx = 0;
         constraint.gridy = 0;
+
+        constraint.weightx = 0.5;
+
+        constraint.gridx = 0;
+        constraint.gridy++;
         constraint.gridwidth = 1;
-        this.add(this.labelNom, constraint);
+        panel.add(this.labelNom, constraint);
 
         constraint.gridx = 1;
-        this.add(this.inputNom, constraint);
+        panel.add(this.inputNom, constraint);
 
-        constraint.gridy = 1;
+        constraint.gridx = 2;
+        panel.add(new JLabel("                 "), constraint);
+
+        constraint.gridy++;
         constraint.gridx = 0;
-        this.add(this.labelPrenom, constraint);
+        panel.add(this.labelPrenom, constraint);
 
         constraint.gridx = 1;
-        this.add(this.inputPrenom, constraint);
+        panel.add(this.inputPrenom, constraint);
 
-        constraint.gridy = 2;
+        constraint.gridy++;
         constraint.gridx = 0;
-        this.add(this.labelGroupe, constraint);
+        panel.add(this.labelGroupe, constraint);
 
         constraint.gridx = 1;
-        this.add(this.inputGroupe, constraint);
+        panel.add(this.inputGroupe, constraint);
 
         constraint.gridx = 0;
-        constraint.gridy = 3;
+        constraint.gridy++;
         constraint.gridwidth = 2;
-        this.add(this.addButton, constraint);
+        panel.add(this.addButton, constraint);
 
         this.addButton.addActionListener(new ActionListener() {
             @Override
