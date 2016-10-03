@@ -1,7 +1,5 @@
 package fr.natation;
 
-import javax.swing.UIManager;
-
 import org.apache.log4j.Logger;
 
 import fr.natation.view.NatationFrame;
@@ -14,7 +12,8 @@ public class Launcher {
         LOGGER.debug("Start");
 
         try {
-            UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+            // javax.swing.UIManager.setLookAndFeel("com.birosoft.liquid.LiquidLookAndFeel");
+            javax.swing.UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (Exception e) {
             LOGGER.error("Failed to load Look and Feel.", e);
         }

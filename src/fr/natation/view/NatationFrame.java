@@ -8,8 +8,10 @@ import javax.swing.event.ChangeListener;
 
 import org.apache.log4j.Logger;
 
+import fr.natation.Utils;
 import fr.natation.view.aptitude.AptitudeListTabPanel;
 import fr.natation.view.eleve.EleveListTabPanel;
+import fr.natation.view.eleve.EleveTabPanel;
 import fr.natation.view.groupe.GroupeListTabPanel;
 
 public class NatationFrame extends JFrame {
@@ -18,39 +20,41 @@ public class NatationFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-    private final EleveListTabPanel eleveTabPanel = new EleveListTabPanel();
-    private final GroupeListTabPanel groupeTabPanel = new GroupeListTabPanel();
-    private final AptitudeListTabPanel aptitudeTabPanel = new AptitudeListTabPanel();
+    private final EleveListTabPanel eleveListTabPanel = new EleveListTabPanel();
+    private final EleveTabPanel eleveTabPanel = new EleveTabPanel();
+    private final GroupeListTabPanel groupeListTabPanel = new GroupeListTabPanel();
+    private final AptitudeListTabPanel aptitudeListTabPanel = new AptitudeListTabPanel();
 
     public NatationFrame() throws Exception {
         super("Natation");
 
+        this.setIconImage(Utils.getImage("user-id.png").getImage());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         final JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Liste des élèves", null, this.eleveTabPanel, "");
-        // tabbedPane.setMnemonicAt(0, KeyEvent.VK_1);
-
-        tabbedPane.addTab("Liste des groupes", null, this.groupeTabPanel, "");
-
-        tabbedPane.addTab("Liste des aptitudes", null, this.aptitudeTabPanel, "");
-
-        // tabbedPane.setMnemonicAt(1, KeyEvent.VK_1);
+        tabbedPane.addTab("Liste des élèves", null, this.eleveListTabPanel, "");
+        tabbedPane.addTab("Fiche des élèves", null, this.eleveTabPanel, "");
+        tabbedPane.addTab("Liste des groupes", null, this.groupeListTabPanel, "");
+        tabbedPane.addTab("Liste des aptitudes", null, this.aptitudeListTabPanel, "");
 
         tabbedPane.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
                 try {
                     if (tabbedPane.getSelectedIndex() == 0) {
+                        NatationFrame.this.eleveListTabPanel.refresh();
+                    }
+
+                    if (tabbedPane.getSelectedIndex() == 2) {
                         NatationFrame.this.eleveTabPanel.refresh();
                     }
 
-                    if (tabbedPane.getSelectedIndex() == 1) {
-                        NatationFrame.this.groupeTabPanel.refresh();
+                    if (tabbedPane.getSelectedIndex() == 3) {
+                        NatationFrame.this.groupeListTabPanel.refresh();
                     }
 
-                    if (tabbedPane.getSelectedIndex() == 3) {
-                        NatationFrame.this.aptitudeTabPanel.refresh();
+                    if (tabbedPane.getSelectedIndex() == 4) {
+                        NatationFrame.this.aptitudeListTabPanel.refresh();
                     }
 
                 } catch (Exception e1) {

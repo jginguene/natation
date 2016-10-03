@@ -41,4 +41,14 @@ public class Groupe {
         return this.nom;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return this.nom.equals(((Groupe) obj).getNom());
+    }
+
+    @Override
+    public int hashCode() {
+        return this.nom.hashCode();
+    }
+
 }

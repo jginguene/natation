@@ -2,6 +2,8 @@ package fr.natation;
 
 import java.io.StringWriter;
 
+import javax.swing.ImageIcon;
+
 import net.sourceforge.yamlbeans.YamlException;
 import net.sourceforge.yamlbeans.YamlWriter;
 
@@ -33,6 +35,10 @@ public class Utils {
         } else {
             return str.substring(0, 1).toUpperCase() + str.substring(1).toLowerCase();
         }
+    }
+
+    public static ImageIcon getImage(String img) {
+        return new ImageIcon(Utils.class.getResource("/" + img));
     }
 
     public static void main(String[] args) {

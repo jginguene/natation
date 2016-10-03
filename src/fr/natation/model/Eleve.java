@@ -1,6 +1,5 @@
 package fr.natation.model;
 
-import fr.natation.Utils;
 import fr.natation.service.GroupeService;
 
 public class Eleve {
@@ -61,7 +60,7 @@ public class Eleve {
 
     @Override
     public String toString() {
-        return Utils.toString(this);
+        return this.prenom + " " + this.nom;// Utils.toString(this);
     }
 
 }

@@ -6,7 +6,6 @@ import java.awt.event.ActionEvent;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.BorderFactory;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -14,6 +13,7 @@ import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
 
+import fr.natation.Utils;
 import fr.natation.service.AptitudeService;
 import fr.natation.view.ButtonColumn;
 import fr.natation.view.IRefreshListener;
@@ -85,7 +85,7 @@ public class AptitudeListPanel extends JPanel implements IRefreshListener {
             }
         };
 
-        new ButtonColumn(this.table, delete, AptitudeTableModel.COLUMN_ACTION, new ImageIcon("delete.png"), null);
+        new ButtonColumn(this.table, delete, AptitudeTableModel.COLUMN_ACTION, Utils.getImage("delete.png"), null);
 
         this.setColumnWidth(AptitudeTableModel.COLUMN_ID, 30);
         this.setColumnWidth(AptitudeTableModel.COLUMN_NIVEAU, 50);
