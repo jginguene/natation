@@ -13,5 +13,6 @@
 	<classpathentry kind="lib" path="quaqua-filechooser-only.jar"/>
 	<classpathentry kind="lib" path="quaqua.jar"/>
 	<classpathentry kind="lib" path="swing-layout.jar"/>
+	<classpathentry kind="lib" path="liquidlnf.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
