@@ -1,23 +1,24 @@
-package fr.natation.view.eleve;
+package fr.natation.view.groupe;
 
 import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
 import fr.natation.view.IRefreshListener;
-import fr.natation.view.groupe.GroupePanel;
 
-public class EleveTabPanel extends JPanel implements IRefreshListener {
+public class GroupeListTabPanel extends JPanel implements IRefreshListener {
 
     private static final long serialVersionUID = 1L;
-    private final EleveListPanel listPanel = new EleveListPanel();
-    private final EleveAddPanel addPanel = new EleveAddPanel();
+    private final GroupeListPanel listPanel = new GroupeListPanel();
 
-    public EleveTabPanel() throws Exception {
+    private final GroupeAddPanel addPanel = new GroupeAddPanel();
+
+    public GroupeListTabPanel() throws Exception {
+
         this.setLayout(new BorderLayout());
-        this.add(new GroupePanel(), BorderLayout.PAGE_START);
         this.add(this.listPanel, BorderLayout.CENTER);
         this.add(this.addPanel, BorderLayout.PAGE_END);
+
         this.addPanel.addListener(this.listPanel);
     }
 
@@ -26,5 +27,4 @@ public class EleveTabPanel extends JPanel implements IRefreshListener {
         this.listPanel.refresh();
         this.addPanel.refresh();
     }
-
 }

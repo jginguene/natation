@@ -70,9 +70,6 @@ public class EleveAddPanel extends JPanel implements IRefreshListener {
         constraint.gridx = 1;
         panel.add(this.inputNom, constraint);
 
-        constraint.gridx = 2;
-        panel.add(new JLabel("                 "), constraint);
-
         constraint.gridy++;
         constraint.gridx = 0;
         panel.add(this.labelPrenom, constraint);

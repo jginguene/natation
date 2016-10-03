@@ -1,4 +1,4 @@
-package fr.natation.view.groupe;
+package fr.natation.view.aptitude;
 
 import java.awt.BorderLayout;
 
@@ -6,19 +6,16 @@ import javax.swing.JPanel;
 
 import fr.natation.view.IRefreshListener;
 
-public class GroupeTabPanel extends JPanel implements IRefreshListener {
+public class AptitudeListTabPanel extends JPanel implements IRefreshListener {
 
     private static final long serialVersionUID = 1L;
-    private final GroupeListPanel listPanel = new GroupeListPanel();
+    private final AptitudeListPanel listPanel = new AptitudeListPanel();
+    private final AptitudeAddPanel addPanel = new AptitudeAddPanel();
 
-    private final GroupeAddPanel addPanel = new GroupeAddPanel();
-
-    public GroupeTabPanel() throws Exception {
-
+    public AptitudeListTabPanel() throws Exception {
         this.setLayout(new BorderLayout());
         this.add(this.listPanel, BorderLayout.CENTER);
         this.add(this.addPanel, BorderLayout.PAGE_END);
-
         this.addPanel.addListener(this.listPanel);
     }
 
@@ -27,4 +24,5 @@ public class GroupeTabPanel extends JPanel implements IRefreshListener {
         this.listPanel.refresh();
         this.addPanel.refresh();
     }
+
 }

@@ -8,9 +8,9 @@ import javax.swing.event.ChangeListener;
 
 import org.apache.log4j.Logger;
 
-import fr.natation.view.aptitude.AptitudeTabPanel;
-import fr.natation.view.eleve.EleveTabPanel;
-import fr.natation.view.groupe.GroupeTabPanel;
+import fr.natation.view.aptitude.AptitudeListTabPanel;
+import fr.natation.view.eleve.EleveListTabPanel;
+import fr.natation.view.groupe.GroupeListTabPanel;
 
 public class NatationFrame extends JFrame {
 
@@ -18,9 +18,9 @@ public class NatationFrame extends JFrame {
 
     private static final long serialVersionUID = 1L;
 
-    private final EleveTabPanel eleveTabPanel = new EleveTabPanel();
-    private final GroupeTabPanel groupeTabPanel = new GroupeTabPanel();
-    private final AptitudeTabPanel aptitudeTabPanel = new AptitudeTabPanel();
+    private final EleveListTabPanel eleveTabPanel = new EleveListTabPanel();
+    private final GroupeListTabPanel groupeTabPanel = new GroupeListTabPanel();
+    private final AptitudeListTabPanel aptitudeTabPanel = new AptitudeListTabPanel();
 
     public NatationFrame() throws Exception {
         super("Natation");
