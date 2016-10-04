@@ -20,7 +20,7 @@ public class AptitudeService {
     private static String UPDATE = "update aptitude set description=?, niveau_id=? , type_id=?, capacite_id=?  where  id = ?";
     private final static String GET = "select * from aptitude where id=?";
     private static String DELETE = "delete from aptitude  where  id = ?";
-    private static String GET_ALL = "select * from aptitude";
+    private static String GET_ALL = "select * from aptitude order by niveau_id,type_id,score";
     private static String LAST_ID = "select last_insert_rowid()";
 
     public static void delete(int aptitudeId) throws Exception {
@@ -118,6 +118,7 @@ public class AptitudeService {
         aptitude.setTypeId(res.getInt("type_id"));
         aptitude.setCapaciteId(res.getInt("capacite_id"));
         aptitude.setDescription(res.getString("description"));
+        aptitude.setScore(res.getInt("score"));
         return aptitude;
     }
 }

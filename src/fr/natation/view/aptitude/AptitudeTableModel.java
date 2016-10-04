@@ -16,18 +16,19 @@ public class AptitudeTableModel extends AbstractTableModel {
 
     public static final int COLUMN_ID = 0;
     public static final int COLUMN_DESC = 1;
-    public static final int COLUMN_NIVEAU = 2;
+    public static final int COLUMN_SCORE = 2;
     public static final int COLUMN_TYPE = 3;
-    public static final int COLUMN_CAPACITE = 4;
-    public static final int COLUMN_ACTION = 5;
+    public static final int COLUMN_NIVEAU = 4;
+    public static final int COLUMN_CAPACITE = 5;
+    public static final int COLUMN_ACTION = 6;
 
     private final static Logger LOGGER = Logger.getLogger(AptitudeTableModel.class.getName());
     private final List<Aptitude> list;
 
-    private final String[] columnNames = new String[] { "Id", "Description", "Niveau", "Type", "Capacité", "Action" };
+    private final String[] columnNames = new String[] { "Id", "Description", "score", "Niveau", "Type", "Capacité", "Action" };
 
     @SuppressWarnings("rawtypes")
-    private final Class[] columnClass = new Class[] { Integer.class, String.class, String.class, String.class, String.class, String.class };
+    private final Class[] columnClass = new Class[] { Integer.class, String.class, Integer.class, String.class, String.class, String.class, String.class };
 
     public AptitudeTableModel(List<Aptitude> list) {
         this.list = list;
@@ -66,10 +67,13 @@ public class AptitudeTableModel extends AbstractTableModel {
                 return aptitude.getDescription();
 
             case COLUMN_NIVEAU:
-                return aptitude.getNiveauNom();
+                return "Niveau " + aptitude.getNiveauNom();
 
             case COLUMN_CAPACITE:
                 return aptitude.getCapaciteNom();
+
+            case COLUMN_SCORE:
+                return aptitude.getScore();
 
             case COLUMN_TYPE:
                 return aptitude.getTypeNom();

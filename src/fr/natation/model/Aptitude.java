@@ -8,10 +8,20 @@ import fr.natation.service.TypeAptitudeService;
 public class Aptitude {
 
     private int id;
+    private int score;
+
     private String description;
     private int capaciteId;
     private int niveauId;
     private int typeId;
+
+    public int getScore() {
+        return this.score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 
     public int getTypeId() {
         return this.typeId;

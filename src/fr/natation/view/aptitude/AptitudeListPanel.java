@@ -28,15 +28,19 @@ public class AptitudeListPanel extends JPanel implements IRefreshListener {
 
     public AptitudeListPanel() throws Exception {
         this.setBorder(BorderFactory.createTitledBorder("Liste des aptitudes"));
-        this.add(new JScrollPane(this.table));
 
-        JScrollPane pane = new JScrollPane(this.table);
-
-        this.add(pane);
-
-        pane.setPreferredSize(new Dimension(800, 140));
+        // pane.setPreferredSize(new Dimension(800, 140));
 
         this.refresh();
+
+        this.add(new JScrollPane(this.table));
+
+        JScrollPane pane = new JScrollPane(this.table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+
+        this.table.setPreferredScrollableViewportSize(new Dimension(800, 300));
+        // this.table.setFillsViewportHeight(true);
+
+        this.add(pane);
 
     }
 
@@ -44,6 +48,14 @@ public class AptitudeListPanel extends JPanel implements IRefreshListener {
         this.table.getColumnModel().getColumn(column).setWidth(Width);
         this.table.getColumnModel().getColumn(column).setMinWidth(Width);
         this.table.getColumnModel().getColumn(column).setMaxWidth(Width);
+    }
+
+    private void hideColumn(int column) {
+        this.table.getColumnModel().getColumn(column).setWidth(0);
+        this.table.getColumnModel().getColumn(column).setMinWidth(0);
+        this.table.getColumnModel().getColumn(column).setMaxWidth(0);
+        this.table.getColumnModel().getColumn(column).setHeaderValue("");
+
     }
 
     @Override
@@ -87,11 +99,14 @@ public class AptitudeListPanel extends JPanel implements IRefreshListener {
 
         new ButtonColumn(this.table, delete, AptitudeTableModel.COLUMN_ACTION, Utils.getImage("delete.png"), null);
 
-        this.setColumnWidth(AptitudeTableModel.COLUMN_ID, 30);
+        this.setColumnWidth(AptitudeTableModel.COLUMN_SCORE, 50);
+        this.setColumnWidth(AptitudeTableModel.COLUMN_DESC, 480);
         this.setColumnWidth(AptitudeTableModel.COLUMN_NIVEAU, 50);
         this.setColumnWidth(AptitudeTableModel.COLUMN_TYPE, 100);
         this.setColumnWidth(AptitudeTableModel.COLUMN_CAPACITE, 50);
         this.setColumnWidth(AptitudeTableModel.COLUMN_ACTION, 60);
+
+        this.hideColumn(AptitudeTableModel.COLUMN_ID);
 
     }
 }

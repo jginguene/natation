@@ -28,7 +28,7 @@ public class NatationFrame extends JFrame {
     public NatationFrame() throws Exception {
         super("Natation");
 
-        this.setIconImage(Utils.getImage("user-id.png").getImage());
+        this.setIconImage(Utils.getImage("app.png").getImage());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         final JTabbedPane tabbedPane = new JTabbedPane();
