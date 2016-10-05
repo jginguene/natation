@@ -1082,3 +1082,5 @@ Caused by: org.sqlite.SQLiteException: [SQLITE_ERROR] SQL error or missing datab
 2016-10-05 09:03:09.626 [main] DEBUG fr.natation.Launcher - Start
 2016-10-05 09:03:20.927 [main] DEBUG fr.natation.Launcher - Start
 2016-10-05 09:03:34.244 [main] DEBUG fr.natation.Launcher - Start
+2016-10-05 09:36:32.229 [main] DEBUG fr.natation.Launcher - Start
+2016-10-05 09:39:59.046 [main] DEBUG fr.natation.Launcher - Start
