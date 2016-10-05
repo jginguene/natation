@@ -41,7 +41,4 @@ public class Utils {
         return new ImageIcon(Utils.class.getResource("/" + img));
     }
 
-    public static void main(String[] args) {
-        System.out.println(Utils.capitalize("aaaa"));
-    }
 }

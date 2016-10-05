@@ -28,7 +28,7 @@ public class PdfGenerator {
             PDPage page = new PDPage();
             this.doc.addPage(page);
 
-            PDImageXObject pdImage = PDImageXObject.createFromFile(PdfGenerator.class.getResource("/Canard.jpg").getFile(), this.doc);
+            PDImageXObject pdImage = PDImageXObject.createFromFile("img/Canard.jpg", this.doc);
             PDPageContentStream contentStream = new PDPageContentStream(this.doc, page, AppendMode.APPEND, true);
 
             PDFont fontBold = PDType1Font.HELVETICA_BOLD;

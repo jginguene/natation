@@ -139,9 +139,13 @@ public class ElevePanel extends JPanel {
 
     private void onPdfButton() {
         try {
+
+            LOGGER.info("onPdfButton");
             PdfGenerator generator = new PdfGenerator();
             for (Eleve eleve : EleveService.getAll()) {
                 generator.addPage(eleve);
+
+                LOGGER.info("add " + eleve);
             }
             generator.generate("diplomes.pdf");
 
