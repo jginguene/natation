@@ -1,12 +1,14 @@
 package fr.natation.view.eleve;
 
 import java.awt.BorderLayout;
+import java.awt.Desktop;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -22,8 +24,8 @@ import fr.natation.model.Eleve;
 import fr.natation.model.Groupe;
 import fr.natation.service.EleveService;
 import fr.natation.service.GroupeService;
+import fr.natation.view.ButtonFactory;
 import fr.natation.view.CustomComboBoxModel;
-import fr.natation.view.Icon;
 
 public class ElevePanel extends JPanel {
 
@@ -41,8 +43,8 @@ public class ElevePanel extends JPanel {
     private final JTextField inputPrenom = new JTextField(20);
     private final JComboBox<Groupe> inputGroupe = new JComboBox<Groupe>();
 
-    private final JButton updateButton = new JButton("Mettre à jour", Icon.Update.getImage());
-    private final JButton printButton = new JButton("Imprimer", Icon.Print.getImage());
+    private final JButton updateButton = ButtonFactory.createUpdateButton();
+    private final JButton pdfButton = ButtonFactory.createPdfButton();
 
     public ElevePanel() throws Exception {
         JPanel panel = new JPanel();
@@ -87,7 +89,7 @@ public class ElevePanel extends JPanel {
         panel.add(this.updateButton, constraint);
 
         constraint.gridx = 1;
-        panel.add(this.printButton, constraint);
+        panel.add(this.pdfButton, constraint);
 
         this.updateButton.addActionListener(new ActionListener() {
             @Override
@@ -96,10 +98,10 @@ public class ElevePanel extends JPanel {
             }
         });
 
-        this.printButton.addActionListener(new ActionListener() {
+        this.pdfButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                ElevePanel.this.onPrintButton();
+                ElevePanel.this.onPdfButton();
             }
         });
 
@@ -135,7 +137,7 @@ public class ElevePanel extends JPanel {
 
     }
 
-    private void onPrintButton() {
+    private void onPdfButton() {
         try {
             PdfGenerator generator = new PdfGenerator();
             for (Eleve eleve : EleveService.getAll()) {
@@ -144,6 +146,8 @@ public class ElevePanel extends JPanel {
             generator.generate("diplomes.pdf");
 
             JOptionPane.showMessageDialog(null, "Le fichier diplome.pdf a été créé", "Erreur", JOptionPane.INFORMATION_MESSAGE);
+
+            Desktop.getDesktop().open(new File("diplomes.pdf"));
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "La génération des diplomes a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
             LOGGER.error("La génération des diplomes a échoué", e);

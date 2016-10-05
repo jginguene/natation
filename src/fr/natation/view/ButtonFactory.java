@@ -8,4 +8,12 @@ public class ButtonFactory {
         return new JButton("Enregistrer", Icon.Create.getImage());
     }
 
+    public static JButton createPdfButton() {
+        return new JButton("Export pdf", Icon.Pdf.getImage());
+    }
+
+    public static JButton createUpdateButton() {
+        return new JButton("Mettre à jour", Icon.Update.getImage());
+    }
+
 }

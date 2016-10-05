@@ -10,7 +10,8 @@ public enum Icon {
     Create(Utils.getImage("save.png")),
     Delete(Utils.getImage("delete.png")),
     Print(Utils.getImage("print.png")),
-    Application(Utils.getImage("app.png"));
+    Application(Utils.getImage("app.png")),
+    Pdf(Utils.getImage("pdf.png"));
 
     private ImageIcon image;
 
