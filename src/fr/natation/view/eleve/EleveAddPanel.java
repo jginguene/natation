@@ -1,7 +1,6 @@
 package fr.natation.view.eleve;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -21,7 +20,9 @@ import fr.natation.model.Eleve;
 import fr.natation.model.Groupe;
 import fr.natation.service.EleveService;
 import fr.natation.service.GroupeService;
+import fr.natation.view.ButtonFactory;
 import fr.natation.view.CustomComboBoxModel;
+import fr.natation.view.GridBagConstraintsFactory;
 import fr.natation.view.IRefreshListener;
 
 public class EleveAddPanel extends JPanel implements IRefreshListener {
@@ -38,7 +39,7 @@ public class EleveAddPanel extends JPanel implements IRefreshListener {
     private final JTextField inputPrenom = new JTextField(20);
     private final JComboBox<Groupe> inputGroupe = new JComboBox<Groupe>();
 
-    private final JButton addButton = new JButton("Ajouter");
+    private final JButton addButton = ButtonFactory.createCreateButton();
 
     private IRefreshListener listener;
 
@@ -54,40 +55,21 @@ public class EleveAddPanel extends JPanel implements IRefreshListener {
         this.add(panel, BorderLayout.WEST);
 
         panel.setLayout(new GridBagLayout());
-        GridBagConstraints constraint = new GridBagConstraints();
-        constraint.fill = GridBagConstraints.HORIZONTAL;
-        constraint.anchor = GridBagConstraints.WEST;
-        constraint.gridx = 0;
-        constraint.gridy = 0;
 
-        constraint.weightx = 0.5;
+        int y = 0;
+        panel.add(this.labelNom, GridBagConstraintsFactory.create(0, y, 1, 1));
+        panel.add(this.inputNom, GridBagConstraintsFactory.create(1, y, 2, 1));
+        y++;
 
-        constraint.gridx = 0;
-        constraint.gridy++;
-        constraint.gridwidth = 1;
-        panel.add(this.labelNom, constraint);
+        panel.add(this.labelPrenom, GridBagConstraintsFactory.create(0, y, 1, 1));
+        panel.add(this.inputPrenom, GridBagConstraintsFactory.create(1, y, 2, 1));
+        y++;
 
-        constraint.gridx = 1;
-        panel.add(this.inputNom, constraint);
+        panel.add(this.labelGroupe, GridBagConstraintsFactory.create(0, y, 1, 1));
+        panel.add(this.inputGroupe, GridBagConstraintsFactory.create(1, y, 1, 1));
+        y++;
 
-        constraint.gridy++;
-        constraint.gridx = 0;
-        panel.add(this.labelPrenom, constraint);
-
-        constraint.gridx = 1;
-        panel.add(this.inputPrenom, constraint);
-
-        constraint.gridy++;
-        constraint.gridx = 0;
-        panel.add(this.labelGroupe, constraint);
-
-        constraint.gridx = 1;
-        panel.add(this.inputGroupe, constraint);
-
-        constraint.gridx = 0;
-        constraint.gridy++;
-        constraint.gridwidth = 2;
-        panel.add(this.addButton, constraint);
+        panel.add(this.addButton, GridBagConstraintsFactory.create(0, y, 2, 1));
 
         this.addButton.addActionListener(new ActionListener() {
             @Override

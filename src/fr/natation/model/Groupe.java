@@ -43,6 +43,9 @@ public class Groupe {
 
     @Override
     public boolean equals(Object obj) {
+        if (this.nom == null || obj == null) {
+            return false;
+        }
         return this.nom.equals(((Groupe) obj).getNom());
     }
 

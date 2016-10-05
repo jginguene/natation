@@ -1,7 +1,6 @@
 package fr.natation.view.aptitude;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -25,7 +24,9 @@ import fr.natation.service.AptitudeService;
 import fr.natation.service.CapaciteService;
 import fr.natation.service.NiveauService;
 import fr.natation.service.TypeAptitudeService;
+import fr.natation.view.ButtonFactory;
 import fr.natation.view.CustomComboBoxModel;
+import fr.natation.view.GridBagConstraintsFactory;
 import fr.natation.view.IRefreshListener;
 
 public class AptitudeAddPanel extends JPanel implements IRefreshListener {
@@ -37,14 +38,16 @@ public class AptitudeAddPanel extends JPanel implements IRefreshListener {
     private final JLabel labelDescription = new JLabel("Description:");
     private final JLabel labelType = new JLabel("Type:");
     private final JLabel labelNiveau = new JLabel("Niveau:");
+    private final JLabel labelScore = new JLabel("Score:");
     private final JLabel labelCapacite = new JLabel("Capacite:");
 
     private final JTextField inputDescription = new JTextField(80);
+    private final JComboBox<Integer> inputScore = new JComboBox<Integer>();
     private final JComboBox<Niveau> inputNiveau = new JComboBox<Niveau>();
     private final JComboBox<TypeAptitude> inputType = new JComboBox<TypeAptitude>();
     private final JComboBox<Capacite> inputCapacite = new JComboBox<Capacite>();
 
-    private final JButton addButton = new JButton("Ajouter");
+    private final JButton addButton = ButtonFactory.createCreateButton();;
 
     private IRefreshListener listener;
 
@@ -59,43 +62,29 @@ public class AptitudeAddPanel extends JPanel implements IRefreshListener {
         this.add(panel, BorderLayout.WEST);
 
         panel.setLayout(new GridBagLayout());
-        GridBagConstraints constraint = new GridBagConstraints();
-        constraint.fill = GridBagConstraints.HORIZONTAL;
-        constraint.gridx = 0;
-        constraint.gridy = 0;
-        constraint.gridwidth = 1;
-        panel.add(this.labelDescription, constraint);
 
-        constraint.gridx = 1;
-        constraint.gridwidth = 3;
-        panel.add(this.inputDescription, constraint);
+        int y = 0;
+        panel.add(this.labelDescription, GridBagConstraintsFactory.create(0, y, 1, 1));
+        panel.add(this.inputDescription, GridBagConstraintsFactory.create(1, y, 3, 1));
+        y++;
 
-        constraint.gridwidth = 1;
-        constraint.gridy = 1;
-        constraint.gridx = 0;
-        panel.add(this.labelNiveau, constraint);
+        panel.add(this.labelScore, GridBagConstraintsFactory.create(0, y, 1, 1));
+        panel.add(this.inputScore, GridBagConstraintsFactory.create(1, y, 1, 1));
+        y++;
 
-        constraint.gridx = 1;
-        panel.add(this.inputNiveau, constraint);
+        panel.add(this.labelType, GridBagConstraintsFactory.create(0, y, 1, 1));
+        panel.add(this.inputType, GridBagConstraintsFactory.create(1, y, 1, 1));
+        y++;
 
-        constraint.gridy = 2;
-        constraint.gridx = 0;
-        panel.add(this.labelType, constraint);
+        panel.add(this.labelNiveau, GridBagConstraintsFactory.create(0, y, 1, 1));
+        panel.add(this.inputNiveau, GridBagConstraintsFactory.create(1, y, 1, 1));
+        y++;
 
-        constraint.gridx = 1;
-        panel.add(this.inputType, constraint);
+        panel.add(this.labelCapacite, GridBagConstraintsFactory.create(0, y, 1, 1));
+        panel.add(this.inputCapacite, GridBagConstraintsFactory.create(1, y, 1, 1));
+        y++;
 
-        constraint.gridy = 3;
-        constraint.gridx = 0;
-        panel.add(this.labelCapacite, constraint);
-
-        constraint.gridx = 1;
-        panel.add(this.inputCapacite, constraint);
-
-        constraint.gridx = 0;
-        constraint.gridy = 4;
-        constraint.gridwidth = 2;
-        panel.add(this.addButton, constraint);
+        panel.add(this.addButton, GridBagConstraintsFactory.create(0, y, 2, 1));
 
         this.addButton.addActionListener(new ActionListener() {
             @Override
@@ -108,7 +97,6 @@ public class AptitudeAddPanel extends JPanel implements IRefreshListener {
 
         this.inputType.setSelectedIndex(0);
         this.inputNiveau.setSelectedIndex(0);
-
     }
 
     public void onAddButton() {

@@ -1,14 +1,10 @@
 package fr.natation.view.groupe;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
@@ -16,41 +12,18 @@ import org.apache.log4j.Logger;
 import fr.natation.Utils;
 import fr.natation.service.GroupeService;
 import fr.natation.view.ButtonColumn;
-import fr.natation.view.IRefreshListener;
 import fr.natation.view.IVisibilityManager;
+import fr.natation.view.ListPanel;
 import fr.natation.view.eleve.EleveListPanel;
 
-public class GroupeListPanel extends JPanel implements IRefreshListener {
+public class GroupeListPanel extends ListPanel {
 
     private static final long serialVersionUID = 1L;
 
     private final static Logger LOGGER = Logger.getLogger(EleveListPanel.class.getName());
 
-    private final JTable table = new JTable();
-
     public GroupeListPanel() throws Exception {
-        this.setBorder(BorderFactory.createTitledBorder("Liste des groupes"));
-
-        JScrollPane pane = new JScrollPane(this.table);
-        this.add(pane);
-
-        pane.setPreferredSize(new Dimension(800, 140));
-
-        this.refresh();
-
-    }
-
-    private void setColumnWidth(int column, int Width) {
-        this.table.getColumnModel().getColumn(column).setWidth(Width);
-        this.table.getColumnModel().getColumn(column).setMinWidth(Width);
-        this.table.getColumnModel().getColumn(column).setMaxWidth(Width);
-    }
-
-    private void hideColumn(int column) {
-        this.table.getColumnModel().getColumn(column).setWidth(0);
-        this.table.getColumnModel().getColumn(column).setMinWidth(0);
-        this.table.getColumnModel().getColumn(column).setMaxWidth(0);
-        this.table.getColumnModel().getColumn(column).setHeaderValue("");
+        super("Liste des groupes");
 
     }
 

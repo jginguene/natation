@@ -1,7 +1,6 @@
 package fr.natation.view.groupe;
 
 import java.awt.BorderLayout;
-import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,6 +17,8 @@ import org.apache.log4j.Logger;
 import fr.natation.Utils;
 import fr.natation.model.Groupe;
 import fr.natation.service.GroupeService;
+import fr.natation.view.ButtonFactory;
+import fr.natation.view.GridBagConstraintsFactory;
 import fr.natation.view.IRefreshListener;
 
 public class GroupeAddPanel extends JPanel implements IRefreshListener {
@@ -32,7 +33,7 @@ public class GroupeAddPanel extends JPanel implements IRefreshListener {
     private final JTextField inputNom = new JTextField(20);
     private final JTextField inputDescription = new JTextField(40);
 
-    private final JButton addButton = new JButton("Ajouter");
+    private final JButton addButton = ButtonFactory.createCreateButton();;
 
     private IRefreshListener listener;
 
@@ -48,27 +49,16 @@ public class GroupeAddPanel extends JPanel implements IRefreshListener {
 
         panel.setLayout(new GridBagLayout());
 
-        GridBagConstraints constraint = new GridBagConstraints();
-        constraint.fill = GridBagConstraints.HORIZONTAL;
-        constraint.gridx = 0;
-        constraint.gridy = 0;
-        constraint.gridwidth = 1;
-        panel.add(this.labelNom, constraint);
+        int y = 0;
+        panel.add(this.labelNom, GridBagConstraintsFactory.create(0, y, 1, 1));
+        panel.add(this.inputNom, GridBagConstraintsFactory.create(1, y, 1, 1));
+        y++;
 
-        constraint.gridx = 1;
-        panel.add(this.inputNom, constraint);
+        panel.add(this.labelDescription, GridBagConstraintsFactory.create(0, y, 1, 1));
+        panel.add(this.inputDescription, GridBagConstraintsFactory.create(1, y, 2, 1));
+        y++;
 
-        constraint.gridy = 1;
-        constraint.gridx = 0;
-        panel.add(this.labelDescription, constraint);
-
-        constraint.gridx = 1;
-        panel.add(this.inputDescription, constraint);
-
-        constraint.gridx = 0;
-        constraint.gridy = 3;
-        constraint.gridwidth = 2;
-        panel.add(this.addButton, constraint);
+        panel.add(this.addButton, GridBagConstraintsFactory.create(0, y, 2, 1));
 
         this.addButton.addActionListener(new ActionListener() {
 

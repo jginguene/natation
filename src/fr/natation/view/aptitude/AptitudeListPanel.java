@@ -1,14 +1,10 @@
 package fr.natation.view.aptitude;
 
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
-import javax.swing.BorderFactory;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
@@ -16,46 +12,16 @@ import org.apache.log4j.Logger;
 import fr.natation.Utils;
 import fr.natation.service.AptitudeService;
 import fr.natation.view.ButtonColumn;
-import fr.natation.view.IRefreshListener;
+import fr.natation.view.ListPanel;
 
-public class AptitudeListPanel extends JPanel implements IRefreshListener {
+public class AptitudeListPanel extends ListPanel {
 
     private static final long serialVersionUID = 1L;
 
     private final static Logger LOGGER = Logger.getLogger(AptitudeListPanel.class.getName());
 
-    private final JTable table = new JTable();
-
     public AptitudeListPanel() throws Exception {
-        this.setBorder(BorderFactory.createTitledBorder("Liste des aptitudes"));
-
-        // pane.setPreferredSize(new Dimension(800, 140));
-
-        this.refresh();
-
-        this.add(new JScrollPane(this.table));
-
-        JScrollPane pane = new JScrollPane(this.table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-
-        this.table.setPreferredScrollableViewportSize(new Dimension(800, 300));
-        // this.table.setFillsViewportHeight(true);
-
-        this.add(pane);
-
-    }
-
-    private void setColumnWidth(int column, int Width) {
-        this.table.getColumnModel().getColumn(column).setWidth(Width);
-        this.table.getColumnModel().getColumn(column).setMinWidth(Width);
-        this.table.getColumnModel().getColumn(column).setMaxWidth(Width);
-    }
-
-    private void hideColumn(int column) {
-        this.table.getColumnModel().getColumn(column).setWidth(0);
-        this.table.getColumnModel().getColumn(column).setMinWidth(0);
-        this.table.getColumnModel().getColumn(column).setMaxWidth(0);
-        this.table.getColumnModel().getColumn(column).setHeaderValue("");
-
+        super("Liste des aptitudes");
     }
 
     @Override
@@ -105,7 +71,6 @@ public class AptitudeListPanel extends JPanel implements IRefreshListener {
         this.setColumnWidth(AptitudeTableModel.COLUMN_TYPE, 100);
         this.setColumnWidth(AptitudeTableModel.COLUMN_CAPACITE, 50);
         this.setColumnWidth(AptitudeTableModel.COLUMN_ACTION, 60);
-
         this.hideColumn(AptitudeTableModel.COLUMN_ID);
 
     }

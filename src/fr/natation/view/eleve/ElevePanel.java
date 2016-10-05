@@ -21,12 +21,12 @@ import javax.swing.JTextField;
 import org.apache.log4j.Logger;
 
 import fr.natation.Printer;
-import fr.natation.Utils;
 import fr.natation.model.Eleve;
 import fr.natation.model.Groupe;
 import fr.natation.service.EleveService;
 import fr.natation.service.GroupeService;
 import fr.natation.view.CustomComboBoxModel;
+import fr.natation.view.Icon;
 
 public class ElevePanel extends JPanel {
 
@@ -44,8 +44,8 @@ public class ElevePanel extends JPanel {
     private final JTextField inputPrenom = new JTextField(20);
     private final JComboBox<Groupe> inputGroupe = new JComboBox<Groupe>();
 
-    private final JButton updateButton = new JButton("Mettre à jour", Utils.getImage("update.png"));
-    private final JButton printButton = new JButton("Imprimer", Utils.getImage("print.png"));
+    private final JButton updateButton = new JButton("Mettre à jour", Icon.Update.getImage());
+    private final JButton printButton = new JButton("Imprimer", Icon.Print.getImage());
 
     public ElevePanel() throws Exception {
         JPanel panel = new JPanel();
