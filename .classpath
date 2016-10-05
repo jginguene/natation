@@ -14,5 +14,6 @@
 	<classpathentry kind="lib" path="quaqua.jar"/>
 	<classpathentry kind="lib" path="swing-layout.jar"/>
 	<classpathentry kind="lib" path="liquidlnf.jar"/>
+	<classpathentry kind="lib" path="pdfbox-app-2.0.3.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

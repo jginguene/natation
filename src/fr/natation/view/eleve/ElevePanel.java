@@ -7,9 +7,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
-import java.awt.print.PageFormat;
-import java.awt.print.PrinterException;
-import java.awt.print.PrinterJob;
 
 import javax.swing.JButton;
 import javax.swing.JComboBox;
@@ -20,7 +17,7 @@ import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
 
-import fr.natation.Printer;
+import fr.natation.PdfGenerator;
 import fr.natation.model.Eleve;
 import fr.natation.model.Groupe;
 import fr.natation.service.EleveService;
@@ -139,22 +136,17 @@ public class ElevePanel extends JPanel {
     }
 
     private void onPrintButton() {
-        PrinterJob pjob = PrinterJob.getPrinterJob();
-        PageFormat preformat = pjob.defaultPage();
-        preformat.setOrientation(PageFormat.LANDSCAPE);
-        PageFormat postformat = pjob.pageDialog(preformat);
-        // If user does not hit cancel then print.
-        if (preformat != postformat) {
-            // Set print component
-            pjob.setPrintable(new Printer(this), postformat);
-            if (pjob.printDialog()) {
-                try {
-                    pjob.print();
-                } catch (PrinterException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
+        try {
+            PdfGenerator generator = new PdfGenerator();
+            for (Eleve eleve : EleveService.getAll()) {
+                generator.addPage(eleve);
             }
+            generator.generate("diplomes.pdf");
+
+            JOptionPane.showMessageDialog(null, "Le fichier diplome.pdf a été créé", "Erreur", JOptionPane.INFORMATION_MESSAGE);
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "La génération des diplomes a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
+            LOGGER.error("La génération des diplomes a échoué", e);
         }
     }
 
