@@ -36,10 +36,10 @@ create table Aptitude(
     niveau_id integer not null,
     type_id integer not null, 
     capacite_id integer,    
-    
     FOREIGN KEY(capacite_id) REFERENCES Capacite(id),
     FOREIGN KEY(type_id) REFERENCES type_aptitude(id),
-    FOREIGN KEY(niveau_id) REFERENCES Niveau(id)
+    FOREIGN KEY(niveau_id) REFERENCES Niveau(id),
+    CONSTRAINT apt_unique UNIQUE (type_id,niveau_id,score)
 );
 
 
@@ -52,6 +52,14 @@ create table Eleve(
     FOREIGN KEY(Groupe_Id) REFERENCES Groupe(id),
     FOREIGN KEY(capactite_Id) REFERENCES Capacite(id)
 );
+
+
+create table eleve_aptitude_r(
+     aptitude_Id integer ,
+     eleve_Id integer ,
+     FOREIGN KEY(aptitude_Id) REFERENCES aptitude(id),
+     FOREIGN KEY(eleve_Id) REFERENCES eleve(id)
+)
 
 
 insert into Groupe(nom,description ) values ("A","Petit bassin - Petite profondeur");
