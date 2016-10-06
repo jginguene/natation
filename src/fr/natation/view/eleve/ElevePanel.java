@@ -149,7 +149,7 @@ public class ElevePanel extends JPanel {
             }
             generator.generate("diplomes.pdf");
 
-            JOptionPane.showMessageDialog(null, "Le fichier diplome.pdf a été créé", "Erreur", JOptionPane.INFORMATION_MESSAGE);
+            JOptionPane.showMessageDialog(null, "Le fichier diplome.pdf a été créé", "Information", JOptionPane.INFORMATION_MESSAGE);
 
             Desktop.getDesktop().open(new File("diplomes.pdf"));
         } catch (Exception e) {
