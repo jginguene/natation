@@ -10,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import fr.natation.Utils;
 import fr.natation.view.aptitude.AptitudeListTabPanel;
+import fr.natation.view.capacite.CapaciteTabPanel;
 import fr.natation.view.eleve.EleveListTabPanel;
 import fr.natation.view.eleve.EleveTabPanel;
 import fr.natation.view.groupe.GroupeListTabPanel;
@@ -24,6 +25,7 @@ public class NatationFrame extends JFrame {
     private final EleveTabPanel eleveTabPanel = new EleveTabPanel();
     private final GroupeListTabPanel groupeListTabPanel = new GroupeListTabPanel();
     private final AptitudeListTabPanel aptitudeListTabPanel = new AptitudeListTabPanel();
+    private final CapaciteTabPanel capaciteListTabPanel = new CapaciteTabPanel();
 
     public NatationFrame() throws Exception {
         super("Natation");
@@ -36,6 +38,7 @@ public class NatationFrame extends JFrame {
         tabbedPane.addTab("Fiche des élèves", null, this.eleveTabPanel, "");
         tabbedPane.addTab("Liste des groupes", null, this.groupeListTabPanel, "");
         tabbedPane.addTab("Liste des aptitudes", null, this.aptitudeListTabPanel, "");
+        tabbedPane.addTab("Liste des capacités", null, this.capaciteListTabPanel, "");
 
         tabbedPane.addChangeListener(new ChangeListener() {
             @Override
@@ -55,6 +58,10 @@ public class NatationFrame extends JFrame {
 
                     if (tabbedPane.getSelectedIndex() == 4) {
                         NatationFrame.this.aptitudeListTabPanel.refresh();
+                    }
+                    
+                    if (tabbedPane.getSelectedIndex() == 5) {
+                        NatationFrame.this.capaciteListTabPanel.refresh();
                     }
 
                 } catch (Exception e1) {
