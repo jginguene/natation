@@ -17,7 +17,7 @@ public class AptitudeService {
 
     private final static Logger LOGGER = Logger.getLogger(AptitudeService.class.getName());
 
-    private static String INSERT = "insert into aptitude (description, niveau_id, type_id,capacite_id) values (?,?,?,?)";
+    private static String INSERT = "insert into aptitude (description, niveau_id, type_id) values (?,?,?)";
     private static String UPDATE = "update aptitude set description=?, niveau_id=? , type_id=?, capacite_id=?  where  id = ?";
     private final static String GET = "select * from aptitude where id=?";
     private static String DELETE = "delete from aptitude  where  id = ?";
@@ -84,7 +84,6 @@ public class AptitudeService {
             statement.setString(1, aptitude.getDescription());
             statement.setInt(2, aptitude.getNiveauId());
             statement.setInt(3, aptitude.getTypeId());
-            statement.setInt(4, aptitude.getCapaciteId());
             statement.execute();
 
             statement = connection.prepareStatement(LAST_ID);
@@ -123,7 +122,6 @@ public class AptitudeService {
             statement.setString(1, aptitude.getDescription());
             statement.setInt(2, aptitude.getNiveauId());
             statement.setInt(3, aptitude.getTypeId());
-            statement.setInt(4, aptitude.getCapaciteId());
             statement.setInt(5, aptitude.getId());
             statement.executeUpdate();
 
@@ -139,7 +137,6 @@ public class AptitudeService {
         aptitude.setId(res.getInt("id"));
         aptitude.setNiveauId(res.getInt("niveau_id"));
         aptitude.setTypeId(res.getInt("type_id"));
-        aptitude.setCapaciteId(res.getInt("capacite_id"));
         aptitude.setDescription(res.getString("description"));
         aptitude.setScore(res.getInt("score"));
         return aptitude;

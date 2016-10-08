@@ -7,9 +7,9 @@ import javax.swing.table.AbstractTableModel;
 
 import org.apache.log4j.Logger;
 
-import fr.natation.Utils;
 import fr.natation.model.Aptitude;
 import fr.natation.model.Capacite;
+import fr.natation.view.ViewUtils;
 
 public class CapaciteTableModel extends AbstractTableModel {
 
@@ -63,12 +63,7 @@ public class CapaciteTableModel extends AbstractTableModel {
                 return capacite.getId();
 
             case COLUMN_LOGO:
-                try {
-                    return Utils.getImage(capacite.getNom() + ".png", 50);
-                } catch (Exception e) {
-                    return Utils.getImage("app.png", CapaciteListPanel.ROW_HEIGHT);
-
-                }
+                return ViewUtils.getCapaciteIcon(capacite, CapaciteListPanel.ROW_HEIGHT);
 
             case COLUMN_NOM:
                 return capacite.getNom();

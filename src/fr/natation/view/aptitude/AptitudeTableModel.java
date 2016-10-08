@@ -2,6 +2,7 @@ package fr.natation.view.aptitude;
 
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.table.AbstractTableModel;
 
@@ -9,6 +10,7 @@ import org.apache.log4j.Logger;
 
 import fr.natation.model.Aptitude;
 import fr.natation.service.AptitudeService;
+import fr.natation.view.ViewUtils;
 
 public class AptitudeTableModel extends AbstractTableModel {
 
@@ -22,13 +24,15 @@ public class AptitudeTableModel extends AbstractTableModel {
     public static final int COLUMN_CAPACITE = 5;
     public static final int COLUMN_ACTION = 6;
 
+    public static final int ROW_HEIGHT = 20;
+
     private final static Logger LOGGER = Logger.getLogger(AptitudeTableModel.class.getName());
     private final List<Aptitude> list;
 
     private final String[] columnNames = new String[] { "Id", "Description", "score", "Niveau", "Type", "Capacité", "Action" };
 
     @SuppressWarnings("rawtypes")
-    private final Class[] columnClass = new Class[] { Integer.class, String.class, Integer.class, String.class, String.class, String.class, String.class };
+    private final Class[] columnClass = new Class[] { Integer.class, String.class, Integer.class, String.class, String.class, ImageIcon.class, String.class };
 
     public AptitudeTableModel(List<Aptitude> list) {
         this.list = list;
@@ -70,7 +74,11 @@ public class AptitudeTableModel extends AbstractTableModel {
                 return "Niveau " + aptitude.getNiveauNom();
 
             case COLUMN_CAPACITE:
-                return aptitude.getCapaciteNom();
+                if (aptitude.getCapacite() != null) {
+                    return ViewUtils.getCapaciteIcon(aptitude.getCapacite(), AptitudeListPanel.ROW_HEIGHT);
+                } else {
+                    return new ImageIcon();
+                }
 
             case COLUMN_SCORE:
                 return aptitude.getScore();

@@ -11,7 +11,6 @@ public class Aptitude {
     private int score;
 
     private String description;
-    private int capaciteId;
     private int niveauId;
     private int typeId;
 
@@ -29,14 +28,6 @@ public class Aptitude {
 
     public void setTypeId(int typeId) {
         this.typeId = typeId;
-    }
-
-    public int getCapaciteId() {
-        return this.capaciteId;
-    }
-
-    public void setCapaciteId(int capaciteId) {
-        this.capaciteId = capaciteId;
     }
 
     public int getNiveauId() {
@@ -72,11 +63,7 @@ public class Aptitude {
     }
 
     public Capacite getCapacite() throws Exception {
-        if (this.capaciteId > 0) {
-            return CapaciteService.get(this.capaciteId);
-        } else {
-            return null;
-        }
+        return CapaciteService.get(this);
     }
 
     public TypeAptitude getType() throws Exception {

@@ -18,6 +18,8 @@ public class AptitudeListPanel extends ListPanel {
 
     private static final long serialVersionUID = 1L;
 
+    public static int ROW_HEIGHT = 25;
+
     private final static Logger LOGGER = Logger.getLogger(AptitudeListPanel.class.getName());
 
     public AptitudeListPanel() throws Exception {
@@ -71,6 +73,8 @@ public class AptitudeListPanel extends ListPanel {
         this.setColumnWidth(AptitudeTableModel.COLUMN_TYPE, 100);
         this.setColumnWidth(AptitudeTableModel.COLUMN_CAPACITE, 50);
         this.setColumnWidth(AptitudeTableModel.COLUMN_ACTION, 60);
+
+        this.table.setRowHeight(AptitudeTableModel.ROW_HEIGHT);
         this.hideColumn(AptitudeTableModel.COLUMN_ID);
 
     }

@@ -118,9 +118,10 @@ public class AptitudeAddPanel extends JPanel implements IRefreshListener {
                 aptitude.setDescription(this.inputDescription.getText());
 
                 Capacite selectedCapacite = (Capacite) this.inputCapacite.getSelectedItem();
-                if (selectedCapacite != null) {
-                    aptitude.setCapaciteId(selectedCapacite.getId());
-                }
+                /*
+                 * if (selectedCapacite != null) {
+                 * aptitude.setCapaciteId(selectedCapacite.getId()); }
+                 */
 
                 Niveau selectedNiveau = (Niveau) this.inputNiveau.getSelectedItem();
                 if (selectedNiveau != null) {
