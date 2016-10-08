@@ -1,6 +1,6 @@
 package fr.natation.view.capacite;
 
-import java.awt.BorderLayout;
+import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
@@ -12,11 +12,8 @@ public class CapaciteTabPanel extends JPanel implements IRefreshListener {
     private final CapaciteListPanel listPanel = new CapaciteListPanel();
 
     public CapaciteTabPanel() throws Exception {
-
-        this.setLayout(new BorderLayout());
-        this.add(this.listPanel, BorderLayout.CENTER);
-
-        
+        this.setLayout(new GridLayout(1, 1));
+        this.add(this.listPanel);
     }
 
     @Override

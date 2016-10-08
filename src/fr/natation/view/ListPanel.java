@@ -14,13 +14,18 @@ public abstract class ListPanel extends JPanel implements IRefreshListener {
     protected final JTable table = new JTable();
 
     public ListPanel(String title) throws Exception {
+        this.init(title);
+        this.table.setDefaultRenderer(String.class, new MultiLineCellRenderer());
+    }
+
+    protected void init(String title) throws Exception {
         this.setBorder(BorderFactory.createTitledBorder(title));
         this.refresh();
         this.add(new JScrollPane(this.table));
         JScrollPane pane = new JScrollPane(this.table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.table.setPreferredScrollableViewportSize(new Dimension(800, 300));
-        this.add(pane);
 
+        this.add(pane);
     }
 
     protected void setColumnWidth(int column, int Width) {

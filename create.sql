@@ -16,13 +16,6 @@ create table niveau(
 
 
 
-create table capacite(
-    id integer primary key autoincrement,
-    Nom varchar2(200) not null,
-    description varchar2(1000),
-    CONSTRAINT nom_unique UNIQUE (Nom)
-);
-
 create table type_aptitude(
     id integer primary key autoincrement,
     Nom varchar2(200) not null,
@@ -36,12 +29,26 @@ create table Aptitude(
     niveau_id integer not null,
     type_id integer not null, 
     capacite_id integer,    
-    FOREIGN KEY(capacite_id) REFERENCES Capacite(id),
     FOREIGN KEY(type_id) REFERENCES type_aptitude(id),
     FOREIGN KEY(niveau_id) REFERENCES Niveau(id),
     CONSTRAINT apt_unique UNIQUE (type_id,niveau_id,score)
 );
 
+
+
+create table capacite(
+    id integer primary key autoincrement,
+    Nom varchar2(200) not null,
+    description varchar2(1000),
+    CONSTRAINT nom_unique UNIQUE (Nom)
+);
+
+create table capacite_aptitude_r(
+    capacite_id integer ,
+    aptitude_id integer ,
+    FOREIGN KEY(capacite_id) REFERENCES capacite(id),
+    FOREIGN KEY(aptitude_id) REFERENCES aptitude(id)
+);
 
 create table Eleve(
     id integer primary key autoincrement, 
@@ -59,19 +66,13 @@ create table eleve_aptitude_r(
      eleve_Id integer ,
      FOREIGN KEY(aptitude_Id) REFERENCES aptitude(id),
      FOREIGN KEY(eleve_Id) REFERENCES eleve(id)
-)
+);
 
 
 insert into Groupe(nom,description ) values ("A","Petit bassin - Petite profondeur");
 insert into Groupe(nom,description ) values ("B","Petit bassin - Moyenne profondeur");
 insert into Groupe(nom,description ) values ("C","Grand bassin - Moyenne profondeur");
 insert into Groupe(nom,description ) values ("D","Grand bassin - Grande profondeur");
-
-insert into type_aptitude(nom) values ("Entrée dans l'eau");
-insert into type_aptitude(nom) values ("Equilibre");
-insert into type_aptitude(nom) values ("Immersion");
-insert into type_aptitude(nom) values ("Respiration");
-insert into type_aptitude(nom) values ("Propulsion");
 
 
 insert into niveau (nom) values (1);
@@ -81,15 +82,7 @@ insert into niveau (nom) values (4);
 
 
 --Remplissage d'exemple pour démo
-insert into capacite(nom ) values ("Etoile de mer");
-insert into capacite(nom ) values ("Coquillage");
-insert into capacite(nom ) values ("Canard");
-insert into capacite(nom ) values ("Crocodile");
-insert into capacite(nom ) values ("Poisson");
-insert into capacite(nom ) values ("Tétard");
-insert into capacite(nom ) values ("Triton");
-insert into capacite(nom ) values ("Dauphin");
-insert into capacite(nom ) values ("Requin");
+
 
 insert into Eleve(prenom,nom, groupe_id) values ("mylene", "farmer" , 1);
 insert into Eleve(prenom,nom, groupe_id) values ("michael", "jackson" , 1);
@@ -97,7 +90,7 @@ insert into Eleve(prenom,nom, groupe_id) values ("Nicola", "Sirkis" , 1);
 insert into Eleve(prenom,nom, groupe_id) values ("Claude", "Nougaro" , 2);
 insert into Eleve(prenom,nom, groupe_id) values ("Celine", "Dion" , 3);
 insert into Eleve(prenom,nom, groupe_id) values ("Gérard", "Lenormand" , 3);
-insert into Eleve(prenom,nom, groupe_id) values ("Justin bieber", "Lenormand" , 1);
+insert into Eleve(prenom,nom, groupe_id) values ("Justin", "Bieber" , 1);
         
 
 insert into type_aptitude(nom) values ("Entrée dans l'eau");
@@ -106,7 +99,6 @@ insert into type_aptitude(nom) values ("Immersion");
 insert into type_aptitude(nom) values ("Respiration");
 insert into type_aptitude(nom) values ("Propulsion");
 
-truncate table aptitude;
 insert into  Aptitude(description,score,type_id,niveau_id)
 values ('Entrer dans l''eau par les escaliers sans s''immerger seul ou à plusieurs.',1,1,1);
 
@@ -319,6 +311,102 @@ values ('Départ plongé, effectuer 100 m sans arrêt (50 m crawl puis 50 m en d
 
 insert into  Aptitude(description,score,type_id,niveau_id)
 values ('Parcourir un 100 m 4 nages (départ plongé et virages).',3,5,4);
+
+insert into capacite(nom ) values ("Coquillage");
+insert into capacite(nom ) values ("Etoile de mer");
+insert into capacite(nom ) values ("Canard");
+insert into capacite(nom ) values ("Crocodile");
+insert into capacite(nom ) values ("Poisson");
+insert into capacite(nom ) values ("Tétard");
+insert into capacite(nom ) values ("Triton");
+insert into capacite(nom ) values ("Dauphin");
+insert into capacite(nom ) values ("Requin");
+
+
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Immerger progressivement la tête.'
+and  nom = 'Coquillage';
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Marcher en avant, en arrière sans se tenir au bord.'
+and  nom = 'Coquillage';
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Faire l''étoile de mer pendant 5 secondes.'
+and  nom = 'Etoile de mer';
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Ramasser un objet au fond de l''eau là où l''enfant à pied.'
+and  nom = 'Etoile de mer';
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Ramasser un objet à 1 m de profondeur départ assis.'
+and  nom = 'Crocodile';
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Départ sauté, effectuer 12 m sans matériel dans le petit bassin en grande profondeur.'
+and  nom = 'Crocodile';
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Départ sauté, effectuer 12 m avec matériel dans le petit bassin en grande profondeur.'
+and  nom = 'Canard';
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Départ sauté, effectuer 15 m sans matériel.'
+and  nom = 'Poisson';
+
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Ramasser un objet au fond de l''eau à une profondeur supérieure à celle de l''enfant.'
+and  nom = 'Tétard';
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Départ du bord du bassin, effectuer 25 m (12m50 ventrale, demi-vrille, 12m50 dorsale)'
+and  nom = 'Tétard';
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Ramasser un objet au fond de l''eau à une profondeur de 2 m.'
+and  nom = 'Triton';
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Départ plongé, effectuer 50 m en eau profonde, en alternant la position dorsale et ventrale (10 m au moins dans chaque position).'
+and  nom = 'Triton';
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Départ du bord du bassin, rechercher un figuratif immergé à 2 m et le transporter sur 15 m.'
+and  nom = 'Dauphin';
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Départ plongé, effectuer 100 m sans arrêt (50 m crawl puis 50 m en dos crawlé).'
+and  nom = 'Dauphin';
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Départ du bord du bassin, rechercher un figuratif immergé à 2 m et le transporter sur 25 m.'
+and  nom = 'Requin';
+
+insert into capacite_aptitude_r (aptitude_id,capacite_id)
+select aptitude.id,capacite.id from aptitude, capacite  where 
+aptitude.description = 'Parcourir un 100 m 4 nages (départ plongé et virages).'
+and  nom = 'Requin';
+
+
+
 
 
 

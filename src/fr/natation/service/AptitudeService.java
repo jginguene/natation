@@ -11,6 +11,7 @@ import org.apache.log4j.Logger;
 
 import fr.natation.ConnectionFactory;
 import fr.natation.model.Aptitude;
+import fr.natation.model.Capacite;
 
 public class AptitudeService {
 
@@ -21,6 +22,9 @@ public class AptitudeService {
     private final static String GET = "select * from aptitude where id=?";
     private static String DELETE = "delete from aptitude  where  id = ?";
     private static String GET_ALL = "select * from aptitude order by niveau_id,type_id,score";
+
+    private static String GET_FOR_CAPACITE = "select * from aptitude join capacite_aptitude_r on aptitude.id = capacite_aptitude_r.aptitude_id where capacite_aptitude_r.capacite_id=?  order by niveau_id,type_id,score";
+
     private static String LAST_ID = "select last_insert_rowid()";
 
     public static void delete(int aptitudeId) throws Exception {
@@ -49,6 +53,25 @@ public class AptitudeService {
             return ret;
         } catch (Exception e) {
             throw new Exception("getAll() failed", e);
+        } finally {
+            connection.close();
+        }
+    }
+
+    public static List<Aptitude> get(Capacite capacite) throws Exception {
+        Connection connection = ConnectionFactory.createConnection();
+        try {
+
+            PreparedStatement statement = connection.prepareStatement(GET_FOR_CAPACITE);
+            statement.setInt(1, capacite.getId());
+            ResultSet res = statement.executeQuery();
+            List<Aptitude> ret = new ArrayList<Aptitude>();
+            while (res.next()) {
+                ret.add(convert(res));
+            }
+            return ret;
+        } catch (Exception e) {
+            throw new Exception("get(" + capacite + ") failed", e);
         } finally {
             connection.close();
         }

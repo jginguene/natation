@@ -2,34 +2,35 @@ package fr.natation.view.capacite;
 
 import java.util.List;
 
-import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
 import javax.swing.table.AbstractTableModel;
 
 import org.apache.log4j.Logger;
 
-import fr.natation.model.Groupe;
-import fr.natation.service.GroupeService;
+import fr.natation.Utils;
+import fr.natation.model.Aptitude;
+import fr.natation.model.Capacite;
 
 public class CapaciteTableModel extends AbstractTableModel {
 
     private static final long serialVersionUID = 1L;
 
     private final static Logger LOGGER = Logger.getLogger(CapaciteTableModel.class.getName());
-    private final List<Groupe> list;
+    private final List<Capacite> list;
 
     public static final int COLUMN_ID = 0;
     public static final int COLUMN_LOGO = 1;
     public static final int COLUMN_NOM = 2;
-    public static final int COLUMN_DESCRIPTION = 3;
-    public static final int COLUMN_APTITUDE = 1;
+    public static final int COLUMN_APTITUDE = 3;
 
-    private final String[] columnNames = new String[] { "Id", "Logo", "Nom", "Description", "Aptitudes requise" };
+    private final String[] columnNames = new String[] { "Id", "Logo", "Nom", "Aptitudes requise" };
 
     @SuppressWarnings("rawtypes")
-    private final Class[] columnClass = new Class[] { Integer.class, String.class, String.class, String.class, String.class };
+    private final Class[] columnClass = new Class[] { Integer.class, ImageIcon.class, String.class, String.class };
 
-    public CapaciteTableModel(List<Groupe> list) {
+    public CapaciteTableModel(List<Capacite> list) {
         this.list = list;
+
     }
 
     @Override
@@ -55,31 +56,41 @@ public class CapaciteTableModel extends AbstractTableModel {
     @Override
     public Object getValueAt(int rowIndex, int columnIndex) {
         try {
-            Groupe groupe = this.list.get(rowIndex);
+            Capacite capacite = this.list.get(rowIndex);
 
             switch (columnIndex) {
             case COLUMN_ID:
-                return groupe.getId();
+                return capacite.getId();
+
+            case COLUMN_LOGO:
+                try {
+                    return Utils.getImage(capacite.getNom() + ".png", 50);
+                } catch (Exception e) {
+                    return Utils.getImage("app.png", CapaciteListPanel.ROW_HEIGHT);
+
+                }
 
             case COLUMN_NOM:
-                return groupe.getNom();
-
-            case COLUMN_DESCRIPTION:
-                return groupe.getDescription();
+                return capacite.getNom();
 
             case COLUMN_APTITUDE:
-                return "- apt1\n- apt2";
+                return this.getAptitudesAsString(capacite);
 
             default:
                 return "";
             }
-
         } catch (Exception e) {
             throw new RuntimeException("getValueAt(" + rowIndex + ", " + columnIndex + ")", e);
         }
     }
 
-   
+    private String getAptitudesAsString(Capacite Capacite) throws Exception {
+        String ret = "";
+        for (Aptitude aptitude : Capacite.getAptitudes()) {
+            ret += "[Niveau " + aptitude.getNiveauNom() + "] [" + aptitude.getTypeNom() + "] " + aptitude.getDescription() + "\n";
+        }
+        return ret;
+    }
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
