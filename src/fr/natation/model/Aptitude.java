@@ -1,6 +1,5 @@
 package fr.natation.model;
 
-import fr.natation.Utils;
 import fr.natation.service.CapaciteService;
 import fr.natation.service.NiveauService;
 import fr.natation.service.TypeAptitudeService;
@@ -76,7 +75,7 @@ public class Aptitude {
 
     @Override
     public String toString() {
-        return Utils.toString(this);
+        return this.getScore() + ") " + this.getDescription();
     }
 
     public String getCapaciteNom() throws Exception {

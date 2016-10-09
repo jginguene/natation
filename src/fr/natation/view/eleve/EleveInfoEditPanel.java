@@ -32,6 +32,8 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
     private final JTextField inputPrenom = new JTextField(20);
     private final JComboBox<Groupe> inputGroupe = new JComboBox<Groupe>();
 
+    private Eleve eleve;
+
     public EleveInfoEditPanel() throws Exception {
 
         this.setBorder(BorderFactory.createTitledBorder("Informations sur l'élève"));
@@ -50,7 +52,6 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
         this.refresh();
 
         panel.setLayout(new GridBagLayout());
-        // GridBagConstraints constraint = new GridBagConstraints();
         constraint.fill = GridBagConstraints.HORIZONTAL;
 
         constraint.gridy = 0;
@@ -84,18 +85,37 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
         CustomComboBoxModel<Groupe> modelGroupe = new CustomComboBoxModel<Groupe>(GroupeService.getAll());
         this.inputGroupe.setModel(modelGroupe);
 
+        if (this.eleve != null) {
+            try {
+                this.inputGroupe.setSelectedItem(this.eleve.getGroupe());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
     }
 
     @Override
     public void onChange(Eleve newEleve) {
+        this.eleve = newEleve;
         this.inputNom.setText(newEleve.getNom());
         this.inputPrenom.setText(newEleve.getPrenom());
+
         try {
             this.inputGroupe.setSelectedItem(newEleve.getGroupe());
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    public void updateEleve(Eleve eleve) {
+        eleve.setNom(this.inputNom.getText());
+        eleve.setPrenom(this.inputPrenom.getText());
+        Groupe groupe = ((Groupe) this.inputGroupe.getSelectedItem());
+        if (groupe != null) {
+            eleve.setGroupeId(groupe.getId());
+        }
     }
 
 }

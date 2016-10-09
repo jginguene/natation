@@ -12,6 +12,8 @@ import org.apache.log4j.Logger;
 import fr.natation.ConnectionFactory;
 import fr.natation.model.Aptitude;
 import fr.natation.model.Capacite;
+import fr.natation.model.Niveau;
+import fr.natation.model.TypeAptitude;
 
 public class AptitudeService {
 
@@ -23,6 +25,7 @@ public class AptitudeService {
     private static String DELETE = "delete from aptitude  where  id = ?";
     private static String GET_ALL = "select * from aptitude order by niveau_id,type_id,score";
 
+    private static String GET_FOR_NIVEAU_TYPE = "select * from aptitude where niveau_id = ? and type_id = ? order by niveau_id,type_id,score";
     private static String GET_FOR_CAPACITE = "select * from aptitude join capacite_aptitude_r on aptitude.id = capacite_aptitude_r.aptitude_id where capacite_aptitude_r.capacite_id=?  order by niveau_id,type_id,score";
 
     private static String LAST_ID = "select last_insert_rowid()";
@@ -72,6 +75,26 @@ public class AptitudeService {
             return ret;
         } catch (Exception e) {
             throw new Exception("get(" + capacite + ") failed", e);
+        } finally {
+            connection.close();
+        }
+    }
+
+    public static List<Aptitude> get(Niveau niveau, TypeAptitude type) throws Exception {
+        Connection connection = ConnectionFactory.createConnection();
+        try {
+
+            PreparedStatement statement = connection.prepareStatement(GET_FOR_NIVEAU_TYPE);
+            statement.setInt(1, niveau.getId());
+            statement.setInt(2, type.getId());
+            ResultSet res = statement.executeQuery();
+            List<Aptitude> ret = new ArrayList<Aptitude>();
+            while (res.next()) {
+                ret.add(convert(res));
+            }
+            return ret;
+        } catch (Exception e) {
+            throw new Exception("get(" + niveau + ";" + type + ") failed", e);
         } finally {
             connection.close();
         }

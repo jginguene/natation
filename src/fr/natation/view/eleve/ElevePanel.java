@@ -1,7 +1,8 @@
 package fr.natation.view.eleve;
 
-import java.awt.BorderLayout;
 import java.awt.Desktop;
+import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +18,7 @@ import fr.natation.PdfGenerator;
 import fr.natation.model.Eleve;
 import fr.natation.service.EleveService;
 import fr.natation.view.ButtonFactory;
+import fr.natation.view.GridBagConstraintsFactory;
 import fr.natation.view.IRefreshListener;
 
 public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelectListener {
@@ -27,6 +29,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
 
     private final EleveSelectPanel selectPanel = new EleveSelectPanel();
     private final EleveInfoEditPanel editPanel = new EleveInfoEditPanel();
+    private final EleveAptitudeAssociationPanel aptitudePanel = new EleveAptitudeAssociationPanel();
 
     private final JButton updateButton = ButtonFactory.createUpdateButton();
     private final JButton pdfButton = ButtonFactory.createPdfButton("Créer le diplome de l'élève");
@@ -34,18 +37,24 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
     private Eleve eleve;
 
     public ElevePanel() throws Exception {
-        this.setLayout(new BorderLayout());
+        this.setLayout(new GridBagLayout());
 
         this.selectPanel.addListener(this.editPanel);
+        this.selectPanel.addListener(this.aptitudePanel);
         this.selectPanel.addListener(this);
-
-        this.add(this.selectPanel, BorderLayout.PAGE_START);
-        this.add(this.editPanel, BorderLayout.CENTER);
-
         JPanel buttonPanel = new JPanel();
+
+        this.editPanel.setPreferredSize(new Dimension(1000, 100));
+        this.aptitudePanel.setPreferredSize(new Dimension(1000, 500));
+
+        int y = 0;
+        this.add(this.selectPanel, GridBagConstraintsFactory.create(0, 1, 1, 1));
+        this.add(this.editPanel, GridBagConstraintsFactory.create(0, 2, 1, 1));
+        this.add(this.aptitudePanel, GridBagConstraintsFactory.create(0, 3, 1, 1));
+        this.add(buttonPanel, GridBagConstraintsFactory.create(0, 4, 1, 1));
+
         buttonPanel.setLayout(new GridLayout(1, 5));
 
-        this.add(buttonPanel, BorderLayout.SOUTH);
         buttonPanel.add(this.updateButton);
         buttonPanel.add(this.pdfButton);
 
@@ -75,7 +84,12 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
 
     public void onUpdateButton() {
         try {
+            this.editPanel.updateEleve(this.eleve);
             EleveService.update(this.eleve);
+
+            this.refresh();
+
+            JOptionPane.showMessageDialog(null, "La mise à jour de " + this.eleve.toString() + " est terminée ", "Information", JOptionPane.INFORMATION_MESSAGE);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "L'ajout a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
             LOGGER.error("L'ajout a échoué", e);
