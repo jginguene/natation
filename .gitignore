@@ -1,5 +1,5 @@
 /bin/
-/natation.log
-/pack/natation.log
+/*.log
+/pack/*.log
 /*.zip
-/diplomes.pdf
+/*.pdf
