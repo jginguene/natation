@@ -9,7 +9,11 @@ public class ButtonFactory {
     }
 
     public static JButton createPdfButton() {
-        return new JButton("Export pdf", Icon.Pdf.getImage());
+        return createPdfButton("Export pdf");
+    }
+
+    public static JButton createPdfButton(String text) {
+        return new JButton(text, Icon.Pdf.getImage());
     }
 
     public static JButton createUpdateButton() {

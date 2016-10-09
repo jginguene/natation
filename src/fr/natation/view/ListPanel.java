@@ -1,5 +1,6 @@
 package fr.natation.view;
 
+import java.awt.BorderLayout;
 import java.awt.Dimension;
 
 import javax.swing.BorderFactory;
@@ -20,8 +21,9 @@ public abstract class ListPanel extends JPanel implements IRefreshListener {
 
     protected void init(String title) throws Exception {
         this.setBorder(BorderFactory.createTitledBorder(title));
+        this.setLayout(new BorderLayout());
         this.refresh();
-        this.add(new JScrollPane(this.table));
+        this.add(new JScrollPane(this.table), BorderLayout.CENTER);
         JScrollPane pane = new JScrollPane(this.table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.table.setPreferredScrollableViewportSize(new Dimension(800, 300));
 
