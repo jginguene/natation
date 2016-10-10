@@ -19,6 +19,7 @@ import fr.natation.model.Aptitude;
 import fr.natation.model.Eleve;
 import fr.natation.model.Niveau;
 import fr.natation.model.TypeAptitude;
+import fr.natation.service.AptitudeService;
 import fr.natation.service.NiveauService;
 import fr.natation.service.TypeAptitudeService;
 import fr.natation.view.AptitudeComboModel;
@@ -135,7 +136,27 @@ public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelec
         } catch (Exception e) {
             LOGGER.error("refreshScore() failed", e);
         }
+    }
 
+    public void updateEleve(Eleve eleve) {
+        try {
+            List<Niveau> niveaux = NiveauService.getAll();
+            List<TypeAptitude> types = TypeAptitudeService.getAll();
+
+            AptitudeService.removeAll(eleve);
+
+            for (Niveau niveau : niveaux) {
+                for (TypeAptitude type : types) {
+                    JComboBox<AptitudeComboModel> comboBox = this.manager.getComboBox(niveau, type);
+                    Aptitude aptitude = ((AptitudeComboModel) comboBox.getSelectedItem()).getAptitude();
+                    if (aptitude != null) {
+                        AptitudeService.add(aptitude, eleve);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("updateEleve(" + eleve + ") failed", e);
+        }
     }
 
 }

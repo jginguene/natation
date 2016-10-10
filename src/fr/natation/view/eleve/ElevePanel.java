@@ -84,6 +84,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
     public void onUpdateButton() {
         try {
             this.editPanel.updateEleve(this.eleve);
+            this.aptitudePanel.updateEleve(this.eleve);
             EleveService.update(this.eleve);
 
             this.refresh();

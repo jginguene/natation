@@ -68,10 +68,9 @@ public class AptitudeListPanel extends ListPanel {
         new ButtonColumn(this.table, delete, AptitudeTableModel.COLUMN_ACTION, Utils.getImage("delete.png"), null);
 
         this.setColumnWidth(AptitudeTableModel.COLUMN_SCORE, 50);
-        this.setColumnWidth(AptitudeTableModel.COLUMN_DESC, 480);
-        this.setColumnWidth(AptitudeTableModel.COLUMN_NIVEAU, 50);
+        this.setColumnWidth(AptitudeTableModel.COLUMN_NIVEAU, 100);
         this.setColumnWidth(AptitudeTableModel.COLUMN_TYPE, 100);
-        this.setColumnWidth(AptitudeTableModel.COLUMN_CAPACITE, 50);
+        this.setColumnWidth(AptitudeTableModel.COLUMN_CAPACITE, 80);
         this.setColumnWidth(AptitudeTableModel.COLUMN_ACTION, 60);
 
         this.table.setRowHeight(AptitudeTableModel.ROW_HEIGHT);

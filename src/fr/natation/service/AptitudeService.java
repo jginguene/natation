@@ -21,6 +21,9 @@ public class AptitudeService {
     private final static Logger LOGGER = Logger.getLogger(AptitudeService.class.getName());
 
     private static String INSERT = "insert into aptitude (description, niveau_id, type_id) values (?,?,?)";
+    private static String INSERT_ELEVE = "insert into eleve_aptitude_r (eleve_id, aptitude_id) values (?,?)";
+    private static String REMOVE_ELEVE = "delete from eleve_aptitude_r where eleve_id=?";
+
     private static String UPDATE = "update aptitude set description=?, niveau_id=? , type_id=?, capacite_id=?  where  id = ?";
     private final static String GET = "select * from aptitude where id=?";
     private static String DELETE = "delete from aptitude  where  id = ?";
@@ -157,17 +160,44 @@ public class AptitudeService {
         throw new Exception("Il n'existe pas d'aptitude avec l'id " + aptitudeId);
     }
 
+    public static void add(Aptitude aptitude, Eleve eleve) throws Exception {
+        Connection connection = ConnectionFactory.createConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(INSERT_ELEVE);
+            statement.setInt(1, eleve.getId());
+            statement.setInt(2, aptitude.getId());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception("add(" + aptitude + "; " + eleve + ") failed", e);
+        } finally {
+            connection.close();
+        }
+
+    }
+
+    public static void removeAll(Eleve eleve) throws Exception {
+        Connection connection = ConnectionFactory.createConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(REMOVE_ELEVE);
+            statement.setInt(1, eleve.getId());
+            statement.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception("remove(" + eleve + ") failed", e);
+        } finally {
+            connection.close();
+        }
+
+    }
+
     public static void update(Aptitude aptitude) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
-
             PreparedStatement statement = connection.prepareStatement(UPDATE);
             statement.setString(1, aptitude.getDescription());
             statement.setInt(2, aptitude.getNiveauId());
             statement.setInt(3, aptitude.getTypeId());
             statement.setInt(5, aptitude.getId());
             statement.executeUpdate();
-
         } catch (Exception e) {
             throw new Exception("update(" + aptitude + ") failed", e);
         } finally {
