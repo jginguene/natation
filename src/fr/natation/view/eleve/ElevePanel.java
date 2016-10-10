@@ -47,7 +47,6 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
         this.editPanel.setPreferredSize(new Dimension(1000, 100));
         this.aptitudePanel.setPreferredSize(new Dimension(1000, 500));
 
-        int y = 0;
         this.add(this.selectPanel, GridBagConstraintsFactory.create(0, 1, 1, 1));
         this.add(this.editPanel, GridBagConstraintsFactory.create(0, 2, 1, 1));
         this.add(this.aptitudePanel, GridBagConstraintsFactory.create(0, 3, 1, 1));

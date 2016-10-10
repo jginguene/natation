@@ -133,7 +133,6 @@ public class AptitudeService {
             statement = connection.prepareStatement(LAST_ID);
             ResultSet res = statement.executeQuery();
             return res.getInt(1);
-
         } catch (Exception e) {
             throw new Exception("create(" + aptitude + ") failed", e);
         } finally {

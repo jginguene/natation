@@ -2,7 +2,11 @@ package fr.natation.view.eleve;
 
 import java.awt.Font;
 import java.awt.GridLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.swing.BorderFactory;
 import javax.swing.JComboBox;
@@ -30,6 +34,7 @@ public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelec
     private final GridLayout layout;
 
     private final AptitudeSelectionManager manager = new AptitudeSelectionManager();
+    private final Map<Niveau, JLabel> map = new HashMap<Niveau, JLabel>();
 
     public EleveAptitudeAssociationPanel() throws Exception {
 
@@ -66,7 +71,12 @@ public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelec
         this.add(new JLabel("Total"));
 
         for (Niveau niveau : niveaux) {
-            this.add(new JLabel("0"));
+            JLabel label = new JLabel("0");
+            label.setHorizontalAlignment(JLabel.CENTER);
+            label.setFont(label.getFont().deriveFont(Font.BOLD));
+
+            this.add(label);
+            this.map.put(niveau, label);
         }
 
     }
@@ -76,13 +86,20 @@ public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelec
         this.eleve = newEleve;
 
         try {
-
             List<Niveau> niveaux = NiveauService.getAll();
             List<TypeAptitude> types = TypeAptitudeService.getAll();
 
-            for (TypeAptitude type : types) {
-                for (Niveau niveau : niveaux) {
+            for (Niveau niveau : niveaux) {
+                for (TypeAptitude type : types) {
                     JComboBox<AptitudeComboModel> comboBox = this.manager.getComboBox(niveau, type);
+
+                    comboBox.addItemListener(new ItemListener() {
+                        @Override
+                        public void itemStateChanged(ItemEvent e) {
+                            EleveAptitudeAssociationPanel.this.refreshScore();
+                        }
+                    });
+
                     Aptitude aptitude = this.eleve.getAptitude(niveau, type);
                     if (aptitude != null) {
                         comboBox.setSelectedIndex(aptitude.getScore());
@@ -91,8 +108,32 @@ public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelec
                     }
                 }
             }
+
+            this.refreshScore();
+
         } catch (Exception e) {
             LOGGER.error("onChange(" + newEleve + ") failed", e);
+        }
+    }
+
+    public void refreshScore() {
+        try {
+            List<Niveau> niveaux = NiveauService.getAll();
+            List<TypeAptitude> types = TypeAptitudeService.getAll();
+
+            for (Niveau niveau : niveaux) {
+                int score = 0;
+                for (TypeAptitude type : types) {
+                    JComboBox<AptitudeComboModel> comboBox = this.manager.getComboBox(niveau, type);
+                    Aptitude aptitude = ((AptitudeComboModel) comboBox.getSelectedItem()).getAptitude();
+                    if (aptitude != null) {
+                        score += aptitude.getScore();
+                    }
+                }
+                this.map.get(niveau).setText(Integer.toString(score));
+            }
+        } catch (Exception e) {
+            LOGGER.error("refreshScore() failed", e);
         }
 
     }

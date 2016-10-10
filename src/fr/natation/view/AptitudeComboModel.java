@@ -31,7 +31,6 @@ public class AptitudeComboModel {
             ret = ret + line;
             return "<html>" + ret;
         }
-
     }
 
     public Aptitude getAptitude() {
