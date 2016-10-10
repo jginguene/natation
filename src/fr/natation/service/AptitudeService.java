@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import fr.natation.ConnectionFactory;
 import fr.natation.model.Aptitude;
 import fr.natation.model.Capacite;
+import fr.natation.model.Eleve;
 import fr.natation.model.Niveau;
 import fr.natation.model.TypeAptitude;
 
@@ -26,6 +27,8 @@ public class AptitudeService {
     private static String GET_ALL = "select * from aptitude order by niveau_id,type_id,score";
 
     private static String GET_FOR_NIVEAU_TYPE = "select * from aptitude where niveau_id = ? and type_id = ? order by niveau_id,type_id,score";
+    private static String GET_FOR_ELEVE_NIVEAU_TYPE = "select * from aptitude  join eleve_aptitude_r on eleve_aptitude_r.aptitude_id = aptitude.id where eleve_id=? and niveau_id = ? and type_id = ? order by niveau_id,type_id,score";
+
     private static String GET_FOR_CAPACITE = "select * from aptitude join capacite_aptitude_r on aptitude.id = capacite_aptitude_r.aptitude_id where capacite_aptitude_r.capacite_id=?  order by niveau_id,type_id,score";
 
     private static String LAST_ID = "select last_insert_rowid()";
@@ -64,7 +67,6 @@ public class AptitudeService {
     public static List<Aptitude> get(Capacite capacite) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
-
             PreparedStatement statement = connection.prepareStatement(GET_FOR_CAPACITE);
             statement.setInt(1, capacite.getId());
             ResultSet res = statement.executeQuery();
@@ -83,7 +85,6 @@ public class AptitudeService {
     public static List<Aptitude> get(Niveau niveau, TypeAptitude type) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
-
             PreparedStatement statement = connection.prepareStatement(GET_FOR_NIVEAU_TYPE);
             statement.setInt(1, niveau.getId());
             statement.setInt(2, type.getId());
@@ -95,6 +96,26 @@ public class AptitudeService {
             return ret;
         } catch (Exception e) {
             throw new Exception("get(" + niveau + ";" + type + ") failed", e);
+        } finally {
+            connection.close();
+        }
+    }
+
+    public static Aptitude get(Eleve eleve, Niveau niveau, TypeAptitude type) throws Exception {
+        Connection connection = ConnectionFactory.createConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(GET_FOR_ELEVE_NIVEAU_TYPE);
+            statement.setInt(1, eleve.getId());
+            statement.setInt(2, niveau.getId());
+            statement.setInt(3, type.getId());
+            ResultSet res = statement.executeQuery();
+            if (res.next()) {
+                return convert(res);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            throw new Exception("get(" + eleve + "; " + niveau + "; " + type + ") failed", e);
         } finally {
             connection.close();
         }

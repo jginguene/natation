@@ -1,5 +1,6 @@
 package fr.natation.model;
 
+import fr.natation.service.AptitudeService;
 import fr.natation.service.GroupeService;
 
 public class Eleve {
@@ -61,6 +62,10 @@ public class Eleve {
     @Override
     public String toString() {
         return this.prenom + " " + this.nom;// Utils.toString(this);
+    }
+
+    public Aptitude getAptitude(Niveau niveau, TypeAptitude type) throws Exception {
+        return AptitudeService.get(this, niveau, type);
     }
 
 }

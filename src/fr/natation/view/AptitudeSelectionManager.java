@@ -24,6 +24,7 @@ public class AptitudeSelectionManager {
         } else {
             JComboBox<AptitudeComboModel> comboBox = new JComboBox<AptitudeComboModel>();
             List<AptitudeComboModel> list = new ArrayList<AptitudeComboModel>();
+            list.add(new EmptyAptitudeComboModel());
             for (Aptitude aptitude : AptitudeService.get(niveau, type)) {
                 list.add(new AptitudeComboModel(aptitude));
             }

@@ -5,24 +5,31 @@ import java.awt.GridLayout;
 import java.util.List;
 
 import javax.swing.BorderFactory;
+import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.apache.log4j.Logger;
+
+import fr.natation.model.Aptitude;
 import fr.natation.model.Eleve;
 import fr.natation.model.Niveau;
 import fr.natation.model.TypeAptitude;
 import fr.natation.service.NiveauService;
 import fr.natation.service.TypeAptitudeService;
+import fr.natation.view.AptitudeComboModel;
 import fr.natation.view.AptitudeSelectionManager;
 
 public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelectListener {
 
     private static final long serialVersionUID = 1L;
 
+    private final static Logger LOGGER = Logger.getLogger(EleveAptitudeAssociationPanel.class.getName());
+
     private Eleve eleve;
     private final GridLayout layout;
 
-    AptitudeSelectionManager manager = new AptitudeSelectionManager();
+    private final AptitudeSelectionManager manager = new AptitudeSelectionManager();
 
     public EleveAptitudeAssociationPanel() throws Exception {
 
@@ -47,6 +54,9 @@ public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelec
         for (TypeAptitude type : types) {
             this.add(new JLabel(type.getNom()));
             for (Niveau niveau : niveaux) {
+                JComboBox<AptitudeComboModel> comboBox = this.manager.getComboBox(niveau, type);
+                comboBox.setSelectedIndex(0);
+
                 this.add(this.manager.getComboBox(niveau, type));
             }
         }
@@ -64,6 +74,26 @@ public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelec
     @Override
     public void onChange(Eleve newEleve) {
         this.eleve = newEleve;
+
+        try {
+
+            List<Niveau> niveaux = NiveauService.getAll();
+            List<TypeAptitude> types = TypeAptitudeService.getAll();
+
+            for (TypeAptitude type : types) {
+                for (Niveau niveau : niveaux) {
+                    JComboBox<AptitudeComboModel> comboBox = this.manager.getComboBox(niveau, type);
+                    Aptitude aptitude = this.eleve.getAptitude(niveau, type);
+                    if (aptitude != null) {
+                        comboBox.setSelectedIndex(aptitude.getScore());
+                    } else {
+                        comboBox.setSelectedIndex(0);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            LOGGER.error("onChange(" + newEleve + ") failed", e);
+        }
 
     }
 
