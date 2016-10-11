@@ -6,6 +6,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.IOException;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -29,13 +30,13 @@ public class EleveListPanel extends ListPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private JButton pdfButton = ButtonFactory.createPdfButton("Créer les diplomes de tous les élèves");
+    private JButton pdfButton;
+    private JButton exportButton;
 
     private final static Logger LOGGER = Logger.getLogger(EleveListPanel.class.getName());
 
     public EleveListPanel() throws Exception {
         super("Liste des élèves");
-
     }
 
     @Override
@@ -45,8 +46,9 @@ public class EleveListPanel extends ListPanel {
         JPanel panelButton = new JPanel();
         panelButton.setLayout(new GridLayout(1, 5));
         this.pdfButton = ButtonFactory.createPdfButton("Créer les diplomes de tous les élèves");
+        this.exportButton = ButtonFactory.createExcelButton();
         panelButton.add(this.pdfButton);
-        panelButton.add(new JLabel());
+        panelButton.add(this.exportButton);
         panelButton.add(new JLabel());
         panelButton.add(new JLabel());
 
@@ -56,6 +58,13 @@ public class EleveListPanel extends ListPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 EleveListPanel.this.onPdfButton();
+            }
+        });
+
+        this.exportButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                EleveListPanel.this.onExportButton();
             }
         });
     }
@@ -122,6 +131,23 @@ public class EleveListPanel extends ListPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "La génération des diplomes a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
             LOGGER.error("La génération des diplomes a échoué", e);
+        }
+    }
+
+    private void onExportButton() {
+        try {
+
+            String fileName = "liste-eleve.csv";
+            try {
+                EleveListPanel.this.exportTable(fileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            JOptionPane.showMessageDialog(null, "Le fichier " + fileName + " a été créé", "Information", JOptionPane.INFORMATION_MESSAGE);
+            Desktop.getDesktop().open(new File(fileName));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "L'export a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
+            LOGGER.error("L'export  a échoué", e);
         }
     }
 }

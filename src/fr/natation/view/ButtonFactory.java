@@ -12,6 +12,10 @@ public class ButtonFactory {
         return createPdfButton("Export pdf");
     }
 
+    public static JButton createExcelButton() {
+        return new JButton("Export", Icon.Excel.getImage());
+    }
+
     public static JButton createCancelButton() {
         return new JButton("Annuler", Icon.Cancel.getImage());
     }

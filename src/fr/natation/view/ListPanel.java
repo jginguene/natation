@@ -2,11 +2,16 @@ package fr.natation.view;
 
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 public abstract class ListPanel extends JPanel implements IRefreshListener {
 
@@ -41,6 +46,30 @@ public abstract class ListPanel extends JPanel implements IRefreshListener {
         this.table.getColumnModel().getColumn(column).setMinWidth(0);
         this.table.getColumnModel().getColumn(column).setMaxWidth(0);
         this.table.getColumnModel().getColumn(column).setHeaderValue("");
+
+    }
+
+    public void exportTable(String fileName) throws IOException {
+
+        File file = new File(fileName);
+        TableModel model = this.table.getModel();
+        FileWriter out = new FileWriter(file);
+        BufferedWriter bw = new BufferedWriter(out);
+        for (int i = 0; i < model.getColumnCount(); i++) {
+            if (!"action".equalsIgnoreCase(model.getColumnName(i))) {
+                bw.write(model.getColumnName(i) + ";");
+            }
+        }
+        bw.write("\n");
+        for (int i = 0; i < model.getRowCount(); i++) {
+            for (int j = 0; j < model.getColumnCount(); j++) {
+                if (!"action".equalsIgnoreCase(model.getColumnName(j))) {
+                    bw.write(model.getValueAt(i, j).toString() + ";");
+                }
+            }
+            bw.write("\n");
+        }
+        bw.close();
 
     }
 

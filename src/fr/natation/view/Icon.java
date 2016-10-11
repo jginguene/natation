@@ -12,6 +12,7 @@ public enum Icon {
     Print(Utils.getExternalImage("img/print.png")),
     Application(Utils.getExternalImage("img/app.png")),
     Pdf(Utils.getExternalImage("img/pdf.png")),
+    Excel(Utils.getExternalImage("img/excel.png")),
     Cancel(Utils.getExternalImage("img/cancel.png")),
     Capacite(Utils.getExternalImage("img/capacite.png")),
     Aptitude(Utils.getExternalImage("img/aptitude.png")),
