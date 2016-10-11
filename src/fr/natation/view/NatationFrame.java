@@ -34,11 +34,12 @@ public class NatationFrame extends JFrame {
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         final JTabbedPane tabbedPane = new JTabbedPane();
-        tabbedPane.addTab("Liste des élèves", null, this.eleveListTabPanel, "");
-        tabbedPane.addTab("Fiche des élèves", null, this.eleveTabPanel, "");
-        tabbedPane.addTab("Liste des groupes", null, this.groupeListTabPanel, "");
-        tabbedPane.addTab("Liste des aptitudes", null, this.aptitudeListTabPanel, "");
-        tabbedPane.addTab("Liste des capacités", null, this.capaciteListTabPanel, "");
+        tabbedPane.addTab("Liste des élèves", Icon.Liste.getImage(), this.eleveListTabPanel, "");
+
+        tabbedPane.addTab("Fiche des élèves", Icon.Eleve.getImage(), this.eleveTabPanel, "");
+        tabbedPane.addTab("Liste des groupes", Icon.Liste.getImage(), this.groupeListTabPanel, "");
+        tabbedPane.addTab("Liste des aptitudes", Icon.Aptitude.getImage(), this.aptitudeListTabPanel, "");
+        tabbedPane.addTab("Liste des capacités", Icon.Capacite.getImage(), this.capaciteListTabPanel, "");
 
         tabbedPane.addChangeListener(new ChangeListener() {
             @Override

@@ -54,7 +54,7 @@ public class AptitudeAddPanel extends JPanel implements IRefreshListener {
     public AptitudeAddPanel() throws Exception {
         this.refresh();
 
-        this.setBorder(BorderFactory.createTitledBorder("Ajouter un aptitude"));
+        this.setBorder(BorderFactory.createTitledBorder("Ajouter une aptitude"));
 
         JPanel panel = new JPanel();
         this.setLayout(new BorderLayout());
