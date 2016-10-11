@@ -6,12 +6,14 @@ import fr.natation.Utils;
 
 public enum Icon {
 
-    Update(Utils.getImage("save.png")),
-    Create(Utils.getImage("save.png")),
-    Delete(Utils.getImage("delete.png")),
-    Print(Utils.getImage("print.png")),
-    Application(Utils.getImage("app.png")),
-    Pdf(Utils.getImage("pdf.png"));
+    Update(Utils.getExternalImage("img/save.png")),
+    Create(Utils.getExternalImage("img/save.png")),
+    Delete(Utils.getExternalImage("img/delete.png")),
+    Print(Utils.getExternalImage("img/print.png")),
+    Application(Utils.getExternalImage("img/app.png")),
+    Pdf(Utils.getExternalImage("img/pdf.png")),
+    Cancel(Utils.getExternalImage("img/cancel.png"));
+    ;
 
     private ImageIcon image;
 

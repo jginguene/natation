@@ -30,7 +30,7 @@ public class NatationFrame extends JFrame {
     public NatationFrame() throws Exception {
         super("Natation");
 
-        this.setIconImage(Utils.getImage("app.png").getImage());
+        this.setIconImage(Utils.getExternalImage("img/app.png").getImage());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         final JTabbedPane tabbedPane = new JTabbedPane();
@@ -59,7 +59,7 @@ public class NatationFrame extends JFrame {
                     if (tabbedPane.getSelectedIndex() == 4) {
                         NatationFrame.this.aptitudeListTabPanel.refresh();
                     }
-                    
+
                     if (tabbedPane.getSelectedIndex() == 5) {
                         NatationFrame.this.capaciteListTabPanel.refresh();
                     }

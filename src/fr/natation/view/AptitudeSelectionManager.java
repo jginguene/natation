@@ -32,9 +32,7 @@ public class AptitudeSelectionManager {
             CustomComboBoxModel<AptitudeComboModel> model = new CustomComboBoxModel<AptitudeComboModel>(list);
             comboBox.setModel(model);
             this.map.put(key, comboBox);
-
             return comboBox;
-
         }
 
     }

@@ -33,6 +33,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
 
     private final JButton updateButton = ButtonFactory.createUpdateButton();
     private final JButton pdfButton = ButtonFactory.createPdfButton("Créer le diplome de l'élève");
+    private final JButton cancelButton = ButtonFactory.createCancelButton();
 
     private Eleve eleve;
 
@@ -54,8 +55,16 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
 
         buttonPanel.setLayout(new GridLayout(1, 5));
 
+        buttonPanel.add(this.cancelButton);
         buttonPanel.add(this.updateButton);
         buttonPanel.add(this.pdfButton);
+
+        this.cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                ElevePanel.this.onCancelButton();
+            }
+        });
 
         this.updateButton.addActionListener(new ActionListener() {
             @Override
@@ -95,6 +104,11 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
             LOGGER.error("L'ajout a échoué", e);
         }
 
+    }
+
+    private void onCancelButton() {
+        this.editPanel.onChange(this.eleve);
+        this.aptitudePanel.onChange(this.eleve);
     }
 
     private void onPdfButton() {

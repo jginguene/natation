@@ -66,7 +66,7 @@ public class GroupeListPanel extends ListPanel {
             }
         };
 
-        new ButtonColumn(this.table, delete, GroupeTableModel.COLUMN_ACTION, Utils.getImage("delete.png"), new IVisibilityManager() {
+        new ButtonColumn(this.table, delete, GroupeTableModel.COLUMN_ACTION, Utils.getExternalImage("img/delete.png"), new IVisibilityManager() {
             @Override
             public boolean isVisible(int row) {
                 GroupeTableModel model = (GroupeTableModel) GroupeListPanel.this.table.getModel();
@@ -76,7 +76,6 @@ public class GroupeListPanel extends ListPanel {
         });
 
         this.setColumnWidth(GroupeTableModel.COLUMN_NOM, 60);
-        // this.setColumnWidth(GroupeTableModel.COLUMN_DESCRIPTION, 500);
         this.setColumnWidth(GroupeTableModel.COLUMN_NB_ELEVE, 60);
         this.setColumnWidth(GroupeTableModel.COLUMN_ACTION, 60);
 

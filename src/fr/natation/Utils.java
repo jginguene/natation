@@ -41,6 +41,10 @@ public class Utils {
         return new ImageIcon(Utils.class.getResource("/" + img));
     }
 
+    public static ImageIcon getExternalImage(String img) {
+        return new ImageIcon(img);
+    }
+
     public static ImageIcon getImage(String img, int height) {
         ImageIcon icon = new ImageIcon(Utils.class.getResource("/" + img));
         int initHeight = icon.getIconHeight();
