@@ -98,6 +98,6 @@ public class GroupeTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return true;
+        return columnIndex == COLUMN_ACTION;
     }
 }

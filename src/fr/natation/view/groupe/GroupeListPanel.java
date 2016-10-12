@@ -4,8 +4,10 @@ import java.awt.event.ActionEvent;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import org.apache.log4j.Logger;
 
@@ -76,9 +78,20 @@ public class GroupeListPanel extends ListPanel {
         });
 
         this.setColumnWidth(GroupeTableModel.COLUMN_NOM, 60);
-        this.setColumnWidth(GroupeTableModel.COLUMN_NB_ELEVE, 60);
+        this.setColumnWidth(GroupeTableModel.COLUMN_NB_ELEVE, 100);
         this.setColumnWidth(GroupeTableModel.COLUMN_ACTION, 60);
         this.setRowHeight(28);
+
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setVerticalAlignment(JLabel.CENTER);
+        this.table.getColumnModel().getColumn(GroupeTableModel.COLUMN_DESCRIPTION).setCellRenderer(renderer);
+
+        renderer = new DefaultTableCellRenderer();
+        renderer.setHorizontalAlignment(JLabel.CENTER);
+        renderer.setVerticalAlignment(JLabel.CENTER);
+        this.table.getColumnModel().getColumn(GroupeTableModel.COLUMN_ID).setCellRenderer(renderer);
+        this.table.getColumnModel().getColumn(GroupeTableModel.COLUMN_NB_ELEVE).setCellRenderer(renderer);
+        this.table.getColumnModel().getColumn(GroupeTableModel.COLUMN_NOM).setCellRenderer(renderer);
 
     }
 }

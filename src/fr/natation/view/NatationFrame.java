@@ -152,6 +152,10 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
             int returnVal = fileChooser.showOpenDialog(this);
             if (returnVal == JFileChooser.APPROVE_OPTION) {
                 File file = fileChooser.getSelectedFile();
+                new File("backup/load_natation.db").delete();
+
+                Files.copy(Paths.get("natation.db"), Paths.get("backup/load_natation.db"));
+                new File("natation.db").delete();
                 Files.copy(Paths.get(file.getCanonicalPath()), Paths.get("natation.db"));
                 LOGGER.debug("Load backup " + file.getCanonicalPath());
                 JOptionPane.showMessageDialog(null, "La base a été chargée depuis le fichier " + file.getCanonicalPath(), "Information", JOptionPane.INFORMATION_MESSAGE);
