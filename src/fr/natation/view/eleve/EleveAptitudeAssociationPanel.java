@@ -107,6 +107,8 @@ public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelec
                     } else {
                         comboBox.setSelectedIndex(0);
                     }
+
+                    comboBox.repaint();
                 }
             }
 

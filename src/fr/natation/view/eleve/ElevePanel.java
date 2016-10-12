@@ -34,6 +34,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
     private final JButton updateButton = ButtonFactory.createUpdateButton();
     private final JButton pdfButton = ButtonFactory.createPdfButton("Créer le diplome de l'élève");
     private final JButton cancelButton = ButtonFactory.createCancelButton();
+    private final JButton deleteButton = ButtonFactory.createDeleteButton();
 
     private Eleve eleve;
 
@@ -58,6 +59,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
         buttonPanel.add(this.cancelButton);
         buttonPanel.add(this.updateButton);
         buttonPanel.add(this.pdfButton);
+        buttonPanel.add(this.deleteButton);
 
         this.cancelButton.addActionListener(new ActionListener() {
             @Override
@@ -80,8 +82,14 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
             }
         });
 
-        this.refresh();
+        this.deleteButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                ElevePanel.this.onDeleteButton();
+            }
+        });
 
+        this.refresh();
     }
 
     @Override
@@ -90,7 +98,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
         this.editPanel.refresh();
     }
 
-    public void onUpdateButton() {
+    private void onUpdateButton() {
         try {
             this.editPanel.updateEleve(this.eleve);
             this.aptitudePanel.updateEleve(this.eleve);
@@ -103,7 +111,25 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
             JOptionPane.showMessageDialog(null, "L'ajout a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
             LOGGER.error("L'ajout a échoué", e);
         }
+    }
 
+    private void onDeleteButton() {
+        int answer = JOptionPane.showConfirmDialog(
+                null,
+                "Voulez vous supprimer l'élève " + this.eleve.toString() + " de l'application?",
+                "Confirmation",
+                JOptionPane.YES_NO_OPTION);
+        if (answer == JOptionPane.YES_OPTION) {
+            try {
+                EleveService.delete(this.eleve.getId());
+                JOptionPane.showMessageDialog(null, "L'élève " + this.eleve.toString() + " a été supprimé de l'application.", "Information", JOptionPane.INFORMATION_MESSAGE);
+                this.refresh();
+                LOGGER.info("L'élève " + this.eleve.toString() + " a été supprimé de l'application.");
+            } catch (Exception e1) {
+                JOptionPane.showMessageDialog(null, "La suppression a échouée", "Erreur", JOptionPane.ERROR_MESSAGE);
+                LOGGER.error("La suppression a échouée", e1);
+            }
+        }
     }
 
     private void onCancelButton() {

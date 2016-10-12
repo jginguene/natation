@@ -11,6 +11,8 @@ import java.util.Date;
 
 import org.apache.log4j.Logger;
 
+import fr.natation.view.NatationFrame;
+
 public class Launcher {
 
     private final static Logger LOGGER = Logger.getLogger(Launcher.class.getName());
@@ -27,7 +29,7 @@ public class Launcher {
 
         backup();
 
-        // new NatationFrame().setVisible(true);
+        new NatationFrame().setVisible(true);
 
     }
 
@@ -57,7 +59,6 @@ public class Launcher {
         int maxBackup = 10;
         int currentBackup = 0;
         for (File f : files) {
-            System.out.println(f.getName());
             if (currentBackup > maxBackup) {
                 LOGGER.debug("Delete backup " + backupFilneName);
                 f.delete();
