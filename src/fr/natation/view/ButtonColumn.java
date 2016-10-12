@@ -2,7 +2,6 @@ package fr.natation.view;
 
 import java.awt.Color;
 import java.awt.Component;
-import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -77,14 +76,6 @@ public class ButtonColumn extends AbstractCellEditor implements TableCellRendere
         this.renderButton = new JButton(icon);
         this.editButton = new JButton(icon);
         this.editButton.setFocusPainted(false);
-        this.editButton.setPreferredSize(new Dimension(20, 20));
-        this.renderButton.setPreferredSize(new Dimension(20, 20));
-        this.editButton.setMaximumSize(new Dimension(20, 20));
-        this.renderButton.setMaximumSize(new Dimension(20, 20));
-        this.editButton.setMinimumSize(new Dimension(20, 20));
-        this.renderButton.setMinimumSize(new Dimension(20, 20));
-        this.renderButton.setSize(new Dimension(20, 20));
-        this.editButton.setSize(new Dimension(20, 20));
 
         this.renderButton.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.RAISED));
         this.editButton.setBorder(BorderFactory.createEtchedBorder(EtchedBorder.LOWERED));
@@ -140,20 +131,17 @@ public class ButtonColumn extends AbstractCellEditor implements TableCellRendere
             JTable table, Object value, boolean isSelected, int row, int column) {
 
         this.editButton.setIcon(this.icon);
-
         this.editorValue = value;
 
-        if (this.visibilityManager != null) {
-            if (this.visibilityManager.isVisible(row)) {
-                return this.editButton;
-            } else {
-                return new JPanel();
-            }
-        }
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
         panel.add(this.editButton);
+
+        if (this.visibilityManager != null || this.visibilityManager.isVisible(row)) {
+            panel.add(this.editButton);
+        }
         return panel;
+
     }
 
     @Override
@@ -165,8 +153,7 @@ public class ButtonColumn extends AbstractCellEditor implements TableCellRendere
     // Implement TableCellRenderer interface
     //
     @Override
-    public Component getTableCellRendererComponent(
-            JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
         if (isSelected) {
             this.renderButton.setForeground(table.getSelectionForeground());
             this.renderButton.setBackground(table.getSelectionBackground());
@@ -183,17 +170,12 @@ public class ButtonColumn extends AbstractCellEditor implements TableCellRendere
 
         this.renderButton.setIcon(this.icon);
 
-        if (this.visibilityManager != null) {
-            if (this.visibilityManager.isVisible(row)) {
-                return this.renderButton;
-            } else {
-                return new JPanel();
-            }
-        }
-
         JPanel panel = new JPanel();
         panel.setBackground(Color.WHITE);
-        panel.add(this.renderButton);
+
+        if (this.visibilityManager == null || this.visibilityManager.isVisible(row)) {
+            panel.add(this.renderButton);
+        }
         return panel;
     }
 

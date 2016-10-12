@@ -9,10 +9,10 @@ import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
 
-import fr.natation.Utils;
 import fr.natation.service.GroupeService;
 import fr.natation.view.ButtonColumn;
 import fr.natation.view.IVisibilityManager;
+import fr.natation.view.Icon;
 import fr.natation.view.ListPanel;
 import fr.natation.view.eleve.EleveListPanel;
 
@@ -66,7 +66,7 @@ public class GroupeListPanel extends ListPanel {
             }
         };
 
-        new ButtonColumn(this.table, delete, GroupeTableModel.COLUMN_ACTION, Utils.getExternalImage("img/delete.png"), new IVisibilityManager() {
+        new ButtonColumn(this.table, delete, GroupeTableModel.COLUMN_ACTION, Icon.Delete.getImage(), new IVisibilityManager() {
             @Override
             public boolean isVisible(int row) {
                 GroupeTableModel model = (GroupeTableModel) GroupeListPanel.this.table.getModel();
@@ -78,6 +78,7 @@ public class GroupeListPanel extends ListPanel {
         this.setColumnWidth(GroupeTableModel.COLUMN_NOM, 60);
         this.setColumnWidth(GroupeTableModel.COLUMN_NB_ELEVE, 60);
         this.setColumnWidth(GroupeTableModel.COLUMN_ACTION, 60);
+        this.setRowHeight(28);
 
     }
 }
