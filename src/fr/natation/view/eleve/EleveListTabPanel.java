@@ -21,6 +21,10 @@ public class EleveListTabPanel extends JPanel implements IRefreshListener {
         this.addPanel.addListener(this.listPanel);
     }
 
+    public void addListener(IEleveSelectListener listener) {
+        this.listPanel.addListener(listener);
+    }
+
     @Override
     public void refresh() throws Exception {
         this.listPanel.refresh();

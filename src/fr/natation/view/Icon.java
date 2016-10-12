@@ -17,6 +17,7 @@ public enum Icon {
     Capacite(Utils.getExternalImage("img/capacite.png")),
     Aptitude(Utils.getExternalImage("img/aptitude.png")),
     Eleve(Utils.getExternalImage("img/eleve.png")),
+    View(Utils.getExternalImage("img/view.png")),
     Liste(Utils.getExternalImage("img/liste.png"));
     ;
 

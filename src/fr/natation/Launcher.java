@@ -39,7 +39,7 @@ public class Launcher {
             backupDir.mkdirs();
         }
 
-        String backupFilneName = "backup/" + new SimpleDateFormat("yyyy-MM-dd-ss").format(new Date()) + "_" + "natation.db";
+        String backupFilneName = "backup/" + new SimpleDateFormat("yyyy-MM-dd-HH").format(new Date()) + "_" + "natation.db";
         if (!new File(backupFilneName).exists()) {
             Files.copy(Paths.get("natation.db"), Paths.get(backupFilneName));
             new File(backupFilneName).setLastModified(new Date().getTime());
@@ -56,7 +56,7 @@ public class Launcher {
             }
         });
 
-        int maxBackup = 10;
+        int maxBackup = 100;
         int currentBackup = 0;
         for (File f : files) {
             if (currentBackup > maxBackup) {

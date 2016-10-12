@@ -49,6 +49,10 @@ public abstract class ListPanel extends JPanel implements IRefreshListener {
 
     }
 
+    protected void setRowHeight(int height) {
+        this.table.setRowHeight(height);
+    }
+
     public void exportTable(String fileName) throws IOException {
 
         File file = new File(fileName);

@@ -19,6 +19,7 @@ public class EleveService {
     private static String UPDATE = "update Eleve set Nom=?, Prenom=? , groupe_id=? where  id = ?";
     private static String DELETE = "delete from Eleve  where  id = ?";
     private static String GET_ALL = "select * from Eleve";
+    private static String GET = "select * from Eleve where id=?";
     private static String LAST_ID = "select last_insert_rowid()";
     private static String GET_NB_ELEVE = "select count(*) from eleve  where groupe_id = ? ";
 
@@ -90,6 +91,24 @@ public class EleveService {
             return ret;
         } catch (Exception e) {
             throw new Exception("getAll() failed", e);
+        } finally {
+            connection.close();
+        }
+    }
+
+    public static Eleve get(int eleveId) throws Exception {
+        Connection connection = ConnectionFactory.createConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(GET);
+            statement.setInt(1, eleveId);
+            ResultSet res = statement.executeQuery();
+            if (res.next()) {
+                return convert(res);
+            } else {
+                return null;
+            }
+        } catch (Exception e) {
+            throw new Exception("get(" + eleveId + ") failed", e);
         } finally {
             connection.close();
         }

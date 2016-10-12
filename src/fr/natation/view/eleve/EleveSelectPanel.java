@@ -16,7 +16,7 @@ import fr.natation.service.EleveService;
 import fr.natation.view.CustomComboBoxModel;
 import fr.natation.view.IRefreshListener;
 
-public class EleveSelectPanel extends JPanel implements IRefreshListener {
+public class EleveSelectPanel extends JPanel implements IRefreshListener, IEleveSelectListener {
 
     private static final long serialVersionUID = 1L;
 
@@ -51,9 +51,8 @@ public class EleveSelectPanel extends JPanel implements IRefreshListener {
 
     private void onSelectEleve(Eleve eleve) {
         for (IEleveSelectListener listener : this.listeners) {
-            listener.onChange(eleve);
+            listener.onChange(eleve, this);
         }
-
     }
 
     @Override
@@ -66,4 +65,15 @@ public class EleveSelectPanel extends JPanel implements IRefreshListener {
     public void addListener(IEleveSelectListener listener) {
         this.listeners.add(listener);
     }
+
+    @Override
+    public void onChange(Eleve newEleve, Object source) {
+        if (source != this) {
+            this.inputEleve.setSelectedItem(newEleve);
+            this.onSelectEleve(newEleve);
+        }
+        this.repaint();
+
+    }
+
 }

@@ -7,6 +7,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
@@ -14,7 +16,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JTable;
+import javax.swing.table.DefaultTableCellRenderer;
 
 import org.apache.log4j.Logger;
 
@@ -30,8 +32,11 @@ public class EleveListPanel extends ListPanel {
 
     private static final long serialVersionUID = 1L;
 
+    private final List<IEleveSelectListener> listeners = new ArrayList<IEleveSelectListener>();
+
     private JButton pdfButton;
     private JButton exportButton;
+    private Action viewAction;
 
     private final static Logger LOGGER = Logger.getLogger(EleveListPanel.class.getName());
 
@@ -67,54 +72,64 @@ public class EleveListPanel extends ListPanel {
                 EleveListPanel.this.onExportButton();
             }
         });
+
+        this.initViewAction();
+    }
+
+    private void initViewAction() {
+        if (this.viewAction == null) {
+            this.viewAction = new AbstractAction() {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    int modelRow = Integer.valueOf(e.getActionCommand());
+                    EleveTableModel model = (EleveTableModel) EleveListPanel.this.table.getModel();
+                    Integer id = (Integer) (model).getValueAt(modelRow, EleveTableModel.COLUMN_ID);
+                    Eleve eleve = null;
+                    try {
+                        eleve = EleveService.get(id.intValue());
+                    } catch (Exception ex) {
+                        JOptionPane.showMessageDialog(null, "La visualisation de l'eleve " + id + " a echoué", "Erreur", JOptionPane.ERROR_MESSAGE);
+                        LOGGER.error("La visualisation de l'eleve " + id + " a echoué", ex);
+                    }
+
+                    for (IEleveSelectListener listener : EleveListPanel.this.listeners) {
+                        try {
+                            listener.onChange(eleve, this);
+                        } catch (Exception ex) {
+                            JOptionPane.showMessageDialog(null, "La visualisation de l'eleve " + eleve + " a echoué", "Erreur", JOptionPane.ERROR_MESSAGE);
+                            LOGGER.error("La visualisation de l'eleve " + eleve + " a echoué", ex);
+                        }
+                    }
+                }
+            };
+        }
+
     }
 
     @Override
     public void refresh() throws Exception {
 
+        this.initViewAction();
+
         EleveTableModel model = new EleveTableModel(EleveService.getAll());
         this.table.setModel(model);
 
-        Action delete = new AbstractAction() {
-            private static final long serialVersionUID = 1L;
-
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                JTable table = (JTable) e.getSource();
-                table.getSelectedRow();
-
-                int modelRow = Integer.valueOf(e.getActionCommand());
-                EleveTableModel model = (EleveTableModel) table.getModel();
-                Integer id = (Integer) (model).getValueAt(modelRow, EleveTableModel.COLUMN_ID);
-
-                int answer = JOptionPane.showConfirmDialog(
-                        null,
-                        "Voulez vous supprimer l'élève "
-                                + model.getValueAt(modelRow, EleveTableModel.COLUMN_PRENOM)
-                                + " "
-                                + model.getValueAt(modelRow, EleveTableModel.COLUMN_NOM)
-                                + " de l'application?",
-                        "Confirmation",
-                        JOptionPane.YES_NO_OPTION);
-
-                if (answer == JOptionPane.YES_OPTION) {
-                    try {
-                        EleveService.delete(id.intValue());
-                        EleveListPanel.this.refresh();
-
-                    } catch (Exception e1) {
-                        JOptionPane.showMessageDialog(null, "La suppression a échouée", "Erreur", JOptionPane.ERROR_MESSAGE);
-                        LOGGER.error("La suppression a échouée", e1);
-                    }
-                }
-            }
-        };
-
-        new ButtonColumn(this.table, delete, EleveTableModel.COLUMN_ACTION, Icon.Delete.getImage(), null);
+        new ButtonColumn(this.table, this.viewAction, EleveTableModel.COLUMN_ACTION, Icon.View.getImage(), null);
 
         this.setColumnWidth(EleveTableModel.COLUMN_ID, 60);
         this.setColumnWidth(EleveTableModel.COLUMN_GROUPE, 60);
         this.setColumnWidth(EleveTableModel.COLUMN_ACTION, 60);
+
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setVerticalAlignment(JLabel.CENTER);
+        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_ID).setCellRenderer(renderer);
+        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_GROUPE).setCellRenderer(renderer);
+        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_NOM).setCellRenderer(renderer);
+        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_PRENOM).setCellRenderer(renderer);
+        this.setRowHeight(28);
+
     }
 
     private void onPdfButton() {
@@ -149,5 +164,9 @@ public class EleveListPanel extends ListPanel {
             JOptionPane.showMessageDialog(null, "L'export a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
             LOGGER.error("L'export  a échoué", e);
         }
+    }
+
+    public void addListener(IEleveSelectListener listener) {
+        this.listeners.add(listener);
     }
 }

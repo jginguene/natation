@@ -103,6 +103,6 @@ public class EleveTableModel extends AbstractTableModel {
 
     @Override
     public boolean isCellEditable(int rowIndex, int columnIndex) {
-        return columnIndex == COLUMN_NOM || columnIndex == COLUMN_PRENOM || columnIndex == COLUMN_ACTION;
+        return columnIndex == COLUMN_ACTION;
     }
 }

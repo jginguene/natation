@@ -83,7 +83,7 @@ public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelec
     }
 
     @Override
-    public void onChange(Eleve newEleve) {
+    public void onChange(Eleve newEleve, Object source) {
         this.eleve = newEleve;
 
         try {

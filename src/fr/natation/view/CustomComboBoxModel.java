@@ -31,6 +31,7 @@ public class CustomComboBoxModel<E extends Object> extends AbstractListModel<E> 
         return this.list.get(i);
     }
 
+    @SuppressWarnings("unchecked")
     @Override
     public void setSelectedItem(Object anItem) {
         this.selectedItem = (E) anItem;
