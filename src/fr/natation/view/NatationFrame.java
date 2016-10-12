@@ -1,14 +1,20 @@
 package fr.natation.view;
 
+import java.io.File;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.Date;
+
+import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.log4j.Logger;
 
-import fr.natation.Utils;
 import fr.natation.model.Eleve;
 import fr.natation.view.aptitude.AptitudeListTabPanel;
 import fr.natation.view.capacite.CapaciteTabPanel;
@@ -17,7 +23,7 @@ import fr.natation.view.eleve.EleveTabPanel;
 import fr.natation.view.eleve.IEleveSelectListener;
 import fr.natation.view.groupe.GroupeListTabPanel;
 
-public class NatationFrame extends JFrame implements IEleveSelectListener {
+public class NatationFrame extends JFrame implements IEleveSelectListener, INatationMenuListener {
 
     private final static Logger LOGGER = Logger.getLogger(NatationFrame.class.getName());
 
@@ -35,13 +41,18 @@ public class NatationFrame extends JFrame implements IEleveSelectListener {
     private final AptitudeListTabPanel aptitudeListTabPanel = new AptitudeListTabPanel();
     private final CapaciteTabPanel capaciteListTabPanel = new CapaciteTabPanel();
 
+    private final NatationMenu menu;
+
     private final JTabbedPane tabbedPane = new JTabbedPane();
 
     public NatationFrame() throws Exception {
         super("Natation");
 
-        this.setIconImage(Utils.getExternalImage("img/app.png").getImage());
+        this.setIconImage(Icon.Application.getImage().getImage());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+        this.menu = new NatationMenu(this);
+        this.setJMenuBar(this.menu);
 
         this.tabbedPane.addTab("Liste des élèves", Icon.Liste.getImage(), this.eleveListTabPanel, "");
         this.tabbedPane.addTab("Fiche des élèves", Icon.Eleve.getImage(), this.eleveTabPanel, "");
@@ -94,5 +105,66 @@ public class NatationFrame extends JFrame implements IEleveSelectListener {
         this.tabbedPane.setSelectedIndex(ELEVE_TAB);
         this.eleveTabPanel.onChange(newEleve, this);
 
+    }
+
+    @Override
+    public void onSave() {
+        try {
+            final JFileChooser fileChooser = new JFileChooser("./");
+            fileChooser.setApproveButtonText("Sauvegarder");
+
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Base de données", "db");
+            fileChooser.setFileFilter(filter);
+
+            // In response to a button click:
+            int returnVal = fileChooser.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+
+                File file = fileChooser.getSelectedFile();
+                if (file.exists()) {
+                    JOptionPane.showMessageDialog(null, "Le fichier " + file.getCanonicalPath() + " existe déja", "Erreur", JOptionPane.ERROR_MESSAGE);
+                }
+
+                Files.copy(Paths.get("natation.db"), Paths.get(file.getCanonicalPath()));
+                file.setLastModified(new Date().getTime());
+                LOGGER.debug("Create backup " + file.getCanonicalPath());
+
+                JOptionPane.showMessageDialog(null, "La base a été sauvegardée dans le fichier " + file.getCanonicalPath(), "Information", JOptionPane.INFORMATION_MESSAGE);
+
+            }
+        } catch (Exception e) {
+            LOGGER.error("La sauvegarde a échoué", e);
+            JOptionPane.showMessageDialog(null, "La sauvegarde a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
+
+    @Override
+    public void onLoad() {
+        try {
+            final JFileChooser fileChooser = new JFileChooser("./");
+            fileChooser.setApproveButtonText("Charger");
+
+            FileNameExtensionFilter filter = new FileNameExtensionFilter("Base de données", "db");
+            fileChooser.setFileFilter(filter);
+
+            // In response to a button click:
+            int returnVal = fileChooser.showOpenDialog(this);
+            if (returnVal == JFileChooser.APPROVE_OPTION) {
+                File file = fileChooser.getSelectedFile();
+                Files.copy(Paths.get(file.getCanonicalPath()), Paths.get("natation.db"));
+                LOGGER.debug("Load backup " + file.getCanonicalPath());
+                JOptionPane.showMessageDialog(null, "La base a été chargée depuis le fichier " + file.getCanonicalPath(), "Information", JOptionPane.INFORMATION_MESSAGE);
+
+            }
+        } catch (Exception e) {
+            LOGGER.error("La sauvegarde a échoué", e);
+            JOptionPane.showMessageDialog(null, "Le chargement a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    @Override
+    public void onExit() {
+        System.exit(0);
     }
 }

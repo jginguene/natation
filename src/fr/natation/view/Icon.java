@@ -18,7 +18,11 @@ public enum Icon {
     Aptitude(Utils.getExternalImage("img/aptitude.png")),
     Eleve(Utils.getExternalImage("img/eleve.png")),
     View(Utils.getExternalImage("img/view.png")),
-    Liste(Utils.getExternalImage("img/liste.png"));
+    Liste(Utils.getExternalImage("img/liste.png")),
+    Exit(Utils.getExternalImage("img/exit.png")),
+    SaveBackup(Utils.getExternalImage("img/save-backup.png")),
+    LoadBackup(Utils.getExternalImage("img/load-backup.png"));
+
     ;
 
     private ImageIcon image;
