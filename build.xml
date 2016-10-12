@@ -18,7 +18,7 @@
         </javac>
     
         <echo>${dir.jarfile}/Natation.jar</echo>
-        <jar destfile="${dir.jarfile}/Natation2.jar" basedir="bin/">
+        <jar destfile="${dir.jarfile}/Natation.jar" basedir="bin/">
             <manifest>
                  <attribute name="Built-By" value="jginguene"/>
                 <attribute name="Implementation-Vendor" value="ACME inc."/>
