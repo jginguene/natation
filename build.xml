@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<project default="create_run_jar" name="Create Runnable Jar for Project Natation with Jar-in-Jar Loader">
+    <!--this file was created by Eclipse Runnable JAR file Export Wizard-->
+    <!--ANT 1.7 is required-->
+    <!--define folder properties-->
+    <property name="dir.buildfile" value="."/>
+    <property name="dir.workspace" value="${dir.buildfile}/.."/>
+    <property name="dir.jarfile" value="./pack/"/>
+    <target name="create_run_jar">
+    
+          <path id="libraries.path">    
+        <fileset dir="./">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+         <javac srcdir="src/" destdir="bin/"  source="1.6">
+            <classpath refid="libraries.path"/>
+        </javac>
+    
+        <echo>${dir.jarfile}/Natation.jar</echo>
+        <jar destfile="${dir.jarfile}/Natation.jar" basedir="bin/">
+            <manifest>
+                 <attribute name="Built-By" value="jginguene"/>
+                <attribute name="Implementation-Vendor" value="ACME inc."/>
+                <attribute name="Implementation-Title" value="Natation"/>
+                <attribute name="Implementation-Version" value="0.3-alpha"/>
+                <attribute name="Main-Class" value="fr.natation.Launcher"/>
+                <attribute name="Class-Path" value="./lib/pdfbox-app-2.0.3.jar ./lib/sqlite-jdbc-3.14.2.jar ./lib/log4j-1.2-api-2.6.2.jar ./lib/log4j-api-2.6.2.jar ./lib/log4j-core-2.6.2.jar ./lib/log4j-iostreams-2.6.2.jar ./lib/log4j-jcl-2.6.2.jar ./lib/log4j-slf4j-impl-2.6.2.jar ./lib/yamlbeans-1.0.jar ./lib/quaqua-filechooser-only.jar ./lib/swing-layout.jar ./lib/quaqua.jar ./lib/liquidlnf.jar"/>
+             </manifest>
+
+        </jar>
+        
+         <zip destfile="natation.zip"
+               basedir="pack"
+          />
+            
+       
+    </target>
+    
+    
+</project>
