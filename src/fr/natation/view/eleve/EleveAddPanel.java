@@ -8,6 +8,7 @@ import java.awt.event.ActionListener;
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -40,12 +41,14 @@ public class EleveAddPanel extends JPanel implements IRefreshListener {
     private final JComboBox<Groupe> inputGroupe = new JComboBox<Groupe>();
 
     private final JButton addButton = ButtonFactory.createCreateButton();
+    private final JButton cancelButton = ButtonFactory.createCancelButton();
 
     private IRefreshListener listener;
+    private JDialog dialog;
 
     public EleveAddPanel() throws Exception {
 
-        this.setBorder(BorderFactory.createTitledBorder("Ajouter un élève"));
+        this.setBorder(BorderFactory.createEmptyBorder(5, 5, 5, 5));
 
         this.refreshGroupes();
 
@@ -69,7 +72,8 @@ public class EleveAddPanel extends JPanel implements IRefreshListener {
         panel.add(this.inputGroupe, GridBagConstraintsFactory.create(1, y, 1, 1));
         y++;
 
-        panel.add(this.addButton, GridBagConstraintsFactory.create(0, y, 2, 1));
+        panel.add(this.cancelButton, GridBagConstraintsFactory.create(0, y, 1, 1));
+        panel.add(this.addButton, GridBagConstraintsFactory.create(1, y, 1, 1));
 
         this.addButton.addActionListener(new ActionListener() {
             @Override
@@ -78,8 +82,21 @@ public class EleveAddPanel extends JPanel implements IRefreshListener {
             }
         });
 
+        this.cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                EleveAddPanel.this.onCancelButton();
+            }
+        });
+
         this.setVisible(true);
 
+    }
+
+    public void onCancelButton() {
+        if (this.dialog != null) {
+            this.dialog.dispose();
+        }
     }
 
     public void onAddButton() {
@@ -122,6 +139,10 @@ public class EleveAddPanel extends JPanel implements IRefreshListener {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "L'ajout a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
                 LOGGER.error("L'ajout a échoué", e);
+            } finally {
+                if (this.dialog != null) {
+                    this.dialog.dispose();
+                }
             }
         }
     }
@@ -138,6 +159,10 @@ public class EleveAddPanel extends JPanel implements IRefreshListener {
     @Override
     public void refresh() throws Exception {
         this.refreshGroupes();
+    }
+
+    public void setDialog(JDialog dialog) {
+        this.dialog = dialog;
     }
 
 }

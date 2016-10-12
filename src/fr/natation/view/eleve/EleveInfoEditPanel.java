@@ -97,14 +97,17 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
 
     @Override
     public void onChange(Eleve newEleve, Object source) {
-        this.eleve = newEleve;
-        this.inputNom.setText(newEleve.getNom());
-        this.inputPrenom.setText(newEleve.getPrenom());
+        if (newEleve != null) {
 
-        try {
-            this.inputGroupe.setSelectedItem(newEleve.getGroupe());
-        } catch (Exception e) {
-            e.printStackTrace();
+            this.eleve = newEleve;
+            this.inputNom.setText(newEleve.getNom());
+            this.inputPrenom.setText(newEleve.getPrenom());
+
+            try {
+                this.inputGroupe.setSelectedItem(newEleve.getGroupe());
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
     }

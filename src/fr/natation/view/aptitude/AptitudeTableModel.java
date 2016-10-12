@@ -24,7 +24,7 @@ public class AptitudeTableModel extends AbstractTableModel {
     public static final int COLUMN_CAPACITE = 5;
     public static final int COLUMN_ACTION = 6;
 
-    public static final int ROW_HEIGHT = 20;
+    public static final int ROW_HEIGHT = 28;
 
     private final static Logger LOGGER = Logger.getLogger(AptitudeTableModel.class.getName());
     private final List<Aptitude> list;
@@ -75,7 +75,7 @@ public class AptitudeTableModel extends AbstractTableModel {
 
             case COLUMN_CAPACITE:
                 if (aptitude.getCapacite() != null) {
-                    return ViewUtils.getCapaciteIcon(aptitude.getCapacite(), AptitudeListPanel.ROW_HEIGHT);
+                    return ViewUtils.getCapaciteIcon(aptitude.getCapacite(), AptitudeListPanel.ROW_HEIGHT + 8);
                 } else {
                     return new ImageIcon();
                 }

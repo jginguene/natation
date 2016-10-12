@@ -28,6 +28,10 @@ public class ButtonFactory {
         return new JButton(text, Icon.Pdf.getImage());
     }
 
+    public static JButton createAddButton(String text) {
+        return new JButton(text, Icon.Add.getImage());
+    }
+
     public static JButton createUpdateButton() {
         return new JButton("Mettre à jour", Icon.Update.getImage());
     }

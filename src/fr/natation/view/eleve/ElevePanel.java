@@ -133,8 +133,10 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
     }
 
     private void onCancelButton() {
+
         this.editPanel.onChange(this.eleve, this);
         this.aptitudePanel.onChange(this.eleve, this);
+
     }
 
     private void onPdfButton() {
@@ -153,6 +155,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
 
     @Override
     public void onChange(Eleve newEleve, Object source) {
+        this.eleve = newEleve;
         this.selectPanel.onChange(newEleve, source);
         this.aptitudePanel.onChange(newEleve, source);
     }

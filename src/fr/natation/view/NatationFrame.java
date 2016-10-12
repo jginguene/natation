@@ -25,6 +25,8 @@ import fr.natation.view.groupe.GroupeListTabPanel;
 
 public class NatationFrame extends JFrame implements IEleveSelectListener, INatationMenuListener {
 
+    public static NatationFrame FRAME;
+
     private final static Logger LOGGER = Logger.getLogger(NatationFrame.class.getName());
 
     private static final long serialVersionUID = 1L;
@@ -47,6 +49,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
 
     public NatationFrame() throws Exception {
         super("Natation");
+        FRAME = this;
 
         this.setIconImage(Icon.Application.getImage().getImage());
         this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);

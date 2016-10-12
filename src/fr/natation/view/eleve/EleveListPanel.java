@@ -2,6 +2,7 @@ package fr.natation.view.eleve;
 
 import java.awt.BorderLayout;
 import java.awt.Desktop;
+import java.awt.Dialog;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,6 +14,7 @@ import java.util.List;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -27,18 +29,22 @@ import fr.natation.view.ButtonColumn;
 import fr.natation.view.ButtonFactory;
 import fr.natation.view.Icon;
 import fr.natation.view.ListPanel;
+import fr.natation.view.NatationFrame;
 
 public class EleveListPanel extends ListPanel {
 
-    private static final long serialVersionUID = 1L;
+    private final static long serialVersionUID = 1L;
+    private final static Logger LOGGER = Logger.getLogger(EleveListPanel.class.getName());
 
     private final List<IEleveSelectListener> listeners = new ArrayList<IEleveSelectListener>();
 
     private JButton pdfButton;
     private JButton exportButton;
+    private JButton addEleveButton;
     private Action viewAction;
 
-    private final static Logger LOGGER = Logger.getLogger(EleveListPanel.class.getName());
+    private EleveAddPanel addPanel;
+    private JDialog dialog;
 
     public EleveListPanel() throws Exception {
         super("Liste des élèves");
@@ -52,9 +58,10 @@ public class EleveListPanel extends ListPanel {
         panelButton.setLayout(new GridLayout(1, 5));
         this.pdfButton = ButtonFactory.createPdfButton("Créer les diplomes de tous les élèves");
         this.exportButton = ButtonFactory.createExcelButton();
+        this.addEleveButton = ButtonFactory.createAddButton("Ajouter un élève");
+        panelButton.add(this.addEleveButton);
         panelButton.add(this.pdfButton);
         panelButton.add(this.exportButton);
-        panelButton.add(new JLabel());
         panelButton.add(new JLabel());
 
         this.add(panelButton, BorderLayout.SOUTH);
@@ -70,6 +77,13 @@ public class EleveListPanel extends ListPanel {
             @Override
             public void actionPerformed(ActionEvent event) {
                 EleveListPanel.this.onExportButton();
+            }
+        });
+
+        this.addEleveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                EleveListPanel.this.onAddEleveButton();
             }
         });
 
@@ -166,7 +180,30 @@ public class EleveListPanel extends ListPanel {
         }
     }
 
+    private void onAddEleveButton() {
+        this.getDialog().setVisible(true);
+    }
+
     public void addListener(IEleveSelectListener listener) {
         this.listeners.add(listener);
     }
+
+    public void setEleveAddPanel(EleveAddPanel addPanel) {
+        this.addPanel = addPanel;
+    }
+
+    private JDialog getDialog() {
+        if (this.dialog == null) {
+            this.dialog = new JDialog(NatationFrame.FRAME, "", Dialog.ModalityType.DOCUMENT_MODAL);
+            this.dialog.setIconImage(Icon.Add.getImage().getImage());
+            this.addPanel.setDialog(this.dialog);
+            this.dialog.add(this.addPanel);
+            this.dialog.pack();
+            this.dialog.setResizable(false);
+            this.dialog.setLocationRelativeTo(NatationFrame.FRAME);
+            this.dialog.setTitle("Ajouter un élève");
+        }
+        return this.dialog;
+    }
+
 }

@@ -17,7 +17,8 @@ public class EleveListTabPanel extends JPanel implements IRefreshListener {
         this.setLayout(new BorderLayout());
         this.add(new GroupePanel(), BorderLayout.PAGE_START);
         this.add(this.listPanel, BorderLayout.CENTER);
-        this.add(this.addPanel, BorderLayout.PAGE_END);
+
+        this.listPanel.setEleveAddPanel(this.addPanel);
         this.addPanel.addListener(this.listPanel);
     }
 

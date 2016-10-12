@@ -9,7 +9,6 @@ import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
 
-import fr.natation.Utils;
 import fr.natation.service.AptitudeService;
 import fr.natation.view.ButtonColumn;
 import fr.natation.view.ListPanel;
@@ -65,7 +64,7 @@ public class AptitudeListPanel extends ListPanel {
             }
         };
 
-        new ButtonColumn(this.table, delete, AptitudeTableModel.COLUMN_ACTION, Utils.getExternalImage("img/delete.png"), null);
+        new ButtonColumn(this.table, delete, AptitudeTableModel.COLUMN_ACTION, fr.natation.view.Icon.Delete.getImage(), null);
 
         this.setColumnWidth(AptitudeTableModel.COLUMN_SCORE, 50);
         this.setColumnWidth(AptitudeTableModel.COLUMN_NIVEAU, 100);
@@ -74,6 +73,7 @@ public class AptitudeListPanel extends ListPanel {
         this.setColumnWidth(AptitudeTableModel.COLUMN_ACTION, 60);
 
         this.table.setRowHeight(AptitudeTableModel.ROW_HEIGHT);
+
         this.hideColumn(AptitudeTableModel.COLUMN_ID);
 
     }

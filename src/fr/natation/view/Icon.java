@@ -20,6 +20,7 @@ public enum Icon {
     View(Utils.getExternalImage("img/view.png")),
     Liste(Utils.getExternalImage("img/liste.png")),
     Exit(Utils.getExternalImage("img/exit.png")),
+    Add(Utils.getExternalImage("img/plus.png")),
     SaveBackup(Utils.getExternalImage("img/save-backup.png")),
     LoadBackup(Utils.getExternalImage("img/load-backup.png"));
 

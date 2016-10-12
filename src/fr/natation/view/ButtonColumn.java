@@ -137,7 +137,7 @@ public class ButtonColumn extends AbstractCellEditor implements TableCellRendere
         panel.setBackground(Color.WHITE);
         panel.add(this.editButton);
 
-        if (this.visibilityManager != null || this.visibilityManager.isVisible(row)) {
+        if (this.visibilityManager == null || this.visibilityManager.isVisible(row)) {
             panel.add(this.editButton);
         }
         return panel;
