@@ -24,6 +24,10 @@ public class ButtonFactory {
         return new JButton("Supprimer", Icon.Delete.getImage());
     }
 
+    public static JButton createCancelButton(String text) {
+        return new JButton(text, Icon.Cancel.getImage());
+    }
+
     public static JButton createPdfButton(String text) {
         return new JButton(text, Icon.Pdf.getImage());
     }

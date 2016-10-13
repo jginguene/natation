@@ -17,7 +17,7 @@ public class GroupeListTabPanel extends JPanel implements IRefreshListener {
 
         this.setLayout(new BorderLayout());
         this.add(this.listPanel, BorderLayout.CENTER);
-        this.add(this.addPanel, BorderLayout.PAGE_END);
+        this.listPanel.setGroupeAddPanel(this.addPanel);
 
         this.addPanel.addListener(this.listPanel);
     }

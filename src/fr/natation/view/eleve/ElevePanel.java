@@ -33,7 +33,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
 
     private final JButton updateButton = ButtonFactory.createUpdateButton();
     private final JButton pdfButton = ButtonFactory.createPdfButton("Créer le diplome de l'élève");
-    private final JButton cancelButton = ButtonFactory.createCancelButton();
+    private final JButton cancelButton = ButtonFactory.createCancelButton("Annuler les modifications");
     private final JButton deleteButton = ButtonFactory.createDeleteButton();
 
     private Eleve eleve;
@@ -133,10 +133,8 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
     }
 
     private void onCancelButton() {
-
         this.editPanel.onChange(this.eleve, this);
         this.aptitudePanel.onChange(this.eleve, this);
-
     }
 
     private void onPdfButton() {

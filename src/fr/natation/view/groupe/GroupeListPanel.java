@@ -1,11 +1,18 @@
 package fr.natation.view.groupe;
 
+import java.awt.BorderLayout;
+import java.awt.Dialog;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableCellRenderer;
 
@@ -13,9 +20,11 @@ import org.apache.log4j.Logger;
 
 import fr.natation.service.GroupeService;
 import fr.natation.view.ButtonColumn;
+import fr.natation.view.ButtonFactory;
 import fr.natation.view.IVisibilityManager;
 import fr.natation.view.Icon;
 import fr.natation.view.ListPanel;
+import fr.natation.view.NatationFrame;
 import fr.natation.view.eleve.EleveListPanel;
 
 public class GroupeListPanel extends ListPanel {
@@ -24,9 +33,36 @@ public class GroupeListPanel extends ListPanel {
 
     private final static Logger LOGGER = Logger.getLogger(EleveListPanel.class.getName());
 
+    private JButton addGroupeButton;
+
+    private JDialog dialog;
+    private GroupeAddPanel addPanel;
+
     public GroupeListPanel() throws Exception {
         super("Liste des groupes");
 
+    }
+
+    @Override
+    protected void init(String title) throws Exception {
+        super.init(title);
+
+        JPanel panelButton = new JPanel();
+        panelButton.setLayout(new GridLayout(1, 5));
+        this.addGroupeButton = ButtonFactory.createAddButton("Ajouter un groupe");
+        panelButton.add(this.addGroupeButton);
+        panelButton.add(new JLabel());
+        panelButton.add(new JLabel());
+        panelButton.add(new JLabel());
+
+        this.add(panelButton, BorderLayout.SOUTH);
+
+        this.addGroupeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                GroupeListPanel.this.onAddGroupeButton();
+            }
+        });
     }
 
     @Override
@@ -94,4 +130,27 @@ public class GroupeListPanel extends ListPanel {
         this.table.getColumnModel().getColumn(GroupeTableModel.COLUMN_NOM).setCellRenderer(renderer);
 
     }
+
+    private void onAddGroupeButton() {
+        this.getDialog().setVisible(true);
+    }
+
+    public void setGroupeAddPanel(GroupeAddPanel addPanel) {
+        this.addPanel = addPanel;
+    }
+
+    private JDialog getDialog() {
+        if (this.dialog == null) {
+            this.dialog = new JDialog(NatationFrame.FRAME, "", Dialog.ModalityType.DOCUMENT_MODAL);
+            this.dialog.setIconImage(Icon.Add.getImage().getImage());
+            this.addPanel.setDialog(this.dialog);
+            this.dialog.add(this.addPanel);
+            this.dialog.pack();
+            this.dialog.setResizable(false);
+            this.dialog.setLocationRelativeTo(NatationFrame.FRAME);
+            this.dialog.setTitle("Ajouter un groupe");
+        }
+        return this.dialog;
+    }
+
 }

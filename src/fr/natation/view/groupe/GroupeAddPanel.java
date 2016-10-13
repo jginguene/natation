@@ -7,6 +7,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -34,13 +35,15 @@ public class GroupeAddPanel extends JPanel implements IRefreshListener {
     private final JTextField inputDescription = new JTextField(40);
 
     private final JButton addButton = ButtonFactory.createCreateButton();;
+    private final JButton cancelButton = ButtonFactory.createCancelButton();
 
     private IRefreshListener listener;
+
+    private JDialog dialog;
 
     public GroupeAddPanel() throws Exception {
 
         this.setBorder(BorderFactory.createTitledBorder("Ajouter un groupe"));
-        this.refreshGroupes();
 
         JPanel panel = new JPanel();
         this.setLayout(new BorderLayout());
@@ -58,13 +61,20 @@ public class GroupeAddPanel extends JPanel implements IRefreshListener {
         panel.add(this.inputDescription, GridBagConstraintsFactory.create(1, y, 2, 1));
         y++;
 
-        panel.add(this.addButton, GridBagConstraintsFactory.create(0, y, 2, 1));
+        panel.add(this.cancelButton, GridBagConstraintsFactory.create(0, y, 1, 1));
+        panel.add(this.addButton, GridBagConstraintsFactory.create(1, y, 1, 1));
 
         this.addButton.addActionListener(new ActionListener() {
-
             @Override
             public void actionPerformed(ActionEvent event) {
                 GroupeAddPanel.this.onAddButton();
+            }
+        });
+
+        this.cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                GroupeAddPanel.this.onCancelButton();
             }
         });
 
@@ -100,29 +110,34 @@ public class GroupeAddPanel extends JPanel implements IRefreshListener {
                 this.inputNom.setText("");
                 this.inputDescription.setText("");
 
-                this.refreshGroupes();
-
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "L'ajout a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
                 LOGGER.error("L'ajout a échoué", e);
+            } finally {
+                if (this.dialog != null) {
+                    this.dialog.dispose();
+                }
             }
-        }
-    }
 
-    private void refreshGroupes() throws Exception {
-        // List<Groupe> groupes = GroupeService.getAll();
-        // GroupeComboboxModel model = new GroupeComboboxModel(groupes);
-        // this.inputGroupe.setModel(model);
+        }
     }
 
     public void addListener(IRefreshListener listener) {
         this.listener = listener;
     }
 
+    public void onCancelButton() {
+        if (this.dialog != null) {
+            this.dialog.dispose();
+        }
+    }
+
     @Override
     public void refresh() throws Exception {
-        // TODO Auto-generated method stub
+    }
 
+    public void setDialog(JDialog dialog) {
+        this.dialog = dialog;
     }
 
 }

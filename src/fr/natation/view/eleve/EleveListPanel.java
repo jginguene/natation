@@ -180,16 +180,16 @@ public class EleveListPanel extends ListPanel {
         }
     }
 
-    private void onAddEleveButton() {
-        this.getDialog().setVisible(true);
-    }
-
     public void addListener(IEleveSelectListener listener) {
         this.listeners.add(listener);
     }
 
     public void setEleveAddPanel(EleveAddPanel addPanel) {
         this.addPanel = addPanel;
+    }
+
+    private void onAddEleveButton() {
+        this.getDialog().setVisible(true);
     }
 
     private JDialog getDialog() {
