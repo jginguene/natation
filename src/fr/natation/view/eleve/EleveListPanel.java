@@ -138,10 +138,15 @@ public class EleveListPanel extends ListPanel {
 
         DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
         renderer.setVerticalAlignment(JLabel.CENTER);
-        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_ID).setCellRenderer(renderer);
-        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_GROUPE).setCellRenderer(renderer);
         this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_NOM).setCellRenderer(renderer);
         this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_PRENOM).setCellRenderer(renderer);
+
+        renderer = new DefaultTableCellRenderer();
+        renderer.setVerticalAlignment(JLabel.CENTER);
+        renderer.setHorizontalAlignment(JLabel.CENTER);
+        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_ID).setCellRenderer(renderer);
+        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_GROUPE).setCellRenderer(renderer);
+
         this.setRowHeight(28);
 
     }
