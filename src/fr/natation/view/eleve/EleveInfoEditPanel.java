@@ -105,6 +105,7 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
 
             try {
                 this.inputGroupe.setSelectedItem(newEleve.getGroupe());
+                this.inputGroupe.repaint();
             } catch (Exception e) {
                 e.printStackTrace();
             }
