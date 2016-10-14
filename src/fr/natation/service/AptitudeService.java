@@ -22,6 +22,8 @@ public class AptitudeService {
 
     private static String INSERT = "insert into aptitude (description, niveau_id, type_id) values (?,?,?)";
     private static String INSERT_ELEVE = "insert into eleve_aptitude_r (eleve_id, aptitude_id) values (?,?)";
+    private static String INSERT_CAPACITE = "insert into capacite_aptitude_r (capacite_id, aptitude_id) values (?,?)";
+
     private static String REMOVE_ELEVE = "delete from eleve_aptitude_r where eleve_id=?";
 
     private static String UPDATE = "update aptitude set description=?, niveau_id=? , type_id=?, capacite_id=?  where  id = ?";
@@ -175,6 +177,21 @@ public class AptitudeService {
 
     }
 
+    public static void addCapacite(int aptitudeId, int capaciteId) throws Exception {
+        Connection connection = ConnectionFactory.createConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(INSERT_CAPACITE);
+            statement.setInt(1, capaciteId);
+            statement.setInt(2, aptitudeId);
+            statement.executeUpdate();
+        } catch (Exception e) {
+            throw new Exception("add(" + aptitudeId + "; " + capaciteId + ") failed", e);
+        } finally {
+            connection.close();
+        }
+
+    }
+
     public static void removeAll(Eleve eleve) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
@@ -214,4 +231,5 @@ public class AptitudeService {
         aptitude.setScore(res.getInt("score"));
         return aptitude;
     }
+
 }

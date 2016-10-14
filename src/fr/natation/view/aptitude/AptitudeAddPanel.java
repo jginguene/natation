@@ -4,10 +4,13 @@ import java.awt.BorderLayout;
 import java.awt.GridBagLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -47,7 +50,10 @@ public class AptitudeAddPanel extends JPanel implements IRefreshListener {
     private final JComboBox<TypeAptitude> inputType = new JComboBox<TypeAptitude>();
     private final JComboBox<Capacite> inputCapacite = new JComboBox<Capacite>();
 
-    private final JButton addButton = ButtonFactory.createCreateButton();;
+    private final JButton addButton = ButtonFactory.createCreateButton();
+    private final JButton cancelButton = ButtonFactory.createCancelButton();
+
+    private JDialog dialog;
 
     private IRefreshListener listener;
 
@@ -84,12 +90,20 @@ public class AptitudeAddPanel extends JPanel implements IRefreshListener {
         panel.add(this.inputCapacite, GridBagConstraintsFactory.create(1, y, 1, 1));
         y++;
 
-        panel.add(this.addButton, GridBagConstraintsFactory.create(0, y, 2, 1));
+        panel.add(this.cancelButton, GridBagConstraintsFactory.create(0, y, 1, 1));
+        panel.add(this.addButton, GridBagConstraintsFactory.create(1, y, 1, 1));
 
         this.addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 AptitudeAddPanel.this.onAddButton();
+            }
+        });
+
+        this.cancelButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                AptitudeAddPanel.this.onCancelButton();
             }
         });
 
@@ -118,10 +132,6 @@ public class AptitudeAddPanel extends JPanel implements IRefreshListener {
                 aptitude.setDescription(this.inputDescription.getText());
 
                 Capacite selectedCapacite = (Capacite) this.inputCapacite.getSelectedItem();
-                /*
-                 * if (selectedCapacite != null) {
-                 * aptitude.setCapaciteId(selectedCapacite.getId()); }
-                 */
 
                 Niveau selectedNiveau = (Niveau) this.inputNiveau.getSelectedItem();
                 if (selectedNiveau != null) {
@@ -133,7 +143,16 @@ public class AptitudeAddPanel extends JPanel implements IRefreshListener {
                     aptitude.setTypeId(selectedType.getId());
                 }
 
-                AptitudeService.create(aptitude);
+                Integer selectScore = (Integer) this.inputScore.getSelectedItem();
+                if (selectScore != null) {
+                    aptitude.setScore(selectScore);
+                }
+
+                int aptitudeId = AptitudeService.create(aptitude);
+
+                if (selectedCapacite != null) {
+                    AptitudeService.addCapacite(aptitudeId, selectedCapacite.getId());
+                }
 
                 this.listener.refresh();
 
@@ -145,6 +164,10 @@ public class AptitudeAddPanel extends JPanel implements IRefreshListener {
             } catch (Exception e) {
                 JOptionPane.showMessageDialog(null, "L'ajout a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
                 LOGGER.error("L'ajout a échoué", e);
+            } finally {
+                if (this.dialog != null) {
+                    this.dialog.dispose();
+                }
             }
         }
     }
@@ -157,12 +180,32 @@ public class AptitudeAddPanel extends JPanel implements IRefreshListener {
     public void refresh() throws Exception {
         CustomComboBoxModel<TypeAptitude> modelType = new CustomComboBoxModel<TypeAptitude>(TypeAptitudeService.getAll());
         this.inputType.setModel(modelType);
+        this.inputType.setSelectedIndex(1);
 
         CustomComboBoxModel<Niveau> modelNiveau = new CustomComboBoxModel<Niveau>(NiveauService.getAll());
         this.inputNiveau.setModel(modelNiveau);
+        this.inputNiveau.setSelectedIndex(1);
 
         CustomComboBoxModel<Capacite> modelCapacite = new CustomComboBoxModel<Capacite>(CapaciteService.getAll());
         this.inputCapacite.setModel(modelCapacite);
 
+        List<Integer> scores = new ArrayList<Integer>();
+        for (int i = 1; i <= 10; i++) {
+            scores.add(i);
+        }
+
+        CustomComboBoxModel<Integer> modelScore = new CustomComboBoxModel<Integer>(scores);
+        this.inputScore.setModel(modelScore);
+        this.inputScore.setSelectedIndex(1);
+    }
+
+    public void onCancelButton() {
+        if (this.dialog != null) {
+            this.dialog.dispose();
+        }
+    }
+
+    public void setDialog(JDialog dialog) {
+        this.dialog = dialog;
     }
 }
