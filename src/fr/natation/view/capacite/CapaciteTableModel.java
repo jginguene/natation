@@ -7,8 +7,8 @@ import javax.swing.table.AbstractTableModel;
 
 import org.apache.log4j.Logger;
 
-import fr.natation.model.Aptitude;
 import fr.natation.model.Capacite;
+import fr.natation.model.Competence;
 import fr.natation.view.ViewUtils;
 
 public class CapaciteTableModel extends AbstractTableModel {
@@ -81,8 +81,8 @@ public class CapaciteTableModel extends AbstractTableModel {
 
     private String getAptitudesAsString(Capacite Capacite) throws Exception {
         String ret = "";
-        for (Aptitude aptitude : Capacite.getAptitudes()) {
-            ret += "[Niveau " + aptitude.getNiveauNom() + "] [" + aptitude.getTypeNom() + "] " + aptitude.getDescription() + "\n";
+        for (Competence competence : Capacite.getAptitudes()) {
+            ret += "[Niveau " + competence.getNiveauNom() + "] [" + competence.getDomaineNom() + "] " + competence.getDescription() + "\n";
         }
         return ret;
     }

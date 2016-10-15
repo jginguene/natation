@@ -1,44 +1,38 @@
-package fr.natation.view.aptitude;
+package fr.natation.view.competence;
 
-import java.awt.BorderLayout;
 import java.awt.Dialog;
-import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import javax.swing.JButton;
 import javax.swing.JDialog;
-import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTable;
 
 import org.apache.log4j.Logger;
 
-import fr.natation.service.AptitudeService;
+import fr.natation.service.CompetenceService;
 import fr.natation.view.ButtonColumn;
-import fr.natation.view.ButtonFactory;
 import fr.natation.view.Icon;
 import fr.natation.view.ListPanel;
 import fr.natation.view.NatationFrame;
 
-public class AptitudeListPanel extends ListPanel {
+public class CompetenceListPanel extends ListPanel {
 
     private static final long serialVersionUID = 1L;
 
-    private final static Logger LOGGER = Logger.getLogger(AptitudeListPanel.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(CompetenceListPanel.class.getName());
 
     public static int ROW_HEIGHT = 25;
 
     private JButton addAptitudeButton;
 
-    private AptitudeAddPanel addPanel;
+    private CompetenceAddPanel addPanel;
 
     private JDialog dialog;
 
-    public AptitudeListPanel() throws Exception {
+    public CompetenceListPanel() throws Exception {
         super("Liste des aptitudes");
     }
 
@@ -46,28 +40,28 @@ public class AptitudeListPanel extends ListPanel {
     protected void init(String title) throws Exception {
         super.init(title);
 
-        JPanel panelButton = new JPanel();
+        /* JPanel panelButton = new JPanel();
         panelButton.setLayout(new GridLayout(1, 5));
         this.addAptitudeButton = ButtonFactory.createAddButton("Ajouter une aptitude");
         panelButton.add(this.addAptitudeButton);
         panelButton.add(new JLabel());
         panelButton.add(new JLabel());
         panelButton.add(new JLabel());
-
+        
         this.add(panelButton, BorderLayout.SOUTH);
-
+        
         this.addAptitudeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
                 AptitudeListPanel.this.onAddAptitudeButton();
             }
-        });
+        });*/
     }
 
     @Override
     public void refresh() throws Exception {
 
-        AptitudeTableModel model = new AptitudeTableModel(AptitudeService.getAll());
+        CompetenceTableModel model = new CompetenceTableModel(CompetenceService.getAll());
         this.table.setModel(model);
 
         Action delete = new AbstractAction() {
@@ -79,21 +73,21 @@ public class AptitudeListPanel extends ListPanel {
                 table.getSelectedRow();
 
                 int modelRow = Integer.valueOf(e.getActionCommand());
-                AptitudeTableModel model = (AptitudeTableModel) table.getModel();
-                Integer id = (Integer) (model).getValueAt(modelRow, AptitudeTableModel.COLUMN_ID);
+                CompetenceTableModel model = (CompetenceTableModel) table.getModel();
+                Integer id = (Integer) (model).getValueAt(modelRow, CompetenceTableModel.COLUMN_ID);
 
                 int answer = JOptionPane.showConfirmDialog(
                         null,
                         "Voulez vous supprimer l'aptitude "
-                                + model.getValueAt(modelRow, AptitudeTableModel.COLUMN_DESC)
+                                + model.getValueAt(modelRow, CompetenceTableModel.COLUMN_DESC)
                                 + " de l'application?",
                         "Confirmation",
                         JOptionPane.YES_NO_OPTION);
 
                 if (answer == JOptionPane.YES_OPTION) {
                     try {
-                        AptitudeService.delete(id.intValue());
-                        AptitudeListPanel.this.refresh();
+                        CompetenceService.delete(id.intValue());
+                        CompetenceListPanel.this.refresh();
 
                     } catch (Exception e1) {
                         JOptionPane.showMessageDialog(null, "La suppression a échouée", "Erreur", JOptionPane.ERROR_MESSAGE);
@@ -103,17 +97,17 @@ public class AptitudeListPanel extends ListPanel {
             }
         };
 
-        new ButtonColumn(this.table, delete, AptitudeTableModel.COLUMN_ACTION, fr.natation.view.Icon.Delete.getImage(), null);
+        new ButtonColumn(this.table, delete, CompetenceTableModel.COLUMN_ACTION, fr.natation.view.Icon.Delete.getImage(), null);
 
-        this.setColumnWidth(AptitudeTableModel.COLUMN_SCORE, 50);
-        this.setColumnWidth(AptitudeTableModel.COLUMN_NIVEAU, 100);
-        this.setColumnWidth(AptitudeTableModel.COLUMN_TYPE, 100);
-        this.setColumnWidth(AptitudeTableModel.COLUMN_CAPACITE, 80);
-        this.setColumnWidth(AptitudeTableModel.COLUMN_ACTION, 60);
+        this.setColumnWidth(CompetenceTableModel.COLUMN_NUM, 50);
+        this.setColumnWidth(CompetenceTableModel.COLUMN_NIVEAU, 100);
+        this.setColumnWidth(CompetenceTableModel.COLUMN_DOMAINE, 100);
+        this.setColumnWidth(CompetenceTableModel.COLUMN_CAPACITE, 80);
+        this.setColumnWidth(CompetenceTableModel.COLUMN_ACTION, 60);
 
-        this.table.setRowHeight(AptitudeTableModel.ROW_HEIGHT);
+        this.table.setRowHeight(CompetenceTableModel.ROW_HEIGHT);
 
-        this.hideColumn(AptitudeTableModel.COLUMN_ID);
+        this.hideColumn(CompetenceTableModel.COLUMN_ID);
 
     }
 
@@ -121,7 +115,7 @@ public class AptitudeListPanel extends ListPanel {
         this.getDialog().setVisible(true);
     }
 
-    public void setAptitudeAddPanel(AptitudeAddPanel addPanel) {
+    public void setAptitudeAddPanel(CompetenceAddPanel addPanel) {
         this.addPanel = addPanel;
     }
 

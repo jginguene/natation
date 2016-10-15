@@ -56,7 +56,7 @@ public class EleveListPanel extends ListPanel {
 
         JPanel panelButton = new JPanel();
         panelButton.setLayout(new GridLayout(1, 5));
-        this.pdfButton = ButtonFactory.createPdfButton("Créer les diplomes de tous les élèves");
+        this.pdfButton = ButtonFactory.createPdfButton("Créer les bilans de tous les élèves");
         this.exportButton = ButtonFactory.createExcelButton();
         this.addEleveButton = ButtonFactory.createAddButton("Ajouter un élève");
         panelButton.add(this.addEleveButton);
@@ -146,6 +146,7 @@ public class EleveListPanel extends ListPanel {
         renderer.setHorizontalAlignment(JLabel.CENTER);
         this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_ID).setCellRenderer(renderer);
         this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_GROUPE).setCellRenderer(renderer);
+        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_CLASSE).setCellRenderer(renderer);
 
         this.setRowHeight(28);
 

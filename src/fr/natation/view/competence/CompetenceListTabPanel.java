@@ -1,4 +1,4 @@
-package fr.natation.view.aptitude;
+package fr.natation.view.competence;
 
 import java.awt.BorderLayout;
 
@@ -6,13 +6,13 @@ import javax.swing.JPanel;
 
 import fr.natation.view.IRefreshListener;
 
-public class AptitudeListTabPanel extends JPanel implements IRefreshListener {
+public class CompetenceListTabPanel extends JPanel implements IRefreshListener {
 
     private static final long serialVersionUID = 1L;
-    private final AptitudeListPanel listPanel = new AptitudeListPanel();
-    private final AptitudeAddPanel addPanel = new AptitudeAddPanel();
+    private final CompetenceListPanel listPanel = new CompetenceListPanel();
+    private final CompetenceAddPanel addPanel = new CompetenceAddPanel();
 
-    public AptitudeListTabPanel() throws Exception {
+    public CompetenceListTabPanel() throws Exception {
         this.setLayout(new BorderLayout());
         this.add(this.listPanel, BorderLayout.CENTER);
         this.listPanel.setAptitudeAddPanel(this.addPanel);

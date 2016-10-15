@@ -15,8 +15,8 @@ import fr.natation.model.Eleve;
 
 public class EleveService {
 
-    private static String INSERT = "insert into Eleve (Nom, Prenom, groupe_id) values (?,?,?)";
-    private static String UPDATE = "update Eleve set Nom=?, Prenom=? , groupe_id=? where  id = ?";
+    private static String INSERT = "insert into Eleve (Nom, Prenom, groupe_id, classe_id) values (?,?,?,?)";
+    private static String UPDATE = "update Eleve set Nom=?, Prenom=? , groupe_id=?, classe_id=? where  id = ?";
     private static String DELETE = "delete from Eleve  where  id = ?";
     private static String GET_ALL = "select * from Eleve";
     private static String GET = "select * from Eleve where id=?";
@@ -65,6 +65,7 @@ public class EleveService {
             statement.setString(1, eleve.getNom().trim().toLowerCase());
             statement.setString(2, eleve.getPrenom().trim().toLowerCase());
             statement.setInt(3, eleve.getGroupeId());
+            statement.setInt(4, eleve.getClasseId());
             statement.execute();
 
             statement = connection.prepareStatement(LAST_ID);
@@ -122,7 +123,8 @@ public class EleveService {
             statement.setString(1, eleve.getNom());
             statement.setString(2, eleve.getPrenom());
             statement.setInt(3, eleve.getGroupeId());
-            statement.setInt(4, eleve.getId());
+            statement.setInt(4, eleve.getClasseId());
+            statement.setInt(5, eleve.getId());
             statement.executeUpdate();
 
         } catch (Exception e) {
@@ -139,6 +141,7 @@ public class EleveService {
         eleve.setNom(Utils.capitalize(res.getString("Nom")));
         eleve.setPrenom(Utils.capitalize(res.getString("Prenom")));
         eleve.setGroupeId(res.getInt("Groupe_Id"));
+        eleve.setClasseId(res.getInt("classe_Id"));
         return eleve;
 
     }

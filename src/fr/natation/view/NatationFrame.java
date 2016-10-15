@@ -16,8 +16,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import org.apache.log4j.Logger;
 
 import fr.natation.model.Eleve;
-import fr.natation.view.aptitude.AptitudeListTabPanel;
 import fr.natation.view.capacite.CapaciteTabPanel;
+import fr.natation.view.competence.CompetenceListTabPanel;
 import fr.natation.view.eleve.EleveListTabPanel;
 import fr.natation.view.eleve.EleveTabPanel;
 import fr.natation.view.eleve.IEleveSelectListener;
@@ -40,7 +40,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
     private final EleveListTabPanel eleveListTabPanel = new EleveListTabPanel();
     private final EleveTabPanel eleveTabPanel = new EleveTabPanel();
     private final GroupeListTabPanel groupeListTabPanel = new GroupeListTabPanel();
-    private final AptitudeListTabPanel aptitudeListTabPanel = new AptitudeListTabPanel();
+    private final CompetenceListTabPanel aptitudeListTabPanel = new CompetenceListTabPanel();
     private final CapaciteTabPanel capaciteListTabPanel = new CapaciteTabPanel();
 
     private final NatationMenu menu;
@@ -48,7 +48,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
     private final JTabbedPane tabbedPane = new JTabbedPane();
 
     public NatationFrame() throws Exception {
-        super("Natation");
+        super("Passeport pour le natation");
         FRAME = this;
 
         this.setIconImage(Icon.Application.getImage().getImage());

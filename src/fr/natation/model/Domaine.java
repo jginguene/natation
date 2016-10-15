@@ -1,6 +1,6 @@
 package fr.natation.model;
 
-public class TypeAptitude {
+public class Domaine {
 
     private int id;
     private String nom;

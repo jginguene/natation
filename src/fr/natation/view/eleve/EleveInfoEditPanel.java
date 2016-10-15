@@ -1,6 +1,5 @@
 package fr.natation.view.eleve;
 
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 
@@ -12,8 +11,10 @@ import javax.swing.JTextField;
 
 import org.apache.log4j.Logger;
 
+import fr.natation.model.Classe;
 import fr.natation.model.Eleve;
 import fr.natation.model.Groupe;
+import fr.natation.service.ClasseService;
 import fr.natation.service.GroupeService;
 import fr.natation.view.CustomComboBoxModel;
 import fr.natation.view.IRefreshListener;
@@ -24,13 +25,15 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
 
     private final static Logger LOGGER = Logger.getLogger(EleveInfoEditPanel.class.getName());
 
-    private final JLabel labelNom = new JLabel("Nom:");
-    private final JLabel labelPrenom = new JLabel("Prénom:");
-    private final JLabel labelGroupe = new JLabel("Groupe");
+    private final JLabel labelNom = new JLabel("Nom: ");
+    private final JLabel labelPrenom = new JLabel("Prénom: ");
+    private final JLabel labelGroupe = new JLabel("Groupe: ");
+    private final JLabel labelClasse = new JLabel("Classe: ");
 
     private final JTextField inputNom = new JTextField(20);
     private final JTextField inputPrenom = new JTextField(20);
     private final JComboBox<Groupe> inputGroupe = new JComboBox<Groupe>();
+    private final JComboBox<Classe> inputClasse = new JComboBox<Classe>();
 
     private Eleve eleve;
 
@@ -41,7 +44,7 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
         this.setLayout(new GridBagLayout());
 
         JPanel panel = new JPanel();
-        panel.setPreferredSize(new Dimension(100, 50));
+        //this.setPreferredSize(new Dimension(100, 200));
 
         GridBagConstraints constraint = new GridBagConstraints();
         constraint.anchor = GridBagConstraints.NORTHWEST;
@@ -76,6 +79,13 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
         constraint.gridx = 1;
         panel.add(this.inputGroupe, constraint);
 
+        constraint.gridy++;
+        constraint.gridx = 0;
+        panel.add(this.labelClasse, constraint);
+
+        constraint.gridx = 1;
+        panel.add(this.inputClasse, constraint);
+
         this.setVisible(true);
 
     }
@@ -85,9 +95,13 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
         CustomComboBoxModel<Groupe> modelGroupe = new CustomComboBoxModel<Groupe>(GroupeService.getAll());
         this.inputGroupe.setModel(modelGroupe);
 
+        CustomComboBoxModel<Classe> modelClasse = new CustomComboBoxModel<Classe>(ClasseService.getAll());
+        this.inputClasse.setModel(modelClasse);
+
         if (this.eleve != null) {
             try {
                 this.inputGroupe.setSelectedItem(this.eleve.getGroupe());
+                this.inputClasse.setSelectedItem(this.eleve.getClasse());
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -106,6 +120,9 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
             try {
                 this.inputGroupe.setSelectedItem(newEleve.getGroupe());
                 this.inputGroupe.repaint();
+
+                this.inputClasse.setSelectedItem(newEleve.getClasse());
+                this.inputClasse.repaint();
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -119,6 +136,10 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
         Groupe groupe = ((Groupe) this.inputGroupe.getSelectedItem());
         if (groupe != null) {
             eleve.setGroupeId(groupe.getId());
+        }
+        Classe classe = ((Classe) this.inputClasse.getSelectedItem());
+        if (classe != null) {
+            eleve.setClasseId(classe.getId());
         }
     }
 

@@ -1,12 +1,16 @@
+
 package fr.natation.model;
 
-import fr.natation.service.AptitudeService;
+import fr.natation.service.ClasseService;
+import fr.natation.service.CompetenceService;
 import fr.natation.service.GroupeService;
 
 public class Eleve {
 
     private String nom;
     private String prenom;
+    private int classeId;
+
     private int groupeId;
     private int id;
 
@@ -42,10 +46,35 @@ public class Eleve {
         }
     }
 
+    public Classe getClasse() throws Exception {
+        if (this.classeId > 0) {
+            return ClasseService.get(this.classeId);
+        } else {
+            return null;
+        }
+    }
+
     public String getGroupeNom() throws Exception {
         Groupe groupe = this.getGroupe();
         if (groupe != null) {
             return groupe.getNom();
+        } else {
+            return "";
+        }
+    }
+
+    public int getClasseId() {
+        return this.classeId;
+    }
+
+    public void setClasseId(int classeId) {
+        this.classeId = classeId;
+    }
+
+    public String getClasseNom() throws Exception {
+        Classe classe = this.getClasse();
+        if (classe != null) {
+            return classe.getNom();
         } else {
             return "";
         }
@@ -64,8 +93,8 @@ public class Eleve {
         return this.prenom + " " + this.nom;// Utils.toString(this);
     }
 
-    public Aptitude getAptitude(Niveau niveau, TypeAptitude type) throws Exception {
-        return AptitudeService.get(this, niveau, type);
+    public Competence getCompetence(Niveau niveau, Domaine type) throws Exception {
+        return CompetenceService.get(this, niveau, type);
     }
 
 }

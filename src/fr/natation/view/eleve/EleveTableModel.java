@@ -18,15 +18,16 @@ public class EleveTableModel extends AbstractTableModel {
     public static final int COLUMN_NOM = 1;
     public static final int COLUMN_PRENOM = 2;
     public static final int COLUMN_GROUPE = 3;
-    public static final int COLUMN_ACTION = 4;
+    public static final int COLUMN_CLASSE = 4;
+    public static final int COLUMN_ACTION = 5;
 
     private final static Logger LOGGER = Logger.getLogger(EleveTableModel.class.getName());
     private final List<Eleve> list;
 
-    private final String[] columnNames = new String[] { "Id", "Nom", "Prenom", "Groupe", "Action" };
+    private final String[] columnNames = new String[] { "Id", "Nom", "Prenom", "Groupe", "Classe", "Action" };
 
     @SuppressWarnings("rawtypes")
-    private final Class[] columnClass = new Class[] { Integer.class, String.class, String.class, String.class, String.class };
+    private final Class[] columnClass = new Class[] { Integer.class, String.class, String.class, String.class, String.class, String.class };
 
     public EleveTableModel(List<Eleve> list) {
         this.list = list;
@@ -69,6 +70,9 @@ public class EleveTableModel extends AbstractTableModel {
 
             case COLUMN_GROUPE:
                 return eleve.getGroupeNom();
+
+            case COLUMN_CLASSE:
+                return eleve.getClasseNom();
 
             default:
                 return "";

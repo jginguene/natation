@@ -1,19 +1,19 @@
 package fr.natation.view;
 
-import fr.natation.model.Aptitude;
+import fr.natation.model.Competence;
 
-public class AptitudeComboModel {
+public class CompetenceComboModel {
 
-    private final Aptitude aptitude;
+    private final Competence competence;
 
-    public AptitudeComboModel(Aptitude aptitude) {
-        this.aptitude = aptitude;
+    public CompetenceComboModel(Competence aptitude) {
+        this.competence = aptitude;
     }
 
     @Override
     public String toString() {
         int lineLength = 35;
-        String str = this.aptitude.getScore() + ") " + this.aptitude.getDescription();
+        String str = this.competence.getNum() + ") " + this.competence.getDescription();
         if (str.length() < lineLength) {
             return str;
         } else {
@@ -33,8 +33,8 @@ public class AptitudeComboModel {
         }
     }
 
-    public Aptitude getAptitude() {
-        return this.aptitude;
+    public Competence getAptitude() {
+        return this.competence;
     }
 
 }

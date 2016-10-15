@@ -10,40 +10,40 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import fr.natation.ConnectionFactory;
-import fr.natation.model.TypeAptitude;
+import fr.natation.model.Classe;
 
-public class TypeAptitudeService {
+public class ClasseService {
 
-    private final static Logger LOGGER = Logger.getLogger(TypeAptitudeService.class.getName());
+    private static String GET_ALL = "select * from classe order by id";
+    private static String GET = "select * from classe where id=?";
+    private static String LAST_ID = "select last_insert_rowid()";
 
-    private final static String GET = "select * from type_aptitude where id=?";
-    private final static String GET_ALL = "select * from type_aptitude ";
+    private final static Logger LOGGER = Logger.getLogger(ClasseService.class.getName());
 
-    public static TypeAptitude get(int typeId) throws Exception {
+    public static Classe get(int classeId) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(GET);
-            statement.setInt(1, typeId);
+            statement.setInt(1, classeId);
             ResultSet res = statement.executeQuery();
             if (res.next()) {
                 return convert(res);
+            } else {
+                throw new Exception("La classe " + classeId + " n 'existe pas");
             }
         } catch (Exception e) {
-            throw new Exception("get(" + typeId + ") failed", e);
+            throw new Exception("get() failed", e);
         } finally {
             connection.close();
         }
-
-        throw new Exception("Il n'existe pas de niveau avec l'id " + typeId);
     }
 
-    public static List<TypeAptitude> getAll() throws Exception {
+    public static List<Classe> getAll() throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
-
             PreparedStatement statement = connection.prepareStatement(GET_ALL);
             ResultSet res = statement.executeQuery();
-            List<TypeAptitude> ret = new ArrayList<TypeAptitude>();
+            List<Classe> ret = new ArrayList<Classe>();
             while (res.next()) {
                 ret.add(convert(res));
             }
@@ -55,11 +55,12 @@ public class TypeAptitudeService {
         }
     }
 
-    private static TypeAptitude convert(ResultSet res) throws SQLException {
-        TypeAptitude type = new TypeAptitude();
-        type.setId(res.getInt("id"));
-        type.setNom(res.getString("nom"));
-        return type;
-    }
+    private static Classe convert(ResultSet res) throws SQLException {
+        Classe classe = new Classe();
+        classe.setId(res.getInt("id"));
+        classe.setNom(res.getString("Nom"));
+        classe.setAssnId(res.getInt("assn_id"));
+        return classe;
 
+    }
 }

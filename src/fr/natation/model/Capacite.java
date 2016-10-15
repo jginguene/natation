@@ -2,7 +2,7 @@ package fr.natation.model;
 
 import java.util.List;
 
-import fr.natation.service.AptitudeService;
+import fr.natation.service.CompetenceService;
 
 public class Capacite {
 
@@ -30,8 +30,8 @@ public class Capacite {
         return this.nom;
     }
 
-    public List<Aptitude> getAptitudes() throws Exception {
-        return AptitudeService.get(this);
+    public List<Competence> getAptitudes() throws Exception {
+        return CompetenceService.get(this);
     }
 
 }

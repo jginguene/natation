@@ -15,15 +15,15 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
-import fr.natation.model.Aptitude;
+import fr.natation.model.Competence;
+import fr.natation.model.Domaine;
 import fr.natation.model.Eleve;
 import fr.natation.model.Niveau;
-import fr.natation.model.TypeAptitude;
-import fr.natation.service.AptitudeService;
+import fr.natation.service.CompetenceService;
+import fr.natation.service.DomaineService;
 import fr.natation.service.NiveauService;
-import fr.natation.service.TypeAptitudeService;
-import fr.natation.view.AptitudeComboModel;
 import fr.natation.view.AptitudeSelectionManager;
+import fr.natation.view.CompetenceComboModel;
 
 public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelectListener {
 
@@ -55,12 +55,12 @@ public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelec
             this.add(labelNiveau);
         }
 
-        List<TypeAptitude> types = TypeAptitudeService.getAll();
+        List<Domaine> types = DomaineService.getAll();
 
-        for (TypeAptitude type : types) {
+        for (Domaine type : types) {
             this.add(new JLabel(type.getNom()));
             for (Niveau niveau : niveaux) {
-                JComboBox<AptitudeComboModel> comboBox = this.manager.getComboBox(niveau, type);
+                JComboBox<CompetenceComboModel> comboBox = this.manager.getComboBox(niveau, type);
                 comboBox.setSelectedIndex(0);
 
                 this.add(this.manager.getComboBox(niveau, type));
@@ -88,11 +88,11 @@ public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelec
 
         try {
             List<Niveau> niveaux = NiveauService.getAll();
-            List<TypeAptitude> types = TypeAptitudeService.getAll();
+            List<Domaine> types = DomaineService.getAll();
 
             for (Niveau niveau : niveaux) {
-                for (TypeAptitude type : types) {
-                    JComboBox<AptitudeComboModel> comboBox = this.manager.getComboBox(niveau, type);
+                for (Domaine type : types) {
+                    JComboBox<CompetenceComboModel> comboBox = this.manager.getComboBox(niveau, type);
 
                     comboBox.addItemListener(new ItemListener() {
                         @Override
@@ -101,9 +101,9 @@ public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelec
                         }
                     });
 
-                    Aptitude aptitude = this.eleve.getAptitude(niveau, type);
-                    if (aptitude != null) {
-                        comboBox.setSelectedIndex(aptitude.getScore());
+                    Competence competence = this.eleve.getCompetence(niveau, type);
+                    if (competence != null) {
+                        comboBox.setSelectedIndex(competence.getNum());
                     } else {
                         comboBox.setSelectedIndex(0);
                     }
@@ -122,15 +122,15 @@ public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelec
     public void refreshScore() {
         try {
             List<Niveau> niveaux = NiveauService.getAll();
-            List<TypeAptitude> types = TypeAptitudeService.getAll();
+            List<Domaine> domaines = DomaineService.getAll();
 
             for (Niveau niveau : niveaux) {
                 int score = 0;
-                for (TypeAptitude type : types) {
-                    JComboBox<AptitudeComboModel> comboBox = this.manager.getComboBox(niveau, type);
-                    Aptitude aptitude = ((AptitudeComboModel) comboBox.getSelectedItem()).getAptitude();
-                    if (aptitude != null) {
-                        score += aptitude.getScore();
+                for (Domaine domaine : domaines) {
+                    JComboBox<CompetenceComboModel> comboBox = this.manager.getComboBox(niveau, domaine);
+                    Competence competence = ((CompetenceComboModel) comboBox.getSelectedItem()).getAptitude();
+                    if (competence != null) {
+                        score += competence.getNum();
                     }
                 }
                 this.map.get(niveau).setText(Integer.toString(score));
@@ -143,16 +143,16 @@ public class EleveAptitudeAssociationPanel extends JPanel implements IEleveSelec
     public void updateEleve(Eleve eleve) {
         try {
             List<Niveau> niveaux = NiveauService.getAll();
-            List<TypeAptitude> types = TypeAptitudeService.getAll();
+            List<Domaine> types = DomaineService.getAll();
 
-            AptitudeService.removeAll(eleve);
+            CompetenceService.removeAll(eleve);
 
             for (Niveau niveau : niveaux) {
-                for (TypeAptitude type : types) {
-                    JComboBox<AptitudeComboModel> comboBox = this.manager.getComboBox(niveau, type);
-                    Aptitude aptitude = ((AptitudeComboModel) comboBox.getSelectedItem()).getAptitude();
+                for (Domaine type : types) {
+                    JComboBox<CompetenceComboModel> comboBox = this.manager.getComboBox(niveau, type);
+                    Competence aptitude = ((CompetenceComboModel) comboBox.getSelectedItem()).getAptitude();
                     if (aptitude != null) {
-                        AptitudeService.add(aptitude, eleve);
+                        CompetenceService.add(aptitude, eleve);
                     }
                 }
             }

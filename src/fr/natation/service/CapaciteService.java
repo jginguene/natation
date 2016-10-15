@@ -10,7 +10,7 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import fr.natation.ConnectionFactory;
-import fr.natation.model.Aptitude;
+import fr.natation.model.Competence;
 import fr.natation.model.Capacite;
 
 public class CapaciteService {
@@ -38,7 +38,7 @@ public class CapaciteService {
         throw new Exception("Il n'existe pas de capactié avec l'id " + capaciteId);
     }
 
-    public static Capacite get(Aptitude aptitude) throws Exception {
+    public static Capacite get(Competence aptitude) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(GET_FOR_APTITUDE);

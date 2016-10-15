@@ -7,29 +7,29 @@ import java.util.Map;
 
 import javax.swing.JComboBox;
 
-import fr.natation.model.Aptitude;
+import fr.natation.model.Competence;
 import fr.natation.model.Niveau;
-import fr.natation.model.TypeAptitude;
-import fr.natation.service.AptitudeService;
+import fr.natation.model.Domaine;
+import fr.natation.service.CompetenceService;
 
 public class AptitudeSelectionManager {
 
-    private final Map<String, JComboBox<AptitudeComboModel>> map = new HashMap<String, JComboBox<AptitudeComboModel>>();
+    private final Map<String, JComboBox<CompetenceComboModel>> map = new HashMap<String, JComboBox<CompetenceComboModel>>();
 
-    public JComboBox<AptitudeComboModel> getComboBox(Niveau niveau, TypeAptitude type) throws Exception {
+    public JComboBox<CompetenceComboModel> getComboBox(Niveau niveau, Domaine type) throws Exception {
         String key = this.getKey(niveau, type);
 
         if (this.map.containsKey(key)) {
             return this.map.get(key);
         } else {
-            JComboBox<AptitudeComboModel> comboBox = new JComboBox<AptitudeComboModel>();
-            List<AptitudeComboModel> list = new ArrayList<AptitudeComboModel>();
+            JComboBox<CompetenceComboModel> comboBox = new JComboBox<CompetenceComboModel>();
+            List<CompetenceComboModel> list = new ArrayList<CompetenceComboModel>();
             list.add(new EmptyAptitudeComboModel());
-            for (Aptitude aptitude : AptitudeService.get(niveau, type)) {
-                list.add(new AptitudeComboModel(aptitude));
+            for (Competence aptitude : CompetenceService.get(niveau, type)) {
+                list.add(new CompetenceComboModel(aptitude));
             }
 
-            CustomComboBoxModel<AptitudeComboModel> model = new CustomComboBoxModel<AptitudeComboModel>(list);
+            CustomComboBoxModel<CompetenceComboModel> model = new CustomComboBoxModel<CompetenceComboModel>(list);
             comboBox.setModel(model);
             this.map.put(key, comboBox);
             return comboBox;
@@ -37,7 +37,7 @@ public class AptitudeSelectionManager {
 
     }
 
-    private String getKey(Niveau niveau, TypeAptitude type) {
+    private String getKey(Niveau niveau, Domaine type) {
         return type.getNom() + "##" + niveau.getId();
     }
 

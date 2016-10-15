@@ -10,33 +10,31 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import fr.natation.ConnectionFactory;
-import fr.natation.model.Aptitude;
 import fr.natation.model.Capacite;
+import fr.natation.model.Competence;
+import fr.natation.model.Domaine;
 import fr.natation.model.Eleve;
 import fr.natation.model.Niveau;
-import fr.natation.model.TypeAptitude;
 
-public class AptitudeService {
+public class CompetenceService {
 
-    private final static Logger LOGGER = Logger.getLogger(AptitudeService.class.getName());
+    private final static Logger LOGGER = Logger.getLogger(CompetenceService.class.getName());
 
-    private static String INSERT = "insert into aptitude (description, niveau_id, type_id) values (?,?,?)";
-    private static String INSERT_ELEVE = "insert into eleve_aptitude_r (eleve_id, aptitude_id) values (?,?)";
-    private static String INSERT_CAPACITE = "insert into capacite_aptitude_r (capacite_id, aptitude_id) values (?,?)";
+    private final static String INSERT = "insert into competence (description, niveau_id, domaine_id) values (?,?,?)";
+    private final static String INSERT_ELEVE = "insert into eleve_competence_r (eleve_id, competence_id) values (?,?)";
 
-    private static String REMOVE_ELEVE = "delete from eleve_aptitude_r where eleve_id=?";
+    private final static String REMOVE_ELEVE = "delete from eleve_competence_r where eleve_id=?";
 
-    private static String UPDATE = "update aptitude set description=?, niveau_id=? , type_id=?, capacite_id=?  where  id = ?";
-    private final static String GET = "select * from aptitude where id=?";
-    private static String DELETE = "delete from aptitude  where  id = ?";
-    private static String GET_ALL = "select * from aptitude order by niveau_id,type_id,score";
+    private final static String GET = "select * from competence where id=?";
+    private final static String DELETE = "delete from competence  where  id = ?";
+    private final static String GET_ALL = "select * from competence order by niveau_id,domaine_id,num";
 
-    private static String GET_FOR_NIVEAU_TYPE = "select * from aptitude where niveau_id = ? and type_id = ? order by niveau_id,type_id,score";
-    private static String GET_FOR_ELEVE_NIVEAU_TYPE = "select * from aptitude  join eleve_aptitude_r on eleve_aptitude_r.aptitude_id = aptitude.id where eleve_id=? and niveau_id = ? and type_id = ? order by niveau_id,type_id,score";
+    private final static String GET_FOR_NIVEAU_TYPE = "select * from competence where niveau_id = ? and domaine_id = ? order by niveau_id,domaine_id,num";
+    private final static String GET_FOR_ELEVE_NIVEAU_TYPE = "select * from competence  join eleve_competence_r on eleve_competence_r.competence_id = competence.id where eleve_id=? and niveau_id = ? and domaine_id = ? order by niveau_id,domaine_id,num";
 
-    private static String GET_FOR_CAPACITE = "select * from aptitude join capacite_aptitude_r on aptitude.id = capacite_aptitude_r.aptitude_id where capacite_aptitude_r.capacite_id=?  order by niveau_id,type_id,score";
+    private final static String GET_FOR_CAPACITE = "select * from aptitude join capacite_competence_r on competence.id = capacite_competence_r.competence_id where capacite_competence_r.capacite_id=?  order by niveau_id,domaine_id,num";
 
-    private static String LAST_ID = "select last_insert_rowid()";
+    private final static String LAST_ID = "select last_insert_rowid()";
 
     public static void delete(int aptitudeId) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
@@ -51,13 +49,13 @@ public class AptitudeService {
         }
     }
 
-    public static List<Aptitude> getAll() throws Exception {
+    public static List<Competence> getAll() throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
 
             PreparedStatement statement = connection.prepareStatement(GET_ALL);
             ResultSet res = statement.executeQuery();
-            List<Aptitude> ret = new ArrayList<Aptitude>();
+            List<Competence> ret = new ArrayList<Competence>();
             while (res.next()) {
                 ret.add(convert(res));
             }
@@ -69,13 +67,13 @@ public class AptitudeService {
         }
     }
 
-    public static List<Aptitude> get(Capacite capacite) throws Exception {
+    public static List<Competence> get(Capacite capacite) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(GET_FOR_CAPACITE);
             statement.setInt(1, capacite.getId());
             ResultSet res = statement.executeQuery();
-            List<Aptitude> ret = new ArrayList<Aptitude>();
+            List<Competence> ret = new ArrayList<Competence>();
             while (res.next()) {
                 ret.add(convert(res));
             }
@@ -87,14 +85,14 @@ public class AptitudeService {
         }
     }
 
-    public static List<Aptitude> get(Niveau niveau, TypeAptitude type) throws Exception {
+    public static List<Competence> get(Niveau niveau, Domaine type) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(GET_FOR_NIVEAU_TYPE);
             statement.setInt(1, niveau.getId());
             statement.setInt(2, type.getId());
             ResultSet res = statement.executeQuery();
-            List<Aptitude> ret = new ArrayList<Aptitude>();
+            List<Competence> ret = new ArrayList<Competence>();
             while (res.next()) {
                 ret.add(convert(res));
             }
@@ -106,7 +104,7 @@ public class AptitudeService {
         }
     }
 
-    public static Aptitude get(Eleve eleve, Niveau niveau, TypeAptitude type) throws Exception {
+    public static Competence get(Eleve eleve, Niveau niveau, Domaine type) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(GET_FOR_ELEVE_NIVEAU_TYPE);
@@ -126,13 +124,13 @@ public class AptitudeService {
         }
     }
 
-    public static int create(Aptitude aptitude) throws Exception {
+    public static int create(Competence aptitude) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(INSERT);
             statement.setString(1, aptitude.getDescription());
             statement.setInt(2, aptitude.getNiveauId());
-            statement.setInt(3, aptitude.getTypeId());
+            statement.setInt(3, aptitude.getDomaineId());
             statement.execute();
 
             statement = connection.prepareStatement(LAST_ID);
@@ -145,7 +143,7 @@ public class AptitudeService {
         }
     }
 
-    public static Aptitude get(int aptitudeId) throws Exception {
+    public static Competence get(int aptitudeId) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(GET);
@@ -162,7 +160,7 @@ public class AptitudeService {
         throw new Exception("Il n'existe pas d'aptitude avec l'id " + aptitudeId);
     }
 
-    public static void add(Aptitude aptitude, Eleve eleve) throws Exception {
+    public static void add(Competence aptitude, Eleve eleve) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(INSERT_ELEVE);
@@ -171,21 +169,6 @@ public class AptitudeService {
             statement.executeUpdate();
         } catch (Exception e) {
             throw new Exception("add(" + aptitude + "; " + eleve + ") failed", e);
-        } finally {
-            connection.close();
-        }
-
-    }
-
-    public static void addCapacite(int aptitudeId, int capaciteId) throws Exception {
-        Connection connection = ConnectionFactory.createConnection();
-        try {
-            PreparedStatement statement = connection.prepareStatement(INSERT_CAPACITE);
-            statement.setInt(1, capaciteId);
-            statement.setInt(2, aptitudeId);
-            statement.executeUpdate();
-        } catch (Exception e) {
-            throw new Exception("add(" + aptitudeId + "; " + capaciteId + ") failed", e);
         } finally {
             connection.close();
         }
@@ -206,29 +189,13 @@ public class AptitudeService {
 
     }
 
-    public static void update(Aptitude aptitude) throws Exception {
-        Connection connection = ConnectionFactory.createConnection();
-        try {
-            PreparedStatement statement = connection.prepareStatement(UPDATE);
-            statement.setString(1, aptitude.getDescription());
-            statement.setInt(2, aptitude.getNiveauId());
-            statement.setInt(3, aptitude.getTypeId());
-            statement.setInt(5, aptitude.getId());
-            statement.executeUpdate();
-        } catch (Exception e) {
-            throw new Exception("update(" + aptitude + ") failed", e);
-        } finally {
-            connection.close();
-        }
-    }
-
-    private static Aptitude convert(ResultSet res) throws SQLException {
-        Aptitude aptitude = new Aptitude();
+    private static Competence convert(ResultSet res) throws SQLException {
+        Competence aptitude = new Competence();
         aptitude.setId(res.getInt("id"));
         aptitude.setNiveauId(res.getInt("niveau_id"));
-        aptitude.setTypeId(res.getInt("type_id"));
+        aptitude.setDomaineId(res.getInt("domaine_id"));
         aptitude.setDescription(res.getString("description"));
-        aptitude.setScore(res.getInt("score"));
+        aptitude.setNum(res.getInt("num"));
         return aptitude;
     }
 
