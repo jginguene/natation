@@ -30,7 +30,7 @@ public class Capacite {
         return this.nom;
     }
 
-    public List<Competence> getAptitudes() throws Exception {
+    public List<Competence> getCompetences() throws Exception {
         return CompetenceService.get(this);
     }
 

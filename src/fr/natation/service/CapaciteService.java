@@ -10,8 +10,8 @@ import java.util.List;
 import org.apache.log4j.Logger;
 
 import fr.natation.ConnectionFactory;
-import fr.natation.model.Competence;
 import fr.natation.model.Capacite;
+import fr.natation.model.Competence;
 
 public class CapaciteService {
 
@@ -19,7 +19,7 @@ public class CapaciteService {
 
     private final static String GET = "select * from capacite where id=?";
     private final static String GET_ALL = "select * from capacite";
-    private static String GET_FOR_APTITUDE = "select * from capacite join capacite_aptitude_r on capacite.id = capacite_aptitude_r.capacite_id where capacite_aptitude_r.aptitude_id=? ";
+    private static String GET_FOR_COMPETENCE = "select * from capacite join capacite_competence_r on capacite.id = capacite_competence_r.capacite_id where capacite_competence_r.competence_id=? ";
 
     public static Capacite get(int capaciteId) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
@@ -38,11 +38,11 @@ public class CapaciteService {
         throw new Exception("Il n'existe pas de capactié avec l'id " + capaciteId);
     }
 
-    public static Capacite get(Competence aptitude) throws Exception {
+    public static Capacite get(Competence competence) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
-            PreparedStatement statement = connection.prepareStatement(GET_FOR_APTITUDE);
-            statement.setInt(1, aptitude.getId());
+            PreparedStatement statement = connection.prepareStatement(GET_FOR_COMPETENCE);
+            statement.setInt(1, competence.getId());
             ResultSet res = statement.executeQuery();
             if (res.next()) {
                 return convert(res);
@@ -50,7 +50,7 @@ public class CapaciteService {
                 return null;
             }
         } catch (Exception e) {
-            throw new Exception("get(" + aptitude + ") failed", e);
+            throw new Exception("get(" + competence + ") failed", e);
         } finally {
             connection.close();
         }

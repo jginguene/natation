@@ -16,25 +16,25 @@ public class DomaineService {
 
     private final static Logger LOGGER = Logger.getLogger(DomaineService.class.getName());
 
-    private final static String GET = "select * from type_aptitude where id=?";
-    private final static String GET_ALL = "select * from type_aptitude ";
+    private final static String GET = "select * from domaine where id=?";
+    private final static String GET_ALL = "select * from domaine ";
 
-    public static Domaine get(int typeId) throws Exception {
+    public static Domaine get(int domaineId) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(GET);
-            statement.setInt(1, typeId);
+            statement.setInt(1, domaineId);
             ResultSet res = statement.executeQuery();
             if (res.next()) {
                 return convert(res);
             }
         } catch (Exception e) {
-            throw new Exception("get(" + typeId + ") failed", e);
+            throw new Exception("get(" + domaineId + ") failed", e);
         } finally {
             connection.close();
         }
 
-        throw new Exception("Il n'existe pas de niveau avec l'id " + typeId);
+        throw new Exception("Il n'existe pas de domaine avec l'id " + domaineId);
     }
 
     public static List<Domaine> getAll() throws Exception {
@@ -56,10 +56,10 @@ public class DomaineService {
     }
 
     private static Domaine convert(ResultSet res) throws SQLException {
-        Domaine type = new Domaine();
-        type.setId(res.getInt("id"));
-        type.setNom(res.getString("nom"));
-        return type;
+        Domaine domaine = new Domaine();
+        domaine.setId(res.getInt("id"));
+        domaine.setNom(res.getString("nom"));
+        return domaine;
     }
 
 }

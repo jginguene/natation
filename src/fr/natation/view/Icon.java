@@ -15,7 +15,7 @@ public enum Icon {
     Excel(Utils.getExternalImage("img/excel.png")),
     Cancel(Utils.getExternalImage("img/cancel.png")),
     Capacite(Utils.getExternalImage("img/capacite.png")),
-    Aptitude(Utils.getExternalImage("img/aptitude.png")),
+    Competence(Utils.getExternalImage("img/competence.png")),
     Eleve(Utils.getExternalImage("img/eleve.png")),
     View(Utils.getExternalImage("img/view.png")),
     Liste(Utils.getExternalImage("img/liste.png")),

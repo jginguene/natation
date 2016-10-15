@@ -1,8 +1,8 @@
 package fr.natation.view;
 
-public class EmptyAptitudeComboModel extends CompetenceComboModel {
+public class EmptyCompetenceComboModel extends CompetenceComboModel {
 
-    public EmptyAptitudeComboModel() {
+    public EmptyCompetenceComboModel() {
         super(null);
     }
 

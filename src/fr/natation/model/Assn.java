@@ -1,6 +1,6 @@
 package fr.natation.model;
 
-public class ASSN {
+public class Assn {
 
     private String code;
     private String descripption;

@@ -21,9 +21,9 @@ public class CapaciteTableModel extends AbstractTableModel {
     public static final int COLUMN_ID = 0;
     public static final int COLUMN_LOGO = 1;
     public static final int COLUMN_NOM = 2;
-    public static final int COLUMN_APTITUDE = 3;
+    public static final int COLUMN_COMPETENCE = 3;
 
-    private final String[] columnNames = new String[] { "Id", "Logo", "Nom", "Aptitudes requise" };
+    private final String[] columnNames = new String[] { "Id", "Logo", "Nom", "Compétences requise" };
 
     @SuppressWarnings("rawtypes")
     private final Class[] columnClass = new Class[] { Integer.class, ImageIcon.class, String.class, String.class };
@@ -68,8 +68,8 @@ public class CapaciteTableModel extends AbstractTableModel {
             case COLUMN_NOM:
                 return capacite.getNom();
 
-            case COLUMN_APTITUDE:
-                return this.getAptitudesAsString(capacite);
+            case COLUMN_COMPETENCE:
+                return this.getCompetenceAsString(capacite);
 
             default:
                 return "";
@@ -79,9 +79,9 @@ public class CapaciteTableModel extends AbstractTableModel {
         }
     }
 
-    private String getAptitudesAsString(Capacite Capacite) throws Exception {
+    private String getCompetenceAsString(Capacite Capacite) throws Exception {
         String ret = "";
-        for (Competence competence : Capacite.getAptitudes()) {
+        for (Competence competence : Capacite.getCompetences()) {
             ret += "[Niveau " + competence.getNiveauNom() + "] [" + competence.getDomaineNom() + "] " + competence.getDescription() + "\n";
         }
         return ret;

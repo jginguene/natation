@@ -39,7 +39,7 @@ public class CompetenceAddPanel extends JPanel implements IRefreshListener {
     private final static Logger LOGGER = Logger.getLogger(CompetenceAddPanel.class.getName());
 
     private final JLabel labelDescription = new JLabel("Description:");
-    private final JLabel labelType = new JLabel("Type:");
+    private final JLabel labelDomaine = new JLabel("Domaine:");
     private final JLabel labelNiveau = new JLabel("Niveau:");
     private final JLabel labelScore = new JLabel("Score:");
     private final JLabel labelCapacite = new JLabel("Capacite:");
@@ -60,7 +60,7 @@ public class CompetenceAddPanel extends JPanel implements IRefreshListener {
     public CompetenceAddPanel() throws Exception {
         this.refresh();
 
-        this.setBorder(BorderFactory.createTitledBorder("Ajouter une aptitude"));
+        this.setBorder(BorderFactory.createTitledBorder("Ajouter une compétence"));
 
         JPanel panel = new JPanel();
         this.setLayout(new BorderLayout());
@@ -78,7 +78,7 @@ public class CompetenceAddPanel extends JPanel implements IRefreshListener {
         panel.add(this.inputScore, GridBagConstraintsFactory.create(1, y, 1, 1));
         y++;
 
-        panel.add(this.labelType, GridBagConstraintsFactory.create(0, y, 1, 1));
+        panel.add(this.labelDomaine, GridBagConstraintsFactory.create(0, y, 1, 1));
         panel.add(this.inputDomaine, GridBagConstraintsFactory.create(1, y, 1, 1));
         y++;
 
@@ -138,9 +138,9 @@ public class CompetenceAddPanel extends JPanel implements IRefreshListener {
                     competence.setNiveauId(selectedNiveau.getId());
                 }
 
-                Domaine selectedType = (Domaine) this.inputDomaine.getSelectedItem();
-                if (selectedType != null) {
-                    competence.setDomaineId(selectedType.getId());
+                Domaine selectedDomaine = (Domaine) this.inputDomaine.getSelectedItem();
+                if (selectedDomaine != null) {
+                    competence.setDomaineId(selectedDomaine.getId());
                 }
 
                 Integer selectNum = (Integer) this.inputScore.getSelectedItem();
@@ -151,7 +151,7 @@ public class CompetenceAddPanel extends JPanel implements IRefreshListener {
                 int competenceId = CompetenceService.create(competence);
 
                 if (selectedCapacite != null) {
-                    // CompetenceService.addCapacite(aptitudeId,
+                    // CompetenceService.addCapacite(competenceId,
                     // selectedCapacite.getId());
                 }
 
@@ -179,8 +179,8 @@ public class CompetenceAddPanel extends JPanel implements IRefreshListener {
 
     @Override
     public void refresh() throws Exception {
-        CustomComboBoxModel<Domaine> modelType = new CustomComboBoxModel<Domaine>(DomaineService.getAll());
-        this.inputDomaine.setModel(modelType);
+        CustomComboBoxModel<Domaine> modelDomaine = new CustomComboBoxModel<Domaine>(DomaineService.getAll());
+        this.inputDomaine.setModel(modelDomaine);
         this.inputDomaine.setSelectedIndex(1);
 
         CustomComboBoxModel<Niveau> modelNiveau = new CustomComboBoxModel<Niveau>(NiveauService.getAll());

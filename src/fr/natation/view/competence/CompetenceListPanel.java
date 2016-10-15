@@ -26,14 +26,14 @@ public class CompetenceListPanel extends ListPanel {
 
     public static int ROW_HEIGHT = 25;
 
-    private JButton addAptitudeButton;
+    private JButton addCompetenceButton;
 
     private CompetenceAddPanel addPanel;
 
     private JDialog dialog;
 
     public CompetenceListPanel() throws Exception {
-        super("Liste des aptitudes");
+        super("Liste des compétences");
     }
 
     @Override
@@ -42,18 +42,18 @@ public class CompetenceListPanel extends ListPanel {
 
         /* JPanel panelButton = new JPanel();
         panelButton.setLayout(new GridLayout(1, 5));
-        this.addAptitudeButton = ButtonFactory.createAddButton("Ajouter une aptitude");
-        panelButton.add(this.addAptitudeButton);
+        this.addCompetenceButton = ButtonFactory.createAddButton("Ajouter une competence");
+        panelButton.add(this.addCompetenceButton);
         panelButton.add(new JLabel());
         panelButton.add(new JLabel());
         panelButton.add(new JLabel());
         
         this.add(panelButton, BorderLayout.SOUTH);
         
-        this.addAptitudeButton.addActionListener(new ActionListener() {
+        this.addCompetenceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent event) {
-                AptitudeListPanel.this.onAddAptitudeButton();
+                CompetenceListPanel.this.onAddCompetenceButton();
             }
         });*/
     }
@@ -78,7 +78,7 @@ public class CompetenceListPanel extends ListPanel {
 
                 int answer = JOptionPane.showConfirmDialog(
                         null,
-                        "Voulez vous supprimer l'aptitude "
+                        "Voulez vous supprimer l'competence "
                                 + model.getValueAt(modelRow, CompetenceTableModel.COLUMN_DESC)
                                 + " de l'application?",
                         "Confirmation",
@@ -111,11 +111,11 @@ public class CompetenceListPanel extends ListPanel {
 
     }
 
-    private void onAddAptitudeButton() {
+    private void onAddCompetenceButton() {
         this.getDialog().setVisible(true);
     }
 
-    public void setAptitudeAddPanel(CompetenceAddPanel addPanel) {
+    public void setCompetenceAddPanel(CompetenceAddPanel addPanel) {
         this.addPanel = addPanel;
     }
 

@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import fr.natation.model.Eleve;
 import fr.natation.view.capacite.CapaciteTabPanel;
 import fr.natation.view.competence.CompetenceListTabPanel;
+import fr.natation.view.competence.CompetenceSelectPanel;
 import fr.natation.view.eleve.EleveListTabPanel;
 import fr.natation.view.eleve.EleveTabPanel;
 import fr.natation.view.eleve.IEleveSelectListener;
@@ -34,14 +35,15 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
     private static final int ELEVE_LIST_TAB = 0;
     private static final int ELEVE_TAB = 1;
     private static final int GROUPE_TAB = 2;
-    private static final int APTITUDE_TAB = 3;
+    private static final int COMPETENCE_TAB = 3;
     private static final int CAPACITE_TAB = 4;
 
     private final EleveListTabPanel eleveListTabPanel = new EleveListTabPanel();
     private final EleveTabPanel eleveTabPanel = new EleveTabPanel();
     private final GroupeListTabPanel groupeListTabPanel = new GroupeListTabPanel();
-    private final CompetenceListTabPanel aptitudeListTabPanel = new CompetenceListTabPanel();
+    private final CompetenceListTabPanel competenceListTabPanel = new CompetenceListTabPanel();
     private final CapaciteTabPanel capaciteListTabPanel = new CapaciteTabPanel();
+    private final CompetenceSelectPanel testPanel = new CompetenceSelectPanel();
 
     private final NatationMenu menu;
 
@@ -60,7 +62,9 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
         this.tabbedPane.addTab("Liste des élèves", Icon.Liste.getImage(), this.eleveListTabPanel, "");
         this.tabbedPane.addTab("Fiche des élèves", Icon.Eleve.getImage(), this.eleveTabPanel, "");
         this.tabbedPane.addTab("Liste des groupes", Icon.Liste.getImage(), this.groupeListTabPanel, "");
-        this.tabbedPane.addTab("Liste des aptitudes", Icon.Aptitude.getImage(), this.aptitudeListTabPanel, "");
+
+        this.tabbedPane.addTab("Liste des compétences", Icon.Competence.getImage(), this.competenceListTabPanel, "");
+        this.tabbedPane.addTab("Assignation en lot de compétences", Icon.Competence.getImage(), this.testPanel, "");
         this.tabbedPane.addTab("Liste des capacités", Icon.Capacite.getImage(), this.capaciteListTabPanel, "");
 
         this.eleveListTabPanel.addListener(this);
@@ -81,8 +85,8 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
                         NatationFrame.this.groupeListTabPanel.refresh();
                     }
 
-                    if (NatationFrame.this.tabbedPane.getSelectedIndex() == APTITUDE_TAB) {
-                        NatationFrame.this.aptitudeListTabPanel.refresh();
+                    if (NatationFrame.this.tabbedPane.getSelectedIndex() == COMPETENCE_TAB) {
+                        NatationFrame.this.competenceListTabPanel.refresh();
                     }
 
                     if (NatationFrame.this.tabbedPane.getSelectedIndex() == CAPACITE_TAB) {

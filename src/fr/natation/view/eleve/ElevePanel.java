@@ -29,7 +29,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
 
     private final EleveSelectPanel selectPanel = new EleveSelectPanel();
     private final EleveInfoEditPanel editPanel = new EleveInfoEditPanel();
-    private final EleveAptitudeAssociationPanel aptitudePanel = new EleveAptitudeAssociationPanel();
+    private final EleveCompetenceAssociationPanel competencePanel = new EleveCompetenceAssociationPanel();
 
     private final JButton updateButton = ButtonFactory.createUpdateButton();
     private final JButton pdfButton = ButtonFactory.createPdfButton("Créer le diplome de l'élève");
@@ -42,16 +42,16 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
         this.setLayout(new GridBagLayout());
 
         this.selectPanel.addListener(this.editPanel);
-        this.selectPanel.addListener(this.aptitudePanel);
+        this.selectPanel.addListener(this.competencePanel);
         this.selectPanel.addListener(this);
         JPanel buttonPanel = new JPanel();
 
         this.editPanel.setPreferredSize(new Dimension(1000, 100));
-        this.aptitudePanel.setPreferredSize(new Dimension(1000, 500));
+        this.competencePanel.setPreferredSize(new Dimension(1000, 500));
 
         this.add(this.selectPanel, GridBagConstraintsFactory.create(0, 1, 1, 1));
         this.add(this.editPanel, GridBagConstraintsFactory.create(0, 2, 1, 1));
-        this.add(this.aptitudePanel, GridBagConstraintsFactory.create(0, 3, 1, 1));
+        this.add(this.competencePanel, GridBagConstraintsFactory.create(0, 3, 1, 1));
         this.add(buttonPanel, GridBagConstraintsFactory.create(0, 4, 1, 1));
 
         buttonPanel.setLayout(new GridLayout(1, 5));
@@ -101,7 +101,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
     private void onUpdateButton() {
         try {
             this.editPanel.updateEleve(this.eleve);
-            this.aptitudePanel.updateEleve(this.eleve);
+            this.competencePanel.updateEleve(this.eleve);
             EleveService.update(this.eleve);
 
             this.refresh();
@@ -134,7 +134,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
 
     private void onCancelButton() {
         this.editPanel.onChange(this.eleve, this);
-        this.aptitudePanel.onChange(this.eleve, this);
+        this.competencePanel.onChange(this.eleve, this);
     }
 
     private void onPdfButton() {
@@ -155,7 +155,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
     public void onChange(Eleve newEleve, Object source) {
         this.eleve = newEleve;
         this.selectPanel.onChange(newEleve, source);
-        this.aptitudePanel.onChange(newEleve, source);
+        this.competencePanel.onChange(newEleve, source);
     }
 
 }

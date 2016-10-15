@@ -6,8 +6,8 @@ public class CompetenceComboModel {
 
     private final Competence competence;
 
-    public CompetenceComboModel(Competence aptitude) {
-        this.competence = aptitude;
+    public CompetenceComboModel(Competence competence) {
+        this.competence = competence;
     }
 
     @Override
@@ -33,7 +33,7 @@ public class CompetenceComboModel {
         }
     }
 
-    public Competence getAptitude() {
+    public Competence getCompetence() {
         return this.competence;
     }
 

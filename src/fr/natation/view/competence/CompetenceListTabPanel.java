@@ -15,7 +15,7 @@ public class CompetenceListTabPanel extends JPanel implements IRefreshListener {
     public CompetenceListTabPanel() throws Exception {
         this.setLayout(new BorderLayout());
         this.add(this.listPanel, BorderLayout.CENTER);
-        this.listPanel.setAptitudeAddPanel(this.addPanel);
+        this.listPanel.setCompetenceAddPanel(this.addPanel);
         this.addPanel.addListener(this.listPanel);
     }
 

@@ -90,11 +90,11 @@ public class Eleve {
 
     @Override
     public String toString() {
-        return this.prenom + " " + this.nom;// Utils.toString(this);
+        return this.prenom + " " + this.nom;
     }
 
-    public Competence getCompetence(Niveau niveau, Domaine type) throws Exception {
-        return CompetenceService.get(this, niveau, type);
+    public Competence getCompetence(Niveau niveau, Domaine domaine) throws Exception {
+        return CompetenceService.get(this, niveau, domaine);
     }
 
 }

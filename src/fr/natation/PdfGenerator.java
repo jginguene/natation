@@ -72,7 +72,7 @@ public class PdfGenerator {
             contentStream.beginText();
             contentStream.setFont(font, 12);
             contentStream.newLineAtOffset(x + 10, y + 5);
-            contentStream.showText("Aptitude");
+            contentStream.showText("Compétence");
             contentStream.endText();
 
             x = x + 200;
