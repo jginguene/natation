@@ -27,7 +27,7 @@ public class CompetenceTableModel extends AbstractTableModel {
     private final static Logger LOGGER = Logger.getLogger(CompetenceTableModel.class.getName());
     private final List<Competence> list;
 
-    private final String[] columnNames = new String[] { "Id", "Description", "score", "Niveau", "Domaine", "Capacité", "Action" };
+    private final String[] columnNames = new String[] { "Id", "Description", "num", "Niveau", "Domaine", "Capacité", "Action" };
 
     @SuppressWarnings("rawtypes")
     private final Class[] columnClass = new Class[] { Integer.class, String.class, Integer.class, String.class, String.class, ImageIcon.class, String.class };

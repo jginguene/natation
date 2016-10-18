@@ -18,7 +18,7 @@ import org.apache.log4j.Logger;
 import fr.natation.model.Eleve;
 import fr.natation.view.capacite.CapaciteTabPanel;
 import fr.natation.view.competence.CompetenceListTabPanel;
-import fr.natation.view.competence.CompetenceSelectPanel;
+import fr.natation.view.competence.SelectionEnLotDeCompetencePanel;
 import fr.natation.view.eleve.EleveListTabPanel;
 import fr.natation.view.eleve.EleveTabPanel;
 import fr.natation.view.eleve.IEleveSelectListener;
@@ -43,7 +43,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
     private final GroupeListTabPanel groupeListTabPanel = new GroupeListTabPanel();
     private final CompetenceListTabPanel competenceListTabPanel = new CompetenceListTabPanel();
     private final CapaciteTabPanel capaciteListTabPanel = new CapaciteTabPanel();
-    private final CompetenceSelectPanel testPanel = new CompetenceSelectPanel();
+    private final SelectionEnLotDeCompetencePanel selectionEnLotDeCompetencePanel = new SelectionEnLotDeCompetencePanel();
 
     private final NatationMenu menu;
 
@@ -64,7 +64,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
         this.tabbedPane.addTab("Liste des groupes", Icon.Liste.getImage(), this.groupeListTabPanel, "");
 
         this.tabbedPane.addTab("Liste des compétences", Icon.Competence.getImage(), this.competenceListTabPanel, "");
-        this.tabbedPane.addTab("Assignation en lot de compétences", Icon.Competence.getImage(), this.testPanel, "");
+        this.tabbedPane.addTab("Assignation en lot de compétences", Icon.Competence.getImage(), this.selectionEnLotDeCompetencePanel, "");
         this.tabbedPane.addTab("Liste des capacités", Icon.Capacite.getImage(), this.capaciteListTabPanel, "");
 
         this.eleveListTabPanel.addListener(this);

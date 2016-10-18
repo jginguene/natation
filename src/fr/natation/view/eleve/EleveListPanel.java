@@ -46,6 +46,12 @@ public class EleveListPanel extends ListPanel {
     private EleveAddPanel addPanel;
     private JDialog dialog;
 
+    public EleveListPanel(boolean isSelectList) throws Exception {
+        super("Liste des élèves", isSelectList);
+        this.initPanelButton();
+
+    }
+
     public EleveListPanel() throws Exception {
         super("Liste des élèves");
     }
@@ -53,41 +59,76 @@ public class EleveListPanel extends ListPanel {
     @Override
     protected void init(String title) throws Exception {
         super.init(title);
+        this.configureTable();
+    }
 
-        JPanel panelButton = new JPanel();
-        panelButton.setLayout(new GridLayout(1, 5));
-        this.pdfButton = ButtonFactory.createPdfButton("Créer les bilans de tous les élèves");
-        this.exportButton = ButtonFactory.createExcelButton();
-        this.addEleveButton = ButtonFactory.createAddButton("Ajouter un élève");
-        panelButton.add(this.addEleveButton);
-        panelButton.add(this.pdfButton);
-        panelButton.add(this.exportButton);
-        panelButton.add(new JLabel());
+    private void configureTable() {
 
-        this.add(panelButton, BorderLayout.SOUTH);
+        this.setColumnWidth(EleveTableModel.COLUMN_ID, 60);
 
-        this.pdfButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                EleveListPanel.this.onPdfButton();
-            }
-        });
+        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
+        renderer.setVerticalAlignment(JLabel.CENTER);
+        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_NOM).setCellRenderer(renderer);
+        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_PRENOM).setCellRenderer(renderer);
 
-        this.exportButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                EleveListPanel.this.onExportButton();
-            }
-        });
+        renderer = new DefaultTableCellRenderer();
+        renderer.setVerticalAlignment(JLabel.CENTER);
+        renderer.setHorizontalAlignment(JLabel.CENTER);
+        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_ID).setCellRenderer(renderer);
+        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_GROUPE).setCellRenderer(renderer);
+        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_CLASSE).setCellRenderer(renderer);
 
-        this.addEleveButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                EleveListPanel.this.onAddEleveButton();
-            }
-        });
+        if (this.isSelectList) {
+            this.setColumnWidth(EleveTableModel.COLUMN_SELECTED, 50);
+            this.hideColumn(EleveTableModel.COLUMN_ACTION);
+        } else {
+            this.initViewAction();
+            this.setColumnWidth(EleveTableModel.COLUMN_ACTION, 60);
+            this.hideColumn(EleveTableModel.COLUMN_SELECTED);
+            new ButtonColumn(this.table, this.viewAction, EleveTableModel.COLUMN_ACTION, Icon.View.getImage(), null);
+            this.setRowHeight(28);
+        }
+    }
 
-        this.initViewAction();
+    private void initPanelButton() {
+
+        if (!this.isSelectList) {
+
+            JPanel panelButton = new JPanel();
+            panelButton.setLayout(new GridLayout(1, 5));
+            this.pdfButton = ButtonFactory.createPdfButton("Créer les bilans de tous les élèves");
+            this.exportButton = ButtonFactory.createExcelButton();
+            this.addEleveButton = ButtonFactory.createAddButton("Ajouter un élève");
+            panelButton.add(this.addEleveButton);
+            panelButton.add(this.pdfButton);
+            panelButton.add(this.exportButton);
+            panelButton.add(new JLabel());
+
+            this.add(panelButton, BorderLayout.SOUTH);
+
+            this.pdfButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    EleveListPanel.this.onPdfButton();
+                }
+            });
+
+            this.exportButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    EleveListPanel.this.onExportButton();
+                }
+            });
+
+            this.addEleveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    EleveListPanel.this.onAddEleveButton();
+                }
+            });
+
+        }
+
     }
 
     private void initViewAction() {
@@ -119,37 +160,17 @@ public class EleveListPanel extends ListPanel {
                 }
             };
         }
-
     }
 
     @Override
     public void refresh() throws Exception {
-
-        this.initViewAction();
-
-        EleveTableModel model = new EleveTableModel(EleveService.getAll());
+        EleveTableModel model = new EleveTableModel(this.getEleveToDisplay());
         this.table.setModel(model);
+        this.configureTable();
+    }
 
-        new ButtonColumn(this.table, this.viewAction, EleveTableModel.COLUMN_ACTION, Icon.View.getImage(), null);
-
-        this.setColumnWidth(EleveTableModel.COLUMN_ID, 60);
-        this.setColumnWidth(EleveTableModel.COLUMN_GROUPE, 60);
-        this.setColumnWidth(EleveTableModel.COLUMN_ACTION, 60);
-
-        DefaultTableCellRenderer renderer = new DefaultTableCellRenderer();
-        renderer.setVerticalAlignment(JLabel.CENTER);
-        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_NOM).setCellRenderer(renderer);
-        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_PRENOM).setCellRenderer(renderer);
-
-        renderer = new DefaultTableCellRenderer();
-        renderer.setVerticalAlignment(JLabel.CENTER);
-        renderer.setHorizontalAlignment(JLabel.CENTER);
-        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_ID).setCellRenderer(renderer);
-        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_GROUPE).setCellRenderer(renderer);
-        this.table.getColumnModel().getColumn(EleveTableModel.COLUMN_CLASSE).setCellRenderer(renderer);
-
-        this.setRowHeight(28);
-
+    protected List<Eleve> getEleveToDisplay() throws Exception {
+        return EleveService.getAll();
     }
 
     private void onPdfButton() {
@@ -210,6 +231,20 @@ public class EleveListPanel extends ListPanel {
             this.dialog.setTitle("Ajouter un élève");
         }
         return this.dialog;
+    }
+
+    public void selectAll() {
+        ((EleveTableModel) this.table.getModel()).selectAll();
+        this.repaint();
+    }
+
+    public void unselectAll() {
+        ((EleveTableModel) this.table.getModel()).unselectAll();
+        this.repaint();
+    }
+
+    public List<Eleve> getSelection() {
+        return ((EleveTableModel) this.table.getModel()).getSelection();
     }
 
 }

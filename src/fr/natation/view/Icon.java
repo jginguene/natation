@@ -6,8 +6,11 @@ import fr.natation.Utils;
 
 public enum Icon {
 
+    CheckBoxChecked(Utils.getExternalImage("img/checkbox-checked.png")),
+    CheckBoxUnchecked(Utils.getExternalImage("img/checkbox-unchecked.png")),
     Update(Utils.getExternalImage("img/save.png")),
     Create(Utils.getExternalImage("img/save.png")),
+    Check(Utils.getExternalImage("img/check.png")),
     Delete(Utils.getExternalImage("img/delete.png")),
     Print(Utils.getExternalImage("img/print.png")),
     Application(Utils.getExternalImage("img/app.png")),

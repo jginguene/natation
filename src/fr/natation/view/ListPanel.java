@@ -19,8 +19,16 @@ public abstract class ListPanel extends JPanel implements IRefreshListener {
 
     protected final JTable table = new JTable();
 
+    protected boolean isSelectList = false;
+
     public ListPanel(String title) throws Exception {
+        this(title, false);
+    }
+
+    public ListPanel(String title, boolean isSelectList) throws Exception {
+        this.isSelectList = isSelectList;
         this.init(title);
+
         this.table.setDefaultRenderer(String.class, new MultiLineCellRenderer());
     }
 

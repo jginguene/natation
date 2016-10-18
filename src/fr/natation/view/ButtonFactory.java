@@ -4,8 +4,20 @@ import javax.swing.JButton;
 
 public class ButtonFactory {
 
+    public static JButton createButton(String text, Icon icon) {
+        return new JButton(text, icon.getImage());
+    }
+
     public static JButton createCreateButton() {
         return new JButton("Enregistrer", Icon.Create.getImage());
+    }
+
+    public static JButton createCreateButton(String text) {
+        return new JButton(text, Icon.Create.getImage());
+    }
+
+    public static JButton createCheckButton(String text) {
+        return new JButton(text, Icon.Check.getImage());
     }
 
     public static JButton createPdfButton() {

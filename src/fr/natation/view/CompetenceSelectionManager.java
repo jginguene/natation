@@ -34,7 +34,6 @@ public class CompetenceSelectionManager {
             this.map.put(key, comboBox);
             return comboBox;
         }
-
     }
 
     private String getKey(Niveau niveau, Domaine domaine) {

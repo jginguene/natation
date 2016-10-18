@@ -12,6 +12,7 @@ import org.apache.log4j.Logger;
 import fr.natation.ConnectionFactory;
 import fr.natation.Utils;
 import fr.natation.model.Eleve;
+import fr.natation.model.Groupe;
 
 public class EleveService {
 
@@ -19,6 +20,7 @@ public class EleveService {
     private static String UPDATE = "update Eleve set Nom=?, Prenom=? , groupe_id=?, classe_id=? where  id = ?";
     private static String DELETE = "delete from Eleve  where  id = ?";
     private static String GET_ALL = "select * from Eleve";
+    private static String GET_ALL_GROUPE = "select * from Eleve where groupe_id = ?";
     private static String GET = "select * from Eleve where id=?";
     private static String LAST_ID = "select last_insert_rowid()";
     private static String GET_NB_ELEVE = "select count(*) from eleve  where groupe_id = ? ";
@@ -85,6 +87,26 @@ public class EleveService {
 
             PreparedStatement statement = connection.prepareStatement(GET_ALL);
             ResultSet res = statement.executeQuery();
+            List<Eleve> ret = new ArrayList<Eleve>();
+            while (res.next()) {
+                ret.add(convert(res));
+            }
+            return ret;
+        } catch (Exception e) {
+            throw new Exception("getAll() failed", e);
+        } finally {
+            connection.close();
+        }
+    }
+
+    public static List<Eleve> getAll(Groupe groupe) throws Exception {
+        Connection connection = ConnectionFactory.createConnection();
+        try {
+
+            PreparedStatement statement = connection.prepareStatement(GET_ALL_GROUPE);
+            statement.setInt(1, groupe.getId());
+            ResultSet res = statement.executeQuery();
+
             List<Eleve> ret = new ArrayList<Eleve>();
             while (res.next()) {
                 ret.add(convert(res));
