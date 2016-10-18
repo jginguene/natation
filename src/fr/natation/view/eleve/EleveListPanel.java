@@ -53,7 +53,7 @@ public class EleveListPanel extends ListPanel {
     }
 
     public EleveListPanel() throws Exception {
-        super("Liste des élèves");
+        this(false);
     }
 
     @Override
