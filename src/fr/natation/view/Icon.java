@@ -6,6 +6,7 @@ import fr.natation.Utils;
 
 public enum Icon {
 
+    Navette(Utils.getExternalImage("img/navette.png")),
     CheckBoxChecked(Utils.getExternalImage("img/checkbox-checked.png")),
     CheckBoxUnchecked(Utils.getExternalImage("img/checkbox-unchecked.png")),
     Update(Utils.getExternalImage("img/save.png")),

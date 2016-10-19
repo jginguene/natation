@@ -140,7 +140,7 @@ insert into  competence(description,num,domaine_id,niveau_id)
 values ('S''allonger sur le ventre et sur le dos.',4,2,1);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Faire l''étoile de mer ventrale et dorsale avec une frite.',5,2,1);
+values ('Faire l''étoile de mer pendant 5 secondes.',5,2,1);
 
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('Immerger progressivement son corps jusqu''au menton.',1,3,1);
@@ -151,6 +151,8 @@ values ('Immerger progressivement la tête.',2,3,1);
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('S''immerger et ouvrir les yeux.',3,3,1);
 
+insert into  competence(description,num,domaine_id,niveau_id)
+values ('Ramasser un objet au fond de l''eau là où l''enfant à pied.',4,3,1);
 
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('Souffler dans l''eau avec la bouche.',1,4,1);
@@ -185,20 +187,19 @@ values ('Sauter avec du matériel.',3,1,2);
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('Sauter et revenir sans aide.',4,1,2);
 
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Faire l''étoile de mer pendant 5 secondes.',1,2,2);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Effectuer une glissée ventrale avec matériel.',2,2,2);
+values ('Effectuer une glissée ventrale avec matériel.',1,2,2);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Effectuer une glissée ventrale sans matériel.',3,2,2);
+values ('Effectuer une glissée ventrale sans matériel.',2,2,2);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Effectuer une glissée dorsale avec matériel.',4,2,2);
+values ('Effectuer une glissée dorsale avec matériel.',3,2,2);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Effectuer une glissée dorsale sans matériel.',5,2,2);
+values ('Effectuer une glissée dorsale sans matériel.',4,2,2);
+
 
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('Descendre sous l''eau le long d''une perche et remonter un objet (petite profondeur).',1,3,2);
@@ -210,13 +211,13 @@ insert into  competence(description,num,domaine_id,niveau_id)
 values ('Passer dans un cerceau immergé et lesté la tête la première.',3,3,2);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Ramasser un objet au fond de l''eau là où l''enfant à pied.',4,3,2);
+values ('Ramasser un objet à 1 m de profondeur départ assis.',4,3,2);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Ramasser un objet à 1 m de profondeur départ assis.',5,3,2);
+values ('Sauter en moyennement profondeur, se déplacer sous l''eau, se laisser flotter et regagner le bord.',5,3,2);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Souffler dans l''eau avec la bouche et le nez en immersion totale..',1,4,2);
+values ('Souffler dans l''eau avec la bouche et le nez en immersion totale.',1,4,2);
 
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('Maîtriser la durée de l''expiration.',2,4,2);
@@ -243,25 +244,32 @@ insert into  competence(description,num,domaine_id,niveau_id)
 values ('Sauter dans le grand bain, assis ou debout.',1,1,3);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Plonger à genou.',2,1,3);
+values ('Entrée dans l''eau en chute arrière.',2,1,3);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Plonger sans élan.',3,1,3);
+values ('Plonger à genou.',3,1,3);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Effectuer une demi-vrille dorsale à ventrale et ventrale à dorsale.',1,2,3);
+values ('Plonger sans élan.',4,1,3);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Effectuer une glissée ventrale suivie de mouvements propulsifs.',2,2,3);
+values ('Effectuer un demi-tour sans reprise d''appui.',1,2,3);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Effectuer une glissée dorsales suivie de mouvements propulsifs.',3,2,3);
+values ('Effectuer une glissée ventrale ou dorsale suivie de mouvements propulsifs.',2,2,3);
+
+insert into  competence(description,num,domaine_id,niveau_id)
+values ('Réaliser un surplace en position verticale pendant 15 s.',3,2,3);
+
+insert into  competence(description,num,domaine_id,niveau_id)
+values ('Réaliser un surplace en position horizontale pendant 15 s.',3,2,3);
+
 
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('Ramasser un objet au fond de l''eau à une profondeur supérieure à celle de l''enfant.',1,3,3);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Atteindre le fond du bassin à l''aide d''une échelle ou d''une perche à 2 mètres.',2,3,3);
+values ('Se déplacer en immersion sous un obstacle  d''1,5 m.',2,3,3);
 
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('Effectuer un plongeon canard.',3,3,3);
@@ -279,55 +287,11 @@ insert into  competence(description,num,domaine_id,niveau_id)
 values ('Se déplacer sur 25 m en coordonnant les mouvements des jambes et des bras avec une ceinture.',1,5,3);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Départ du bord du bassin, effectuer 25 m (12m50 ventrale, demi-vrille, 12m50 dorsale)',2,5,3);
+values ('Départ au bord du bassin, se déplacer sur 25 m, effectuer un virage, une coulée et une reprise de nage pour gagner le bord.',2,5,3);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Départ plongé, effectuer 50 m en eau profonde, en alternant la position dorsale et ventrale (10 m au moins dans chaque position).',3,5,3);
+values ('Départ sauté ou plongé, se déplacer 15 m sur le ventre, effectuer un demi-tour, se déplacer 15 m sur le dos.',3,5,3);
 
-
-/*
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Plonger avec impulsion.',1,1,4);
-
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Plonger du plot avec impulsion.',2,1,4);
-
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Effectuer une bascule dorsale à ventrale et ventrale à dorsale.',1,2,4);
-
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Se maintenir 10 s à la surface de l''eau sans appui.',2,2,4);
-
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Enchaîner une glissée ventrale, une culbute et une position ventrale équilibrée.',3,2,4);
-
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Effectuer un plongeon canard et ramasser un objet immergé à 2m.',1,3,4);
-
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Départ du bord du bassin, rechercher un figuratif immergé à 2 m et le transporter sur 15 m.',2,3,4);
-
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Départ du bord du bassin, rechercher un figuratif immergé à 2 m et le transporter sur 25 m.',3,3,4);
-
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Rester immerger en dynamique sur 5 m au moins.',1,4,4);
-
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Effectuer une inspiration latérale répétitive et régulière sur 25 m.',2,4,4);
-
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Maintenir une inspiration coordonnée en relation avec la technique de nage sur 50 m.',3,4,4);
-
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Départ plongé, effectuer 50 m sans arrêt (25 m crawl puis 25 m en dos crawlé).',1,5,4);
-
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Départ plongé, effectuer 100 m sans arrêt (50 m crawl puis 50 m en dos crawlé).',2,5,4);
-
-insert into  competence(description,num,domaine_id,niveau_id)
-values ('Parcourir un 100 m 4 nages (départ plongé et virages).',3,5,4);
-*/
 
 insert into capacite(id,nom ) values (1,"Coquillage");
 insert into capacite(id,nom ) values (2,"Etoile de mer");
@@ -380,49 +344,43 @@ select competence.id,capacite.id from competence, capacite  where
 competence.description = 'Départ sauté, effectuer 15 m sans matériel.'
 and  nom = 'Poisson';
 
-
-
-/*
 insert into capacite_competence_r (competence_id,capacite_id)
 select competence.id,capacite.id from competence, capacite  where 
-competence.description = 'Ramasser un objet au fond de l''eau à une profondeur supérieure à celle de l''enfant.'
-and  nom = 'Tortue';
+competence.description = 'Sauter en moyennement profondeur, se déplacer sous l''eau, se laisser flotter et regagner le bord.'
+and  nom = 'Poisson';
 
-insert into capacite_competence_r (competence_id,capacite_id)
-select competence.id,capacite.id from competence, capacite  where 
-competence.description = 'Départ du bord du bassin, effectuer 25 m (12m50 ventrale, demi-vrille, 12m50 dorsale)'
-and  nom = 'Tortue';
+
 
 insert into capacite_competence_r (competence_id,capacite_id)
 select competence.id,capacite.id from competence, capacite  where 
-competence.description = 'Ramasser un objet au fond de l''eau à une profondeur de 2 m.'
-and  nom = 'Triton';
+competence.description = 'Entrée dans l''eau en chute arrière.'
+and  nom = 'Salamandre';
 
 insert into capacite_competence_r (competence_id,capacite_id)
 select competence.id,capacite.id from competence, capacite  where 
-competence.description = 'Départ plongé, effectuer 50 m en eau profonde, en alternant la position dorsale et ventrale (10 m au moins dans chaque position).'
-and  nom = 'Triton';
+competence.description = 'Effectuer un demi-tour sans reprise d''appui.'
+and  nom = 'Salamandre';
 
 insert into capacite_competence_r (competence_id,capacite_id)
 select competence.id,capacite.id from competence, capacite  where 
-competence.description = 'Départ du bord du bassin, rechercher un figuratif immergé à 2 m et le transporter sur 15 m.'
-and  nom = 'Dauphin';
+competence.description = 'Réaliser un surplace en position verticale pendant 15 s.'
+and  nom = 'Salamandre';
 
 insert into capacite_competence_r (competence_id,capacite_id)
 select competence.id,capacite.id from competence, capacite  where 
-competence.description = 'Départ plongé, effectuer 100 m sans arrêt (50 m crawl puis 50 m en dos crawlé).'
-and  nom = 'Dauphin';
+competence.description = 'Se déplacer en immersion sous un obstacle  d''1,5 m.'
+and  nom = 'Salamandre';
+
 
 insert into capacite_competence_r (competence_id,capacite_id)
 select competence.id,capacite.id from competence, capacite  where 
-competence.description = 'Départ du bord du bassin, rechercher un figuratif immergé à 2 m et le transporter sur 25 m.'
-and  nom = 'Requin';
+competence.description = 'Départ au bord du bassin, se déplacer sur 25 m, effectuer un virage, une coulée et une reprise de nage pour gagner le bord.'
+and  nom = 'Loutre de mer';
 
 insert into capacite_competence_r (competence_id,capacite_id)
 select competence.id,capacite.id from competence, capacite  where 
-competence.description = 'Parcourir un 100 m 4 nages (départ plongé et virages).'
-and  nom = 'Requin';
-*/
+competence.description = 'Départ sauté ou plongé, se déplacer 15 m sur le ventre, effectuer un demi-tour, se déplacer 15 m sur le dos.'
+and  nom = 'Salamandre';
 
 
 

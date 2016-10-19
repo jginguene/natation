@@ -23,6 +23,7 @@ import fr.natation.view.eleve.EleveListTabPanel;
 import fr.natation.view.eleve.EleveTabPanel;
 import fr.natation.view.eleve.IEleveSelectListener;
 import fr.natation.view.groupe.GroupeListTabPanel;
+import fr.natation.view.navette.NavettePanel;
 
 public class NatationFrame extends JFrame implements IEleveSelectListener, INatationMenuListener {
 
@@ -44,6 +45,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
     private final CompetenceListTabPanel competenceListTabPanel = new CompetenceListTabPanel();
     private final CapaciteTabPanel capaciteListTabPanel = new CapaciteTabPanel();
     private final SelectionEnLotDeCompetencePanel selectionEnLotDeCompetencePanel = new SelectionEnLotDeCompetencePanel();
+    private final NavettePanel navettePanel = new NavettePanel();
 
     private final NatationMenu menu;
 
@@ -66,6 +68,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
         this.tabbedPane.addTab("Liste des compétences", Icon.Competence.getImage(), this.competenceListTabPanel, "");
         this.tabbedPane.addTab("Assignation en lot de compétences", Icon.Competence.getImage(), this.selectionEnLotDeCompetencePanel, "");
         this.tabbedPane.addTab("Liste des capacités", Icon.Capacite.getImage(), this.capaciteListTabPanel, "");
+        this.tabbedPane.addTab("Navette", Icon.Navette.getImage(), this.navettePanel, "bouu");
 
         this.eleveListTabPanel.addListener(this);
 

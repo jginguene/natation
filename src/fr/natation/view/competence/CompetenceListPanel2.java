@@ -157,7 +157,7 @@ public class CompetenceListPanel2 extends JPanel {
         Capacite capacite = competence.getCapacite();
 
         if (capacite != null) {
-            JLabel labelIcon = new JLabel(ViewUtils.getCapaciteIcon(capacite, 30));
+            JLabel labelIcon = new JLabel(ViewUtils.getCapaciteIcon(capacite, 40));
             panel.add(labelIcon, BorderLayout.WEST);
             panel.setBackground(this.getNiveauColor(niveau));
             labelIcon.setSize(new Dimension(20, 20));
