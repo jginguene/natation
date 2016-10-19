@@ -1,7 +1,10 @@
 /bin/
 /*.log
 /pack/*.log
+/pack/img/*
 /*.zip
+/pack/lib/*
 /*.pdf
 backup/
 /*.csv
+

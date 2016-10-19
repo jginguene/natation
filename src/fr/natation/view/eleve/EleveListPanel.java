@@ -22,8 +22,9 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import org.apache.log4j.Logger;
 
-import fr.natation.PdfGenerator;
 import fr.natation.model.Eleve;
+import fr.natation.pdf.NavetteGenerator;
+import fr.natation.pdf.PdfGenerator;
 import fr.natation.service.EleveService;
 import fr.natation.view.ButtonColumn;
 import fr.natation.view.ButtonFactory;
@@ -40,6 +41,7 @@ public class EleveListPanel extends ListPanel {
 
     private JButton pdfButton;
     private JButton exportButton;
+    private JButton navetteButton;
     private JButton addEleveButton;
     private Action viewAction;
 
@@ -99,10 +101,13 @@ public class EleveListPanel extends ListPanel {
             this.pdfButton = ButtonFactory.createPdfButton("Créer les bilans de tous les élèves");
             this.exportButton = ButtonFactory.createExcelButton();
             this.addEleveButton = ButtonFactory.createAddButton("Ajouter un élève");
+
+            this.navetteButton = ButtonFactory.createPdfButton("Créer les fiches navettes");
+
             panelButton.add(this.addEleveButton);
             panelButton.add(this.pdfButton);
             panelButton.add(this.exportButton);
-            panelButton.add(new JLabel());
+            panelButton.add(this.navetteButton);
 
             this.add(panelButton, BorderLayout.SOUTH);
 
@@ -124,6 +129,13 @@ public class EleveListPanel extends ListPanel {
                 @Override
                 public void actionPerformed(ActionEvent event) {
                     EleveListPanel.this.onAddEleveButton();
+                }
+            });
+
+            this.navetteButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    EleveListPanel.this.onNavetteButton();
                 }
             });
 
@@ -177,7 +189,7 @@ public class EleveListPanel extends ListPanel {
         try {
             PdfGenerator generator = new PdfGenerator();
 
-            String fileName = "diplomes" + ".pdf";
+            String fileName = "bilan" + ".pdf";
             for (Eleve eleve : EleveService.getAll()) {
                 generator.addPage(eleve);
             }
@@ -185,8 +197,25 @@ public class EleveListPanel extends ListPanel {
             JOptionPane.showMessageDialog(null, "Le fichier " + fileName + " a été créé", "Information", JOptionPane.INFORMATION_MESSAGE);
             Desktop.getDesktop().open(new File(fileName));
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "La génération des diplomes a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
-            LOGGER.error("La génération des diplomes a échoué", e);
+            JOptionPane.showMessageDialog(null, "La génération des bilans a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
+            LOGGER.error("La génération des bilans a échoué", e);
+        }
+    }
+
+    private void onNavetteButton() {
+        try {
+            NavetteGenerator generator = new NavetteGenerator();
+
+            String fileName = "navette" + ".pdf";
+            for (Eleve eleve : EleveService.getAll()) {
+                generator.add(eleve);
+            }
+            generator.generate(fileName);
+            JOptionPane.showMessageDialog(null, "Le fichier " + fileName + " a été créé", "Information", JOptionPane.INFORMATION_MESSAGE);
+            Desktop.getDesktop().open(new File(fileName));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "La génération des navettes a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
+            LOGGER.error("La génération des navettes a échoué", e);
         }
     }
 

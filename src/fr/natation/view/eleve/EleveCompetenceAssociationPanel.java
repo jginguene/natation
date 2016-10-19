@@ -101,9 +101,10 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
                         }
                     });
 
-                    Competence competence = this.eleve.getCompetence(niveau, domaine);
-                    if (competence != null) {
-                        comboBox.setSelectedIndex(competence.getNum());
+                    //TODO à refaire!!!
+                    List<Competence> competences = this.eleve.getCompetences(niveau, domaine);
+                    if (competences.size() > 0) {
+                        comboBox.setSelectedIndex(competences.get(0).getNum());
                     } else {
                         comboBox.setSelectedIndex(0);
                     }

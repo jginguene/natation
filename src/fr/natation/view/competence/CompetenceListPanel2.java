@@ -146,7 +146,7 @@ public class CompetenceListPanel2 extends JPanel {
         JPanel panel = new JPanel();
         panel.setLayout(new BorderLayout());
 
-        String text = Utils.cutString(competence.getDescription(), 40);
+        String text = Utils.cutStringHtml(competence.getDescription(), 40);
         JLabel labelCompetence = new JLabel(text);
 
         labelCompetence.setBackground(this.getNiveauColor(niveau));

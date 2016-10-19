@@ -101,7 +101,7 @@ insert into Groupe(nom,description ) values ("D","Grand bassin - Grande profonde
 insert into niveau (nom) values (1);
 insert into niveau (nom) values (2);
 insert into niveau (nom) values (3);
-insert into niveau (nom) values (4);
+--insert into niveau (nom) values (4);
 
 
 --Remplissage d'exemple pour démo
@@ -284,6 +284,8 @@ values ('Départ du bord du bassin, effectuer 25 m (12m50 ventrale, demi-vrille,
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('Départ plongé, effectuer 50 m en eau profonde, en alternant la position dorsale et ventrale (10 m au moins dans chaque position).',3,5,3);
 
+
+/*
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('Plonger avec impulsion.',1,1,4);
 
@@ -325,6 +327,7 @@ values ('Départ plongé, effectuer 100 m sans arrêt (50 m crawl puis 50 m en d
 
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('Parcourir un 100 m 4 nages (départ plongé et virages).',3,5,4);
+*/
 
 insert into capacite(id,nom ) values (1,"Coquillage");
 insert into capacite(id,nom ) values (2,"Etoile de mer");

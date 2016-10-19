@@ -15,8 +15,8 @@ import javax.swing.JPanel;
 
 import org.apache.log4j.Logger;
 
-import fr.natation.PdfGenerator;
 import fr.natation.model.Eleve;
+import fr.natation.pdf.PdfGenerator;
 import fr.natation.service.EleveService;
 import fr.natation.view.ButtonFactory;
 import fr.natation.view.GridBagConstraintsFactory;

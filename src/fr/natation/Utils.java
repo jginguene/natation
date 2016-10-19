@@ -1,6 +1,11 @@
 package fr.natation;
 
+import java.io.File;
+import java.io.RandomAccessFile;
 import java.io.StringWriter;
+import java.nio.channels.FileChannel;
+import java.nio.channels.FileLock;
+import java.nio.channels.OverlappingFileLockException;
 
 import javax.swing.ImageIcon;
 
@@ -61,7 +66,7 @@ public class Utils {
 
     }
 
-    public static String cutString(String str, int lineLength) {
+    public static String cutStringHtml(String str, int lineLength) {
         if (str.length() < lineLength) {
             return str;
         } else {
@@ -79,7 +84,43 @@ public class Utils {
             ret = ret + line;
             return "<html>" + ret;
         }
+    }
 
+    public static String cutString(String str, int lineLength) {
+        if (str.length() < lineLength) {
+            return str;
+        } else {
+            String line = "";
+            String ret = "";
+            for (String word : str.split(" ")) {
+                String newLine = line + " " + word;
+                if (newLine.length() < lineLength) {
+                    line = newLine;
+                } else {
+                    ret = ret + " " + line + "\n";
+                    line = word;
+                }
+            }
+            ret = ret + line;
+            return ret;
+        }
+    }
+
+    public static boolean isLock(String fileName) throws Exception {
+        File file = new File(fileName);
+        FileChannel channel = new RandomAccessFile(file, "rw").getChannel();
+        // Get an exclusive lock on the whole file
+        FileLock lock = channel.lock();
+        boolean ret = false;
+        try {
+            lock = channel.tryLock();
+            return true;
+        } catch (OverlappingFileLockException e) {
+            // File is open by someone else
+        } finally {
+            lock.release();
+        }
+        return ret;
     }
 
 }

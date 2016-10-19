@@ -1,6 +1,8 @@
 
 package fr.natation.model;
 
+import java.util.List;
+
 import fr.natation.service.ClasseService;
 import fr.natation.service.CompetenceService;
 import fr.natation.service.GroupeService;
@@ -93,7 +95,7 @@ public class Eleve {
         return this.prenom + " " + this.nom;
     }
 
-    public Competence getCompetence(Niveau niveau, Domaine domaine) throws Exception {
+    public List<Competence> getCompetences(Niveau niveau, Domaine domaine) throws Exception {
         return CompetenceService.get(this, niveau, domaine);
     }
 

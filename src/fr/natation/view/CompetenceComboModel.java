@@ -15,7 +15,7 @@ public class CompetenceComboModel {
     public String toString() {
         String str = this.competence.getNum() + ") " + this.competence.getDescription();
         int lineLength = 35;
-        return Utils.cutString(str, lineLength);
+        return Utils.cutStringHtml(str, lineLength);
 
     }
 

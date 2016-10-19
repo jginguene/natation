@@ -8,11 +8,21 @@
     <property name="dir.jarfile" value="./pack/"/>
     <target name="create_run_jar">
     
-          <path id="libraries.path">    
+    <path id="libraries.path">    
         <fileset dir="./">
             <include name="*.jar"/>
         </fileset>
     </path>
+    
+      <copydir src="img/"
+           dest="pack/img/"
+           includes="*"
+      />
+      
+       <copydir src="./"
+           dest="pack/lib/"
+           includes="*.jar"
+      />
          <javac srcdir="src/" destdir="bin/"  source="1.6">
             <classpath refid="libraries.path"/>
         </javac>
