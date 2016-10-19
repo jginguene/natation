@@ -1,5 +1,6 @@
 package fr.natation.view;
 
+import fr.natation.Utils;
 import fr.natation.model.Competence;
 
 public class CompetenceComboModel {
@@ -12,25 +13,10 @@ public class CompetenceComboModel {
 
     @Override
     public String toString() {
-        int lineLength = 35;
         String str = this.competence.getNum() + ") " + this.competence.getDescription();
-        if (str.length() < lineLength) {
-            return str;
-        } else {
-            String line = "";
-            String ret = "";
-            for (String word : str.split(" ")) {
-                String newLine = line + word + " ";
-                if (newLine.length() < lineLength) {
-                    line = newLine;
-                } else {
-                    ret = ret + " " + line + "<br/>";
-                    line = word;
-                }
-            }
-            ret = ret + line;
-            return "<html>" + ret;
-        }
+        int lineLength = 35;
+        return Utils.cutString(str, lineLength);
+
     }
 
     public Competence getCompetence() {

@@ -61,4 +61,25 @@ public class Utils {
 
     }
 
+    public static String cutString(String str, int lineLength) {
+        if (str.length() < lineLength) {
+            return str;
+        } else {
+            String line = "";
+            String ret = "";
+            for (String word : str.split(" ")) {
+                String newLine = line + " " + word;
+                if (newLine.length() < lineLength) {
+                    line = newLine;
+                } else {
+                    ret = ret + " " + line + "<br/>";
+                    line = word;
+                }
+            }
+            ret = ret + line;
+            return "<html>" + ret;
+        }
+
+    }
+
 }

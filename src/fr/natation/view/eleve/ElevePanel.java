@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 
+import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
@@ -44,6 +45,9 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
         this.selectPanel.addListener(this.editPanel);
         this.selectPanel.addListener(this.competencePanel);
         this.selectPanel.addListener(this);
+
+        this.selectPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
+
         JPanel buttonPanel = new JPanel();
 
         this.editPanel.setPreferredSize(new Dimension(1000, 100));

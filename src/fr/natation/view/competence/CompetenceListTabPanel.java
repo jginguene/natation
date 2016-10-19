@@ -9,20 +9,21 @@ import fr.natation.view.IRefreshListener;
 public class CompetenceListTabPanel extends JPanel implements IRefreshListener {
 
     private static final long serialVersionUID = 1L;
-    private final CompetenceListPanel listPanel = new CompetenceListPanel();
-    private final CompetenceAddPanel addPanel = new CompetenceAddPanel();
+    private final CompetenceListPanel2 listPanel = new CompetenceListPanel2();
+    //private final CompetenceAddPanel addPanel = new CompetenceAddPanel();
 
     public CompetenceListTabPanel() throws Exception {
         this.setLayout(new BorderLayout());
-        this.add(this.listPanel, BorderLayout.CENTER);
-        this.listPanel.setCompetenceAddPanel(this.addPanel);
-        this.addPanel.addListener(this.listPanel);
+
+        this.add(this.listPanel);
+        // this.listPanel.setCompetenceAddPanel(this.addPanel);
+        //  this.addPanel.addListener(this.listPanel);
     }
 
     @Override
     public void refresh() throws Exception {
-        this.listPanel.refresh();
-        this.addPanel.refresh();
+        //this.listPanel.refresh();
+        //this.addPanel.refresh();
     }
 
 }
