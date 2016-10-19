@@ -36,7 +36,7 @@ public class PdfUtils {
         if (!isVertical) {
             startY = height / 3;
         } else {
-            startY = 5;
+            startY = 20;
         }
 
         for (int i = 0; i < lines.length; i++) {

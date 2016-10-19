@@ -1,5 +1,9 @@
 package fr.natation.model;
 
+import java.util.List;
+
+import fr.natation.service.CompetenceService;
+
 public class Niveau {
 
     private int id;
@@ -46,6 +50,14 @@ public class Niveau {
         if (this.id != other.id)
             return false;
         return true;
+    }
+
+    public List<Competence> getCompetences() throws Exception {
+        return CompetenceService.get(this);
+    }
+
+    public int getCompetencesCount() throws Exception {
+        return this.getCompetences().size();
     }
 
 }

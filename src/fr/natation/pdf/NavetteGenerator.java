@@ -67,7 +67,7 @@ public class NavetteGenerator {
 
                     int competenceX = domaineX;
                     for (Competence competence : competences) {
-                        String str = Utils.cutString(competence.getDescription(), 50);
+                        String str = Utils.cutString(competence.getDescription(), 45);
                         PdfUtils.createRectangle(contentStream, competenceX, y - 20 - COMPETENCE_HEIGHT, COMPETENCE_WIDTH, COMPETENCE_HEIGHT,
                                 str, FONT, 8,
                                 false, true);
@@ -112,10 +112,8 @@ public class NavetteGenerator {
 
             for (Domaine domaine : DomaineService.getAll()) {
                 for (Competence competence : CompetenceService.get(niveau, domaine)) {
-                    System.out.println(eleve.getCompetences(niveau, domaine) + "<<<====>>>" + competence);
 
                     String checkCompetence = " ";
-
                     for (Competence eleveCompetence : eleve.getCompetences(niveau, domaine)) {
                         if (eleveCompetence.getId() == competence.getId()) {
                             checkCompetence = "X";
