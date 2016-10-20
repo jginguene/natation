@@ -2,6 +2,7 @@ package fr.natation.view.navette;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
@@ -10,15 +11,18 @@ import java.util.List;
 import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 import javax.swing.border.Border;
 import javax.swing.border.CompoundBorder;
 
 import fr.natation.Utils;
 import fr.natation.model.Competence;
 import fr.natation.model.Domaine;
+import fr.natation.model.Eleve;
 import fr.natation.model.Niveau;
 import fr.natation.service.CompetenceService;
 import fr.natation.service.DomaineService;
+import fr.natation.service.EleveService;
 import fr.natation.service.NiveauService;
 import fr.natation.view.GridBagConstraintsFactory;
 import fr.natation.view.VerticalLabel;
@@ -29,7 +33,9 @@ public class NavettePanel extends JPanel {
 
         this.setLayout(new BorderLayout());
 
-        this.add(this.createViewPanel(), BorderLayout.CENTER);
+        JScrollPane scrollPane = new JScrollPane(this.createViewPanel());
+        this.setPreferredSize(new Dimension(450, 110));
+        this.add(scrollPane, BorderLayout.CENTER);
 
     }
 
@@ -75,12 +81,71 @@ public class NavettePanel extends JPanel {
                 domaineX += competenceCount;
 
             }
+
             x += niveau.getCompetencesCount();
-            break;
+
+        }
+
+        int y = 3;
+
+        GridBagConstraints constraint = GridBagConstraintsFactory.create(1, 2, 1, 1);
+        constraint.anchor = GridBagConstraints.PAGE_END;
+
+        JLabel titleEleve = this.createLabelTitle("Nom de l'élève");
+        titleEleve.setPreferredSize(new Dimension(200, 20));
+        panel.add(titleEleve, constraint);
+        constraint.gridx++;
+
+        JLabel titleGroupe = this.createLabelTitle("Groupe");
+        titleGroupe.setPreferredSize(new Dimension(80, 20));
+        panel.add(titleGroupe, constraint);
+
+        for (Eleve eleve : EleveService.getAll()) {
+            panel.add(this.createLabel(eleve.getNom()), GridBagConstraintsFactory.create(1, y, 1, 1));
+
+            JLabel labelGroupe = this.createLabel(eleve.getGroupeNom());
+            labelGroupe.setHorizontalAlignment(JLabel.CENTER);
+            panel.add(labelGroupe, GridBagConstraintsFactory.create(2, y, 1, 1));
+
+            int competenceX = 3;
+            for (Niveau niveau : this.getNiveaux()) {
+                for (Domaine domaine : DomaineService.getAll()) {
+                    List<Competence> competences = CompetenceService.get(niveau, domaine);
+                    for (Competence competence : competences) {
+                        String text = " ";
+                        if (eleve.getCompetences(niveau, domaine).contains(competence)) {
+                            text = "X";
+                        }
+                        constraint = GridBagConstraintsFactory.create(competenceX, y, 1, 1);
+
+                        panel.add(this.createLabelTitle(text), constraint);
+                        competenceX++;
+                    }
+                }
+            }
+            y++;
         }
 
         return panel;
 
+    }
+
+    private JLabel createLabel(String text) {
+        JLabel label = new JLabel(text);
+        label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setFont(new Font(label.getFont().getName(), Font.PLAIN, 12));
+        return label;
+    }
+
+    private JLabel createLabelTitle(String title) {
+        JLabel label = new JLabel(title);
+        label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setFont(new Font(label.getFont().getName(), Font.BOLD, 12));
+        return label;
     }
 
     private JLabel createLabelNiveau(Niveau niveau) {
