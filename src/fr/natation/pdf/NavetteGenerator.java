@@ -30,6 +30,8 @@ public class NavetteGenerator {
     private final static int TITLE_HEIGHT = 20;
     private final static int ELEVE_HEIGHT = 12;
 
+    private final static int MAX_ELEVE_PER_PAGE = 25;
+
     private final PDDocument doc = new PDDocument();
 
     private List<Eleve> eleves = new ArrayList<>();
@@ -41,7 +43,7 @@ public class NavetteGenerator {
 
     }
 
-    private void addDoc(List<Niveau> niveaux) throws Exception {
+    private void addDoc(Niveau niveau, List<Eleve> elevesForPage, String title) throws Exception {
         try {
 
             PDPage page = PdfUtils.createLandscapePage();
@@ -52,32 +54,30 @@ public class NavetteGenerator {
             int y = START_Y;
             int x = 200;
 
-            for (Niveau niveau : niveaux) {
-                int competenceNiveauCount = CompetenceService.get(niveau).size();
-                int domaineX = x;
-                PdfUtils.createRectangle(contentStream, x, y, COMPETENCE_WIDTH * competenceNiveauCount, TITLE_HEIGHT, "Niveau " + niveau.getNom(), FONT_BOLD, 12, true);
-                x += COMPETENCE_WIDTH * competenceNiveauCount;
+            int competenceNiveauCount = CompetenceService.get(niveau).size();
+            int domaineX = x;
+            PdfUtils.createRectangle(contentStream, x, y, COMPETENCE_WIDTH * competenceNiveauCount, TITLE_HEIGHT, "Niveau " + niveau.getNom() + " - " + title, FONT_BOLD, 12,
+                    true);
+            x += COMPETENCE_WIDTH * competenceNiveauCount;
 
-                for (Domaine domaine : DomaineService.getAll()) {
-                    List<Competence> competences = CompetenceService.get(niveau, domaine);
+            for (Domaine domaine : DomaineService.getAll()) {
+                List<Competence> competences = CompetenceService.get(niveau, domaine);
 
-                    int competenceNiveauDomaineCount = competences.size();
-                    PdfUtils.createRectangle(contentStream, domaineX, y - 20, COMPETENCE_WIDTH * competenceNiveauDomaineCount, TITLE_HEIGHT, domaine.getNom(), FONT, 10, true);
+                int competenceNiveauDomaineCount = competences.size();
+                PdfUtils.createRectangle(contentStream, domaineX, y - 20, COMPETENCE_WIDTH * competenceNiveauDomaineCount, TITLE_HEIGHT, domaine.getNom(), FONT, 10, true);
 
-                    int competenceX = domaineX;
-                    for (Competence competence : competences) {
-                        String str = Utils.cutString(competence.getDescription(), 45);
-                        PdfUtils.createRectangle(contentStream, competenceX, y - 20 - COMPETENCE_HEIGHT, COMPETENCE_WIDTH, COMPETENCE_HEIGHT,
-                                str, FONT, 8,
-                                false, true);
-                        competenceX += COMPETENCE_WIDTH;
-                    }
-
-                    domaineX += COMPETENCE_WIDTH * competenceNiveauDomaineCount;
+                int competenceX = domaineX;
+                for (Competence competence : competences) {
+                    String str = Utils.cutString(competence.getDescription(), 45);
+                    PdfUtils.createRectangle(contentStream, competenceX, y - 20 - COMPETENCE_HEIGHT, COMPETENCE_WIDTH, COMPETENCE_HEIGHT,
+                            str, FONT, 8,
+                            false, true);
+                    competenceX += COMPETENCE_WIDTH;
                 }
-                this.addEleves(contentStream, niveau);
 
+                domaineX += COMPETENCE_WIDTH * competenceNiveauDomaineCount;
             }
+            this.addEleves(contentStream, niveau, elevesForPage);
 
             contentStream.close();
         } finally {
@@ -85,7 +85,7 @@ public class NavetteGenerator {
         }
     }
 
-    public void addEleves(PDPageContentStream contentStream, Niveau niveau) throws Exception {
+    public void addEleves(PDPageContentStream contentStream, Niveau niveau, List<Eleve> eleves) throws Exception {
 
         int y = START_Y - COMPETENCE_HEIGHT - TITLE_HEIGHT;
         int x = 10;
@@ -98,7 +98,7 @@ public class NavetteGenerator {
         y -= ELEVE_HEIGHT;
 
         int i = 0;
-        for (Eleve eleve : this.eleves) {
+        for (Eleve eleve : eleves) {
             Color color = Color.lightGray;
             if (i % 2 == 0) {
                 color = Color.WHITE;
@@ -133,20 +133,21 @@ public class NavetteGenerator {
 
     public void generate(String filename) throws Exception {
 
-        List<Niveau> niveauxPage = new ArrayList<Niveau>();
-
-        int i = 1;
         for (Niveau niveau : this.niveaux) {
-            niveauxPage.add(niveau);
-            if (i % 1 == 0) {
-                i = 0;
-                this.addDoc(niveauxPage);
-                niveauxPage = new ArrayList<Niveau>();
+            if (this.eleves.size() < MAX_ELEVE_PER_PAGE) {
+                this.addDoc(niveau, this.eleves, " 1/1");
+            } else {
+                int pageCount = 1 + this.eleves.size() / MAX_ELEVE_PER_PAGE;
+                for (int i = 1; i <= pageCount; i++) {
+                    int startIndex = (i - 1) * MAX_ELEVE_PER_PAGE;
+                    int stopIndex = Math.min(i * MAX_ELEVE_PER_PAGE, this.eleves.size());
+
+                    this.addDoc(niveau, this.eleves.subList(startIndex, stopIndex), " " + i + "/" + pageCount);
+
+                }
+
             }
-            i++;
-        }
-        if (!niveauxPage.isEmpty()) {
-            this.addDoc(niveauxPage);
+
         }
 
         this.doc.save(filename);
