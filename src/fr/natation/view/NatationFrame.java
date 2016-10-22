@@ -15,6 +15,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 
 import org.apache.log4j.Logger;
 
+import fr.natation.DiskTools;
 import fr.natation.model.Eleve;
 import fr.natation.view.capacite.CapaciteTabPanel;
 import fr.natation.view.competence.CompetenceListTabPanel;
@@ -40,6 +41,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
     private static final int CAPACITE_TAB = 4;
 
     private final EleveListTabPanel eleveListTabPanel = new EleveListTabPanel();
+
     private final EleveTabPanel eleveTabPanel = new EleveTabPanel();
     private final GroupeListTabPanel groupeListTabPanel = new GroupeListTabPanel();
     private final CompetenceListTabPanel competenceListTabPanel = new CompetenceListTabPanel();
@@ -68,6 +70,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
         this.tabbedPane.addTab("Liste des compétences", Icon.Competence.getImage(), this.competenceListTabPanel, "");
         this.tabbedPane.addTab("Assignation en lot de compétences", Icon.Competence.getImage(), this.selectionEnLotDeCompetencePanel, "");
         this.tabbedPane.addTab("Liste des capacités", Icon.Capacite.getImage(), this.capaciteListTabPanel, "");
+
         this.tabbedPane.addTab("Navette", Icon.Navette.getImage(), this.navettePanel, "");
 
         this.eleveListTabPanel.addListener(this);
@@ -135,7 +138,8 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
                     JOptionPane.showMessageDialog(null, "Le fichier " + file.getCanonicalPath() + " existe déja", "Erreur", JOptionPane.ERROR_MESSAGE);
                 }
 
-                Files.copy(Paths.get("natation.db"), Paths.get(file.getCanonicalPath()));
+                DiskTools.threadCopy(Paths.get("natation.db"), Paths.get(file.getCanonicalPath()));
+
                 file.setLastModified(new Date().getTime());
                 LOGGER.debug("Create backup " + file.getCanonicalPath());
 
@@ -165,6 +169,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
                 new File("backup/load_natation.db").delete();
 
                 Files.copy(Paths.get("natation.db"), Paths.get("backup/load_natation.db"));
+
                 new File("natation.db").delete();
                 Files.copy(Paths.get(file.getCanonicalPath()), Paths.get("natation.db"));
                 LOGGER.debug("Load backup " + file.getCanonicalPath());

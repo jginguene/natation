@@ -23,7 +23,10 @@ public class GroupeService {
 
     private final static Logger LOGGER = Logger.getLogger(GroupeService.class.getName());
 
+    private static List<Groupe> groupes = new ArrayList<>();
+
     public static void delete(int groupeId) throws Exception {
+        clearCache();
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(DELETE);
@@ -56,6 +59,7 @@ public class GroupeService {
     }
 
     public static int create(Groupe groupe) throws Exception {
+        clearCache();
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(INSERT);
@@ -74,6 +78,10 @@ public class GroupeService {
     }
 
     public static List<Groupe> getAll() throws Exception {
+        if (!groupes.isEmpty()) {
+            return new ArrayList<>(groupes);
+        }
+
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(GET_ALL);
@@ -82,6 +90,7 @@ public class GroupeService {
             while (res.next()) {
                 ret.add(convert(res));
             }
+            groupes.addAll(ret);
             return ret;
         } catch (Exception e) {
             throw new Exception("getAll() failed", e);
@@ -91,6 +100,7 @@ public class GroupeService {
     }
 
     public static void update(Groupe groupe) throws Exception {
+        groupes = null;
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(UPDATE);
@@ -111,5 +121,9 @@ public class GroupeService {
         groupe.setNom(res.getString("Nom"));
         groupe.setDescription(res.getString("Description"));
         return groupe;
+    }
+
+    public static void clearCache() {
+        groupes.clear();
     }
 }

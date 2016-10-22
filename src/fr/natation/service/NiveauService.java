@@ -19,6 +19,8 @@ public class NiveauService {
     private final static String GET = "select * from niveau where id=?";
     private final static String GET_ALL = "select * from niveau";
 
+    private static List<Niveau> niveaux = new ArrayList<>();
+
     public static Niveau get(int niveauId) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
@@ -38,6 +40,10 @@ public class NiveauService {
     }
 
     public static List<Niveau> getAll() throws Exception {
+        if (!niveaux.isEmpty()) {
+            return new ArrayList<>(niveaux);
+        }
+
         Connection connection = ConnectionFactory.createConnection();
         try {
 
@@ -47,6 +53,7 @@ public class NiveauService {
             while (res.next()) {
                 ret.add(convert(res));
             }
+            niveaux.addAll(niveaux);
             return ret;
         } catch (Exception e) {
             throw new Exception("getAll() failed", e);
@@ -60,5 +67,9 @@ public class NiveauService {
         niveau.setId(res.getInt("id"));
         niveau.setNom(res.getString("nom"));
         return niveau;
+    }
+
+    public static void clearCache() {
+        niveaux.clear();
     }
 }

@@ -102,6 +102,7 @@ public class NavettePanel extends JPanel {
         this.add(scrollPane, BorderLayout.CENTER);
 
         JPanel panelButton = new JPanel();
+
         panelButton.setLayout(new GridBagLayout());
 
         this.navetteButton = ButtonFactory.createPdfButton("Créer la fiche navette");
@@ -116,8 +117,9 @@ public class NavettePanel extends JPanel {
 
             @Override
             public void itemStateChanged(ItemEvent e) {
-                NavettePanel.this.refreshPanel();
-
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    NavettePanel.this.refreshPanel();
+                }
             }
         });
 
@@ -125,7 +127,9 @@ public class NavettePanel extends JPanel {
 
             @Override
             public void itemStateChanged(ItemEvent e) {
-                NavettePanel.this.refreshPanel();
+                if (e.getStateChange() == ItemEvent.SELECTED) {
+                    NavettePanel.this.refreshPanel();
+                }
             }
         });
 
@@ -166,7 +170,7 @@ public class NavettePanel extends JPanel {
 
             JLabel labelNiveau = this.createLabelNiveau(niveau);
             panel.add(labelNiveau, constraint);
-            this.mapNiveauComponent.get(niveau).add(labelNiveau);
+            this.register(niveau, labelNiveau);
 
             int domaineX = x;
             for (Domaine domaine : DomaineService.getAll()) {
@@ -178,29 +182,20 @@ public class NavettePanel extends JPanel {
 
                 JLabel labelDomaine = this.createLabelDomaine(domaine);
                 panel.add(labelDomaine, constraint);
-                this.mapNiveauComponent.get(niveau).add(labelDomaine);
+                this.register(niveau, labelDomaine);
 
                 int competenceX = domaineX;
                 for (Competence competence : competences) {
 
-                    String text = Utils.cutStringHtml(" " + competence.getDescription(), 40);
-                    VerticalLabel labelCompetence = new VerticalLabel(text);
-                    labelCompetence.setRotation(VerticalLabel.ROTATE_LEFT);
-                    Border border = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK);
-
-                    labelCompetence.setBorder(new CompoundBorder(border, BorderFactory.createEmptyBorder(4, 4, 4, 4)));
-
+                    JLabel labelCompetence = this.createLabelCompetence(competence);
                     constraint = GridBagConstraintsFactory.create(competenceX, 2, 1, 1);
                     constraint.fill = GridBagConstraints.BOTH;
-
                     panel.add(labelCompetence, constraint);
-
-                    this.mapNiveauComponent.get(niveau).add(labelCompetence);
+                    this.register(niveau, labelCompetence);
                     competenceX++;
                 }
 
                 domaineX += competenceCount;
-
             }
 
             x += niveau.getCompetencesCount();
@@ -212,24 +207,31 @@ public class NavettePanel extends JPanel {
         GridBagConstraints constraint = GridBagConstraintsFactory.create(1, 2, 1, 1);
         constraint.anchor = GridBagConstraints.PAGE_END;
 
-        JLabel titleEleve = this.createLabelTitle("Nom de l'élève");
+        JLabel titleEleve = this.createLabelTitle("Nom de l'élève", Color.WHITE);
         titleEleve.setPreferredSize(new Dimension(200, 20));
         panel.add(titleEleve, constraint);
         constraint.gridx++;
 
-        JLabel titleGroupe = this.createLabelTitle("Groupe");
+        JLabel titleGroupe = this.createLabelTitle("Groupe", Color.WHITE);
         titleGroupe.setPreferredSize(new Dimension(80, 20));
         panel.add(titleGroupe, constraint);
 
+        int i = 0;
         for (Eleve eleve : this.getEleves()) {
-            JLabel labelEleve = this.createLabel(eleve.toString());
-            panel.add(labelEleve, GridBagConstraintsFactory.create(1, y, 1, 1));
-            this.mapEleveComponent.get(eleve).add(labelEleve);
+            Color backgroundColor = Color.white;
+            if (i % 2 == 0) {
+                backgroundColor = Color.LIGHT_GRAY;
+            }
+            i++;
 
-            JLabel labelGroupe = this.createLabel(eleve.getGroupeNom());
+            JLabel labelEleve = this.createLabel(eleve.toString(), backgroundColor);
+            panel.add(labelEleve, GridBagConstraintsFactory.create(1, y, 1, 1));
+            this.register(eleve, labelEleve);
+
+            JLabel labelGroupe = this.createLabel(eleve.getGroupeNom(), backgroundColor);
             labelGroupe.setHorizontalAlignment(JLabel.CENTER);
             panel.add(labelGroupe, GridBagConstraintsFactory.create(2, y, 1, 1));
-            this.mapEleveComponent.get(eleve).add(labelGroupe);
+            this.register(eleve, labelGroupe);
 
             int competenceX = 3;
             for (Niveau niveau : this.getNiveaux()) {
@@ -237,17 +239,19 @@ public class NavettePanel extends JPanel {
                     List<Competence> competences = CompetenceService.get(niveau, domaine);
                     for (Competence competence : competences) {
                         String text = " ";
+
                         if (eleve.getCompetences(niveau, domaine).contains(competence)) {
                             text = "X";
                         }
                         constraint = GridBagConstraintsFactory.create(competenceX, y, 1, 1);
 
-                        JLabel labelCompetence = this.createLabelTitle(text);
+                        JLabel labelCompetence = this.createLabelTitle(text, backgroundColor);
                         panel.add(labelCompetence, constraint);
 
-                        this.mapNiveauComponent.get(niveau).add(labelCompetence);
-                        this.mapEleveComponent.get(eleve).add(labelCompetence);
+                        this.register(niveau, labelCompetence);
+                        this.register(eleve, labelCompetence);
                         competenceX++;
+
                     }
                 }
             }
@@ -258,56 +262,81 @@ public class NavettePanel extends JPanel {
 
     }
 
-    private JLabel createLabel(String text) {
+    private JLabel createLabel(String text, Color backgroundColor) {
         JLabel label = new JLabel(text);
         label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
         label.setVerticalAlignment(JLabel.CENTER);
         label.setFont(new Font(label.getFont().getName(), Font.PLAIN, 12));
+
+        label.setBackground(backgroundColor);
+        label.setOpaque(true);
+
         return label;
     }
 
-    private JLabel createLabelTitle(String title) {
+    private JLabel createLabelTitle(String title, Color backgroundColor) {
         JLabel label = new JLabel(title);
         label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
 
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setVerticalAlignment(JLabel.CENTER);
         label.setFont(new Font(label.getFont().getName(), Font.BOLD, 12));
+
+        label.setBackground(backgroundColor);
+        label.setOpaque(true);
         return label;
     }
 
     private JLabel createLabelNiveau(Niveau niveau) {
-        JLabel labelNiveau = new JLabel("Niveau " + niveau.getNom());
-        labelNiveau.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+        JLabel label = new JLabel("Niveau " + niveau.getNom());
+        label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
 
-        labelNiveau.setHorizontalAlignment(JLabel.CENTER);
-        labelNiveau.setVerticalAlignment(JLabel.CENTER);
-        labelNiveau.setFont(new Font(labelNiveau.getFont().getName(), Font.BOLD, 14));
-        return labelNiveau;
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setFont(new Font(this.labelNiveau.getFont().getName(), Font.BOLD, 14));
+
+        label.setBackground(Color.WHITE);
+        label.setOpaque(true);
+        return label;
     }
 
     private JLabel createLabelDomaine(Domaine domaine) {
-        JLabel labelNiveau = new JLabel(domaine.getNom());
-        labelNiveau.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+        JLabel label = new JLabel(domaine.getNom());
+        label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
 
-        labelNiveau.setHorizontalAlignment(JLabel.CENTER);
-        labelNiveau.setVerticalAlignment(JLabel.CENTER);
-        labelNiveau.setFont(new Font(labelNiveau.getFont().getName(), Font.PLAIN, 12));
-        return labelNiveau;
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setFont(new Font(this.labelNiveau.getFont().getName(), Font.PLAIN, 12));
+        label.setBackground(Color.white);
+        label.setOpaque(true);
+
+        return label;
+    }
+
+    private JLabel createLabelCompetence(Competence competence) {
+        String text = Utils.cutStringHtml(" " + competence.getDescription(), 40);
+        VerticalLabel label = new VerticalLabel(text);
+        label.setRotation(VerticalLabel.ROTATE_LEFT);
+        Border border = BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK);
+        label.setBackground(Color.white);
+        label.setOpaque(true);
+        label.setBorder(new CompoundBorder(border, BorderFactory.createEmptyBorder(4, 4, 4, 4)));
+        return label;
     }
 
     private List<Niveau> getNiveaux() throws Exception {
-        if (this.inputNiveau.getSelectedItem() == this.allNiveaux) {
+        Niveau selectedNiveau = (Niveau) this.inputNiveau.getSelectedItem();
+        if (selectedNiveau.getId() == this.allNiveaux.getId()) {
             return NiveauService.getAll();
         } else {
             List<Niveau> list = new ArrayList<Niveau>();
-            list.add((Niveau) this.inputNiveau.getSelectedItem());
+            list.add(selectedNiveau);
             return list;
         }
     }
 
     private List<Eleve> getEleves() throws Exception {
-        if (this.inputGroupe.getSelectedItem() == this.allGroupes) {
+        if (this.inputGroupe.getSelectedItem().equals(this.allGroupes)) {
             return EleveService.getAll();
         } else {
             Groupe groupe = (Groupe) this.inputGroupe.getSelectedItem();
@@ -331,26 +360,28 @@ public class NavettePanel extends JPanel {
             }
 
             List<Niveau> visibleNiveaux = this.getNiveaux();
-
-            for (Niveau niveau : NiveauService.getAll()) {
+            List<Niveau> niveauxToHide = new ArrayList<>(NiveauService.getAll());
+            niveauxToHide.removeAll(visibleNiveaux);
+            for (Niveau niveau : niveauxToHide) {
                 for (Component component : this.mapNiveauComponent.get(niveau)) {
-                    if (!visibleNiveaux.contains(niveau)) {
-                        component.setVisible(false);
-                    }
+                    component.setVisible(false);
                 }
             }
 
             List<Eleve> visibleEleves = this.getEleves();
-            for (Eleve eleve : EleveService.getAll()) {
+            List<Eleve> elevesToHide = new ArrayList<>(EleveService.getAll());
+            elevesToHide.removeAll(visibleEleves);
+            for (Eleve eleve : elevesToHide) {
                 for (Component component : this.mapEleveComponent.get(eleve)) {
-                    if (!visibleEleves.contains(eleve)) {
-                        component.setVisible(false);
-                    }
+                    component.setVisible(false);
                 }
             }
 
+            long stop = System.currentTimeMillis();
+
             this.validate();
             this.repaint();
+
         } catch (Exception e) {
             LOGGER.error("refreshPanel() failed", e);
         }
@@ -374,6 +405,14 @@ public class NavettePanel extends JPanel {
             JOptionPane.showMessageDialog(null, "La génération de la fiche navette a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
             LOGGER.error("La génération des navettes a échoué", e);
         }
+    }
+
+    private void register(Eleve eleve, Component component) {
+        this.mapEleveComponent.get(eleve).add(component);
+    }
+
+    private void register(Niveau niveau, Component component) {
+        this.mapNiveauComponent.get(niveau).add(component);
     }
 
 }

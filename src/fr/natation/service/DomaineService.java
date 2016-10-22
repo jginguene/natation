@@ -19,6 +19,8 @@ public class DomaineService {
     private final static String GET = "select * from domaine where id=?";
     private final static String GET_ALL = "select * from domaine ";
 
+    private static List<Domaine> domaines = new ArrayList<>();
+
     public static Domaine get(int domaineId) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
@@ -38,6 +40,10 @@ public class DomaineService {
     }
 
     public static List<Domaine> getAll() throws Exception {
+        if (!domaines.isEmpty()) {
+            return new ArrayList<>(domaines);
+        }
+
         Connection connection = ConnectionFactory.createConnection();
         try {
 
@@ -47,6 +53,7 @@ public class DomaineService {
             while (res.next()) {
                 ret.add(convert(res));
             }
+            domaines.addAll(ret);
             return ret;
         } catch (Exception e) {
             throw new Exception("getAll() failed", e);

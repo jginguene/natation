@@ -79,4 +79,5 @@ public class CapaciteService {
         capacite.setNom(res.getString("nom"));
         return capacite;
     }
+
 }

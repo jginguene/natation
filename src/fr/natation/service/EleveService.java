@@ -27,6 +27,10 @@ public class EleveService {
 
     private final static Logger LOGGER = Logger.getLogger(EleveService.class.getName());
 
+    private static int count;
+
+    private static List<Eleve> eleves = new ArrayList<>();
+
     public static int getNbEleve(int groupeId) throws Exception {
         Connection connection = ConnectionFactory.createConnection();
         try {
@@ -46,6 +50,7 @@ public class EleveService {
     }
 
     public static void delete(int eleveId) throws Exception {
+        clearCache();
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(DELETE);
@@ -60,6 +65,7 @@ public class EleveService {
     }
 
     public static int create(Eleve eleve) throws Exception {
+        clearCache();
         Connection connection = ConnectionFactory.createConnection();
         try {
 
@@ -82,6 +88,11 @@ public class EleveService {
     }
 
     public static List<Eleve> getAll() throws Exception {
+
+        if (!eleves.isEmpty()) {
+            return new ArrayList<>(eleves);
+        }
+
         Connection connection = ConnectionFactory.createConnection();
         try {
 
@@ -91,7 +102,9 @@ public class EleveService {
             while (res.next()) {
                 ret.add(convert(res));
             }
-            return ret;
+
+            eleves.addAll(ret);
+            return eleves;
         } catch (Exception e) {
             throw new Exception("getAll() failed", e);
         } finally {
@@ -100,6 +113,7 @@ public class EleveService {
     }
 
     public static List<Eleve> getAll(Groupe groupe) throws Exception {
+
         Connection connection = ConnectionFactory.createConnection();
         try {
 
@@ -120,6 +134,7 @@ public class EleveService {
     }
 
     public static Eleve get(int eleveId) throws Exception {
+
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(GET);
@@ -138,6 +153,7 @@ public class EleveService {
     }
 
     public static void update(Eleve eleve) throws Exception {
+        clearCache();
         Connection connection = ConnectionFactory.createConnection();
         try {
 
@@ -157,7 +173,6 @@ public class EleveService {
     }
 
     private static Eleve convert(ResultSet res) throws SQLException {
-
         Eleve eleve = new Eleve();
         eleve.setId(res.getInt("id"));
         eleve.setNom(Utils.capitalize(res.getString("Nom")));
@@ -166,5 +181,9 @@ public class EleveService {
         eleve.setClasseId(res.getInt("classe_Id"));
         return eleve;
 
+    }
+
+    public static void clearCache() {
+        eleves.clear();
     }
 }

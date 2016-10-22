@@ -5,7 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.log4j.Logger;
 
@@ -37,7 +39,13 @@ public class CompetenceService {
 
     private final static String LAST_ID = "select last_insert_rowid()";
 
+    private static List<Competence> competences = new ArrayList<>();
+
+    private static Map<String, List<Competence>> mapNiveauDomaine = new HashMap<>();
+    private static Map<String, List<Competence>> mapNiveauDomaineEleve = new HashMap<>();
+
     public static void delete(int competenceId) throws Exception {
+        clearCache();
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(DELETE);
@@ -51,6 +59,10 @@ public class CompetenceService {
     }
 
     public static List<Competence> getAll() throws Exception {
+        if (!competences.isEmpty()) {
+            return new ArrayList<>(competences);
+        }
+
         Connection connection = ConnectionFactory.createConnection();
         try {
 
@@ -60,6 +72,7 @@ public class CompetenceService {
             while (res.next()) {
                 ret.add(convert(res));
             }
+            competences.addAll(ret);
             return ret;
         } catch (Exception e) {
             throw new Exception("getAll() failed", e);
@@ -87,6 +100,11 @@ public class CompetenceService {
     }
 
     public static List<Competence> get(Niveau niveau, Domaine domaine) throws Exception {
+        String mapKey = niveau.getId() + "#" + domaine.getId();
+        if (mapNiveauDomaine.containsKey(mapKey)) {
+            return new ArrayList<>(mapNiveauDomaine.get(mapKey));
+        }
+
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(GET_FOR_NIVEAU_DOMAINE);
@@ -97,6 +115,8 @@ public class CompetenceService {
             while (res.next()) {
                 ret.add(convert(res));
             }
+
+            mapNiveauDomaine.put(mapKey, new ArrayList<>(ret));
             return ret;
         } catch (Exception e) {
             throw new Exception("get(" + niveau + ";" + domaine + ") failed", e);
@@ -124,6 +144,11 @@ public class CompetenceService {
     }
 
     public static List<Competence> get(Eleve eleve, Niveau niveau, Domaine domaine) throws Exception {
+        String mapKey = eleve.getId() + "#" + niveau.getId() + "#" + domaine.getId();
+        if (mapNiveauDomaineEleve.containsKey(mapKey)) {
+            return new ArrayList<>(mapNiveauDomaineEleve.get(mapKey));
+        }
+
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(GET_FOR_ELEVE_NIVEAU_DOMAINE);
@@ -136,6 +161,8 @@ public class CompetenceService {
             while (res.next()) {
                 ret.add(convert(res));
             }
+
+            mapNiveauDomaineEleve.put(mapKey, new ArrayList<>(ret));
             return ret;
         } catch (Exception e) {
             throw new Exception("get(" + eleve + "; " + niveau + "; " + domaine + ") failed", e);
@@ -146,6 +173,7 @@ public class CompetenceService {
     }
 
     public static int create(Competence competence) throws Exception {
+        clearCache();
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(INSERT);
@@ -182,6 +210,7 @@ public class CompetenceService {
     }
 
     public static void add(Competence competence, Eleve eleve) throws Exception {
+        clearCache();
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(INSERT_ELEVE);
@@ -197,6 +226,7 @@ public class CompetenceService {
     }
 
     public static void removeAll(Eleve eleve) throws Exception {
+        clearCache();
         Connection connection = ConnectionFactory.createConnection();
         try {
             PreparedStatement statement = connection.prepareStatement(REMOVE_ELEVE);
@@ -218,6 +248,11 @@ public class CompetenceService {
         competence.setDescription(res.getString("description"));
         competence.setNum(res.getInt("num"));
         return competence;
+    }
+
+    private static void clearCache() {
+        mapNiveauDomaine.clear();
+        competences.clear();
     }
 
 }
