@@ -68,7 +68,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
         this.tabbedPane.addTab("Liste des compétences", Icon.Competence.getImage(), this.competenceListTabPanel, "");
         this.tabbedPane.addTab("Assignation en lot de compétences", Icon.Competence.getImage(), this.selectionEnLotDeCompetencePanel, "");
         this.tabbedPane.addTab("Liste des capacités", Icon.Capacite.getImage(), this.capaciteListTabPanel, "");
-        this.tabbedPane.addTab("Navette", Icon.Navette.getImage(), this.navettePanel, "bouu");
+        this.tabbedPane.addTab("Navette", Icon.Navette.getImage(), this.navettePanel, "");
 
         this.eleveListTabPanel.addListener(this);
 

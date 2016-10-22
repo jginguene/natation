@@ -1,5 +1,7 @@
 package fr.natation.model;
 
+import java.util.List;
+
 import fr.natation.service.EleveService;
 
 public class Groupe {
@@ -34,6 +36,10 @@ public class Groupe {
 
     public int getNbEleve() throws Exception {
         return EleveService.getNbEleve(this.id);
+    }
+
+    public List<Eleve> getEleves() throws Exception {
+        return EleveService.getAll(this);
     }
 
     @Override
