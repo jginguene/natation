@@ -80,7 +80,8 @@ create table Eleve(
     capactite_Id integer ,
     classe_id integer,
     FOREIGN KEY(Groupe_Id) REFERENCES Groupe(id),
-    FOREIGN KEY(capactite_Id) REFERENCES Capacite(id)
+    FOREIGN KEY(capactite_Id) REFERENCES Capacite(id),
+    FOREIGN KEY(classe_id) REFERENCES Classe(id)
 );
 
 
