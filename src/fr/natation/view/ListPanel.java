@@ -37,7 +37,8 @@ public abstract class ListPanel extends JPanel implements IRefreshListener {
         this.setLayout(new BorderLayout());
         this.refresh();
         JScrollPane pane = new JScrollPane(this.table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        this.table.setPreferredScrollableViewportSize(new Dimension(800, 300));
+
+        this.table.setPreferredScrollableViewportSize(new Dimension(600, 300));
 
         this.add(pane, BorderLayout.CENTER);
     }

@@ -34,11 +34,20 @@ public class CompetenceListPanel2 extends JPanel {
     private final static int HEIGHT = 60;
 
     public CompetenceListPanel2() throws Exception {
+        this.setLayout(new GridBagLayout());
+        JPanel panel = this.createPanel();
+        this.add(panel, GridBagConstraintsFactory.create(1, 1, 1, 1));
+
+    }
+
+    public JPanel createPanel() throws Exception {
 
         List<Niveau> niveaux = NiveauService.getAll();
         List<Domaine> domaines = DomaineService.getAll();
 
-        this.setLayout(new GridBagLayout());
+        JPanel panel = new JPanel();
+
+        panel.setLayout(new GridBagLayout());
 
         int y = 0;
         int x = 0;
@@ -46,7 +55,7 @@ public class CompetenceListPanel2 extends JPanel {
         labelCorner.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.black));
         GridBagConstraints constraints = GridBagConstraintsFactory.create(x, y, 1, 1);
         constraints.fill = GridBagConstraints.BOTH;
-        this.add(labelCorner, constraints);
+        panel.add(labelCorner, constraints);
         x++;
 
         Map<Niveau, Integer> maxCompetencePerNiveau = new HashMap<>();
@@ -63,7 +72,7 @@ public class CompetenceListPanel2 extends JPanel {
 
         for (Domaine domaine : domaines) {
             JLabel labelDomaine = this.createDomaineLabel(domaine);
-            this.add(labelDomaine, GridBagConstraintsFactory.create(x, 0, 1, 1));
+            panel.add(labelDomaine, GridBagConstraintsFactory.create(x, 0, 1, 1));
             x++;
         }
 
@@ -84,7 +93,7 @@ public class CompetenceListPanel2 extends JPanel {
                     Component competenceComponent = this.createCompetenceComponent(competence, niveau);
                     GridBagConstraints constraint = GridBagConstraintsFactory.create(x, y, 1, 1);
                     constraint.fill = GridBagConstraints.BOTH;
-                    this.add(competenceComponent, constraint);
+                    panel.add(competenceComponent, constraint);
                     y++;
                     currentNiveauCompetenceCount++;
 
@@ -96,7 +105,7 @@ public class CompetenceListPanel2 extends JPanel {
                     JLabel label = new JLabel("");
                     label.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
                     label.setHorizontalAlignment(JLabel.CENTER);
-                    this.add(label, constraint);
+                    panel.add(label, constraint);
                 }
 
                 x++;
@@ -106,10 +115,12 @@ public class CompetenceListPanel2 extends JPanel {
             JLabel labelNiveau = this.createNiveauLabel(niveau);
             GridBagConstraints constraint = GridBagConstraintsFactory.create(0, niveauY, 1, maxCompetencePerNiveau.get(niveau));
             constraint.fill = GridBagConstraints.BOTH;
-            this.add(labelNiveau, constraint);
+            panel.add(labelNiveau, constraint);
 
             niveauY += maxCompetencePerNiveau.get(niveau);
         }
+
+        return panel;
 
     }
 

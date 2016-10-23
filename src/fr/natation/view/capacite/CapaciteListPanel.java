@@ -1,5 +1,6 @@
 package fr.natation.view.capacite;
 
+import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.Dimension;
 
@@ -30,12 +31,14 @@ public class CapaciteListPanel extends ListPanel implements TableCellRenderer {
     @Override
     protected void init(String title) throws Exception {
         this.setBorder(BorderFactory.createTitledBorder(title));
+
+        this.setLayout(new BorderLayout());
         this.refresh();
         this.add(new JScrollPane(this.table));
         JScrollPane pane = new JScrollPane(this.table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        this.table.setPreferredScrollableViewportSize(new Dimension(800, 600));
+        this.table.setPreferredScrollableViewportSize(new Dimension(600, 400));
 
-        this.add(pane);
+        this.add(pane, BorderLayout.CENTER);
     }
 
     @Override

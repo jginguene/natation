@@ -1,8 +1,8 @@
 package fr.natation.view.eleve;
 
+import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -12,6 +12,7 @@ import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
 
 import org.apache.log4j.Logger;
 
@@ -19,7 +20,6 @@ import fr.natation.model.Eleve;
 import fr.natation.pdf.PdfGenerator;
 import fr.natation.service.EleveService;
 import fr.natation.view.ButtonFactory;
-import fr.natation.view.GridBagConstraintsFactory;
 import fr.natation.view.IRefreshListener;
 
 public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelectListener {
@@ -40,7 +40,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
     private Eleve eleve;
 
     public ElevePanel() throws Exception {
-        this.setLayout(new GridBagLayout());
+        this.setLayout(new BorderLayout());
 
         this.selectPanel.addListener(this.editPanel);
         this.selectPanel.addListener(this.competencePanel);
@@ -50,13 +50,20 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
 
         JPanel buttonPanel = new JPanel();
 
-        this.editPanel.setPreferredSize(new Dimension(1000, 100));
-        this.competencePanel.setPreferredSize(new Dimension(1000, 500));
+        JPanel topPanel = new JPanel();
+        topPanel.setLayout(new BorderLayout());
 
-        this.add(this.selectPanel, GridBagConstraintsFactory.create(0, 1, 1, 1));
-        this.add(this.editPanel, GridBagConstraintsFactory.create(0, 2, 1, 1));
-        this.add(this.competencePanel, GridBagConstraintsFactory.create(0, 3, 1, 1));
-        this.add(buttonPanel, GridBagConstraintsFactory.create(0, 4, 1, 1));
+        this.editPanel.setPreferredSize(new Dimension(800, 100));
+        topPanel.add(this.selectPanel, BorderLayout.NORTH);
+        topPanel.add(this.editPanel, BorderLayout.CENTER);
+
+        this.competencePanel.setPreferredSize(new Dimension(800, 400));
+
+        JScrollPane pane = new JScrollPane(this.competencePanel);
+
+        this.add(topPanel, BorderLayout.NORTH);
+        this.add(pane, BorderLayout.CENTER);
+        this.add(buttonPanel, BorderLayout.SOUTH);
 
         buttonPanel.setLayout(new GridLayout(1, 5));
 

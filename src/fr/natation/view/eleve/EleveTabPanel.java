@@ -1,7 +1,6 @@
 package fr.natation.view.eleve;
 
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
+import java.awt.BorderLayout;
 
 import javax.swing.JPanel;
 
@@ -14,15 +13,9 @@ public class EleveTabPanel extends JPanel implements IRefreshListener, IEleveSel
     private final ElevePanel panel = new ElevePanel();
 
     public EleveTabPanel() throws Exception {
-        this.setLayout(new GridBagLayout());
+        this.setLayout(new BorderLayout());
 
-        GridBagConstraints constraints = new GridBagConstraints();
-
-        constraints.anchor = GridBagConstraints.NORTHWEST;
-        constraints.weighty = 1;
-        constraints.weightx = 1;
-        constraints.fill = GridBagConstraints.HORIZONTAL;
-        this.add(this.panel, constraints);
+        this.add(this.panel, BorderLayout.CENTER);
     }
 
     @Override

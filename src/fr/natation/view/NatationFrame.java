@@ -111,7 +111,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
         this.add(this.tabbedPane);
 
         this.pack();
-        this.setResizable(false);
+        this.setResizable(true);
 
         this.isInitialized = true;
     }

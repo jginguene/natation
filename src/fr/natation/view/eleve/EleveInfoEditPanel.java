@@ -44,7 +44,6 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
         this.setLayout(new GridBagLayout());
 
         JPanel panel = new JPanel();
-        //this.setPreferredSize(new Dimension(100, 200));
 
         GridBagConstraints constraint = new GridBagConstraints();
         constraint.anchor = GridBagConstraints.NORTHWEST;
