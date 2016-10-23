@@ -345,6 +345,7 @@ public class NavettePanel extends JPanel {
     }
 
     private void refreshPanel() {
+
         try {
 
             for (Niveau niveau : NiveauService.getAll()) {

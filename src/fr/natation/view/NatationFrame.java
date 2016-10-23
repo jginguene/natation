@@ -53,6 +53,8 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
 
     private final JTabbedPane tabbedPane = new JTabbedPane();
 
+    private boolean isInitialized = false;
+
     public NatationFrame() throws Exception {
         super("Passeport pour le natation");
         FRAME = this;
@@ -110,7 +112,12 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
 
         this.pack();
         this.setResizable(false);
-        this.setVisible(true);
+
+        this.isInitialized = true;
+    }
+
+    public boolean isInitialized() {
+        return this.isInitialized;
     }
 
     @Override

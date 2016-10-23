@@ -1,5 +1,10 @@
 package fr.natation;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
@@ -8,8 +13,14 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JWindow;
+import javax.swing.SwingConstants;
+
 import org.apache.log4j.Logger;
 
+import fr.natation.view.Icon;
 import fr.natation.view.NatationFrame;
 
 public class Launcher {
@@ -27,9 +38,51 @@ public class Launcher {
         }
 
         backup();
+        splash();
 
-        new NatationFrame().setVisible(true);
+    }
 
+    public static void splash() throws Exception {
+        int width = 500;
+        int height = 400;
+
+        JWindow window = new JWindow();
+        JPanel panel = new JPanel();
+        panel.setLayout(new BorderLayout());
+        JLabel title = new JLabel("Passeport pour la natation");
+        title.setPreferredSize(new Dimension(width, 50));
+        title.setHorizontalAlignment(JLabel.CENTER);
+        title.setVerticalAlignment(JLabel.CENTER);
+        title.setFont(new Font("Arial", Font.BOLD, 30));
+        title.setForeground(new Color(65, 135, 215));
+
+        panel.add(title, BorderLayout.NORTH);
+        panel.add(new JLabel(Icon.Application.getImage()), BorderLayout.CENTER);
+        panel.add(new JLabel(Icon.Splash.getImage()), BorderLayout.SOUTH);
+        panel.setBackground(Color.white);
+
+        window.getContentPane().add(panel, SwingConstants.CENTER);
+
+        Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (int) ((dimension.getWidth() - width) / 2);
+        int y = (int) ((dimension.getHeight() - height) / 2);
+
+        window.setBounds(x, y, width, height);
+        window.setVisible(true);
+
+        NatationFrame frame = new NatationFrame();
+        try {
+            while (!frame.isInitialized()) {
+                Thread.sleep(100);
+            }
+
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        window.setVisible(false);
+
+        frame.setVisible(true);
+        //window.dispose();
     }
 
     public static void backup() throws IOException {
