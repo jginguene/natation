@@ -57,8 +57,6 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
         topPanel.add(this.selectPanel, BorderLayout.NORTH);
         topPanel.add(this.editPanel, BorderLayout.CENTER);
 
-        this.competencePanel.setPreferredSize(new Dimension(800, 400));
-
         JScrollPane pane = new JScrollPane(this.competencePanel);
 
         this.add(topPanel, BorderLayout.NORTH);

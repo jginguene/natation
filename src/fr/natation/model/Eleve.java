@@ -99,6 +99,10 @@ public class Eleve {
         return CompetenceService.get(this, niveau, domaine);
     }
 
+    public List<Competence> getCompetences() throws Exception {
+        return CompetenceService.get(this);
+    }
+
     @Override
     public int hashCode() {
         final int prime = 31;

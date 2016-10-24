@@ -112,6 +112,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
 
         this.pack();
         this.setResizable(true);
+        this.setSize(800, 800);
 
         this.isInitialized = true;
     }

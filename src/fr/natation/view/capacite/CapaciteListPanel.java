@@ -25,34 +25,27 @@ public class CapaciteListPanel extends ListPanel implements TableCellRenderer {
 
     public CapaciteListPanel() throws Exception {
         super("Liste des capacités");
-
     }
 
     @Override
     protected void init(String title) throws Exception {
         this.setBorder(BorderFactory.createTitledBorder(title));
-
         this.setLayout(new BorderLayout());
         this.refresh();
         this.add(new JScrollPane(this.table));
         JScrollPane pane = new JScrollPane(this.table, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         this.table.setPreferredScrollableViewportSize(new Dimension(600, 400));
-
         this.add(pane, BorderLayout.CENTER);
     }
 
     @Override
     public void refresh() throws Exception {
-
         CapaciteTableModel model = new CapaciteTableModel(CapaciteService.getAll());
         this.table.setModel(model);
         this.hideColumn(CapaciteTableModel.COLUMN_ID);
-
         this.setColumnWidth(CapaciteTableModel.COLUMN_LOGO, ROW_HEIGHT);
         this.setColumnWidth(CapaciteTableModel.COLUMN_NOM, 100);
-
         this.table.setRowHeight(ROW_HEIGHT);
-
     }
 
     @Override

@@ -34,6 +34,7 @@ public class CompetenceService {
     private final static String GET_FOR_NIVEAU = "select * from competence where niveau_id = ?  order by niveau_id,domaine_id,num";
     private final static String GET_FOR_NIVEAU_DOMAINE = "select * from competence where niveau_id = ? and domaine_id = ? order by niveau_id,domaine_id,num";
     private final static String GET_FOR_ELEVE_NIVEAU_DOMAINE = "select * from competence  join eleve_competence_r on eleve_competence_r.competence_id = competence.id where eleve_id=? and niveau_id = ? and domaine_id = ? order by niveau_id,domaine_id,num";
+    private final static String GET_FOR_ELEVE = "select * from competence  join eleve_competence_r on eleve_competence_r.competence_id = competence.id where eleve_id=?  order by num";
 
     private final static String GET_FOR_CAPACITE = "select * from competence join capacite_competence_r on competence.id = capacite_competence_r.competence_id where capacite_competence_r.capacite_id=?  order by niveau_id,domaine_id,num";
 
@@ -65,7 +66,6 @@ public class CompetenceService {
 
         Connection connection = ConnectionFactory.createConnection();
         try {
-
             PreparedStatement statement = connection.prepareStatement(GET_ALL);
             ResultSet res = statement.executeQuery();
             List<Competence> ret = new ArrayList<Competence>();
@@ -166,6 +166,28 @@ public class CompetenceService {
             return ret;
         } catch (Exception e) {
             throw new Exception("get(" + eleve + "; " + niveau + "; " + domaine + ") failed", e);
+        } finally {
+            connection.close();
+        }
+
+    }
+
+    public static List<Competence> get(Eleve eleve) throws Exception {
+
+        Connection connection = ConnectionFactory.createConnection();
+        try {
+            PreparedStatement statement = connection.prepareStatement(GET_FOR_ELEVE);
+            statement.setInt(1, eleve.getId());
+            ResultSet res = statement.executeQuery();
+            List<Competence> ret = new ArrayList<Competence>();
+
+            while (res.next()) {
+                ret.add(convert(res));
+            }
+
+            return ret;
+        } catch (Exception e) {
+            throw new Exception("get(" + eleve + ") failed", e);
         } finally {
             connection.close();
         }
