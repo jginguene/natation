@@ -33,7 +33,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
     private final EleveCompetenceAssociationPanel competencePanel = new EleveCompetenceAssociationPanel();
 
     private final JButton updateButton = ButtonFactory.createUpdateButton();
-    private final JButton pdfButton = ButtonFactory.createPdfButton("Créer le diplome de l'élève");
+    private final JButton pdfButton = ButtonFactory.createPdfButton("Créer le bilan de l'élève");
     private final JButton cancelButton = ButtonFactory.createCancelButton("Annuler les modifications");
     private final JButton deleteButton = ButtonFactory.createDeleteButton();
 
@@ -150,13 +150,13 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
         try {
             PdfGenerator generator = new PdfGenerator();
             generator.addPage(this.eleve);
-            String fileName = "diplomes_" + this.eleve.toString().replaceAll(" ", "-") + ".pdf";
+            String fileName = "bilan_" + this.eleve.toString().replaceAll(" ", "-") + ".pdf";
             generator.generate(fileName);
             JOptionPane.showMessageDialog(null, "Le fichier " + fileName + " a été créé", "Information", JOptionPane.INFORMATION_MESSAGE);
             Desktop.getDesktop().open(new File(fileName));
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "La génération des diplomes a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
-            LOGGER.error("La génération des diplomes a échoué", e);
+            JOptionPane.showMessageDialog(null, "La génération du bilan a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
+            LOGGER.error("La génération du bilan a échoué", e);
         }
     }
 
