@@ -1,13 +1,26 @@
 package fr.natation.model;
 
 import fr.natation.service.AssnService;
+import fr.natation.service.NiveauService;
 
 public class Classe {
 
     private int id;
     private int assnId;
-
+    private int niveauId;
     private String nom;
+
+    public Niveau getNiveau() throws Exception {
+        return NiveauService.get(this.niveauId);
+    }
+
+    public int getNiveauId() {
+        return this.niveauId;
+    }
+
+    public void setNiveauId(int niveauId) {
+        this.niveauId = niveauId;
+    }
 
     public int getId() {
         return this.id;

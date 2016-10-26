@@ -28,16 +28,18 @@ insert into assn(id,code,description) values (3,'ASSN','Attestation scolaire du 
 create table classe(
     id integer primary key autoincrement,
     nom varchar2(200) not null,
+    niveau integer(200) not null,
     assn_id integer,
     FOREIGN KEY(assn_id) REFERENCES assn(id)  
+    FOREIGN KEY(niveau_id) REFERENCES niveau(id)  
 );
 
-insert into classe(id,nom,assn_id) values (1,'CP',null);
-insert into classe(id,nom,assn_id) values (2,'CE1',1);
-insert into classe(id,nom,assn_id) values (3,'CE2',1);
-insert into classe(id,nom,assn_id) values (4,'CM1',2);
-insert into classe(id,nom,assn_id) values (5,'CM2',2);
-insert into classe(id,nom,assn_id) values (6,'6ème',3);
+insert into classe(id,nom,assn_id, niveau_id) values (1,'CP',null,1);
+insert into classe(id,nom,assn_id,niveau_id) values (2,'CE1',1,2);
+insert into classe(id,nom,assn_id, niveau_id) values (3,'CE2',1,2);
+insert into classe(id,nom,assn_id, niveau_id) values (4,'CM1',2,3);
+insert into classe(id,nom,assn_id, niveau_id) values (5,'CM2',2,3);
+insert into classe(id,nom,assn_id, niveau_id) values (6,'6ème',3,3);
 
 
 create table domaine(

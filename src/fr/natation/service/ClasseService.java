@@ -60,6 +60,7 @@ public class ClasseService {
         classe.setId(res.getInt("id"));
         classe.setNom(res.getString("Nom"));
         classe.setAssnId(res.getInt("assn_id"));
+        classe.setNiveauId(res.getInt("niveau_id"));
         return classe;
 
     }

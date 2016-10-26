@@ -100,6 +100,10 @@ public class Eleve {
         return CompetenceService.get(this, niveau, domaine);
     }
 
+    public List<Competence> getCompetences(Niveau niveau) throws Exception {
+        return CompetenceService.get(this, niveau);
+    }
+
     public List<Competence> getCompetences() throws Exception {
         return CompetenceService.get(this);
     }
