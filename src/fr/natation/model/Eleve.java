@@ -3,6 +3,7 @@ package fr.natation.model;
 
 import java.util.List;
 
+import fr.natation.service.CapaciteService;
 import fr.natation.service.ClasseService;
 import fr.natation.service.CompetenceService;
 import fr.natation.service.GroupeService;
@@ -123,6 +124,20 @@ public class Eleve {
         if (this.id != other.id)
             return false;
         return true;
+    }
+
+    public Capacite getCapacite() throws Exception {
+
+        List<Competence> competences = this.getCompetences();
+        Capacite eleveCapactite = null;
+        for (Capacite capacite : CapaciteService.getAll()) {
+            if (!capacite.getCompetences().isEmpty() && competences.containsAll(capacite.getCompetences())) {
+                if (eleveCapactite == null || eleveCapactite.getId() < capacite.getId()) {
+                    eleveCapactite = capacite;
+                }
+            }
+        }
+        return eleveCapactite;
     }
 
 }

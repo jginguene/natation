@@ -28,9 +28,15 @@ public class NavetteGenerator {
     private final static int COMPETENCE_WIDTH = 29;
     private final static int COMPETENCE_HEIGHT = 200;
     private final static int TITLE_HEIGHT = 20;
-    private final static int ELEVE_HEIGHT = 12;
+    private final static int ELEVE_HEIGHT = 14;
 
     private final static int MAX_ELEVE_PER_PAGE = 25;
+
+    private final static PdfTextConf SMALL_TITLE = new PdfTextConf().setFont(FONT_BOLD).setFontSize(10).setCenter(true);
+    private final static PdfTextConf TITLE = new PdfTextConf().setFont(FONT_BOLD).setFontSize(12).setCenter(true);
+    private final static PdfTextConf SMALL_TEXT = new PdfTextConf().setFont(FONT).setFontSize(10).setCenter(true);
+    private final static PdfTextConf LEFT_SMALL_TEXT = new PdfTextConf().setFont(FONT).setFontSize(10).setCenter(false);
+    private final static PdfTextConf VERTICAL_TEXT = new PdfTextConf().setFont(FONT).setFontSize(8).setCenter(false).setVertical(true);
 
     private final PDDocument doc = new PDDocument();
 
@@ -56,22 +62,20 @@ public class NavetteGenerator {
 
             int competenceNiveauCount = CompetenceService.get(niveau).size();
             int domaineX = x;
-            PdfUtils.createRectangle(contentStream, x, y, COMPETENCE_WIDTH * competenceNiveauCount, TITLE_HEIGHT, "Niveau " + niveau.getNom() + " - " + title, FONT_BOLD, 12,
-                    true);
+            PdfUtils.writeText(contentStream, x, y, COMPETENCE_WIDTH * competenceNiveauCount, TITLE_HEIGHT, "Niveau " + niveau.getNom() + " - " + title, TITLE);
             x += COMPETENCE_WIDTH * competenceNiveauCount;
 
             for (Domaine domaine : DomaineService.getAll()) {
                 List<Competence> competences = CompetenceService.get(niveau, domaine);
 
                 int competenceNiveauDomaineCount = competences.size();
-                PdfUtils.createRectangle(contentStream, domaineX, y - 20, COMPETENCE_WIDTH * competenceNiveauDomaineCount, TITLE_HEIGHT, domaine.getNom(), FONT, 10, true);
+                PdfUtils.writeText(contentStream, domaineX, y - 20, COMPETENCE_WIDTH * competenceNiveauDomaineCount, TITLE_HEIGHT, domaine.getNom(), SMALL_TEXT);
 
                 int competenceX = domaineX;
                 for (Competence competence : competences) {
                     String str = Utils.cutString(competence.getDescription(), 45);
-                    PdfUtils.createRectangle(contentStream, competenceX, y - 20 - COMPETENCE_HEIGHT, COMPETENCE_WIDTH, COMPETENCE_HEIGHT,
-                            str, FONT, 8,
-                            false, true);
+                    PdfUtils.writeText(contentStream, competenceX, y - 20 - COMPETENCE_HEIGHT, COMPETENCE_WIDTH, COMPETENCE_HEIGHT,
+                            str, VERTICAL_TEXT);
                     competenceX += COMPETENCE_WIDTH;
                 }
 
@@ -93,8 +97,8 @@ public class NavetteGenerator {
         int eleveTitleWidth = 140;
         int eleveGroupeWidth = 50;
 
-        PdfUtils.createRectangle(contentStream, x, y, eleveTitleWidth, TITLE_HEIGHT, "Nom de l'elève", FONT_BOLD, 10, true, false, Color.WHITE);
-        PdfUtils.createRectangle(contentStream, x + eleveTitleWidth, y, eleveGroupeWidth, TITLE_HEIGHT, "Groupe", FONT_BOLD, 10, true, false, Color.WHITE);
+        PdfUtils.writeText(contentStream, x, y, eleveTitleWidth, TITLE_HEIGHT, "Nom de l'elève", SMALL_TITLE);
+        PdfUtils.writeText(contentStream, x + eleveTitleWidth, y, eleveGroupeWidth, TITLE_HEIGHT, "Groupe", SMALL_TITLE);
         y -= ELEVE_HEIGHT;
 
         int i = 0;
@@ -104,8 +108,8 @@ public class NavetteGenerator {
                 color = Color.WHITE;
             }
 
-            PdfUtils.createRectangle(contentStream, x, y, eleveTitleWidth, ELEVE_HEIGHT, eleve.toString(), FONT, 8, true, false, color);
-            PdfUtils.createRectangle(contentStream, x + eleveTitleWidth, y, eleveGroupeWidth, ELEVE_HEIGHT, eleve.getGroupeNom(), FONT, 8, true, false, color);
+            PdfUtils.writeText(contentStream, x, y, eleveTitleWidth, ELEVE_HEIGHT, eleve.toString(), LEFT_SMALL_TEXT);
+            PdfUtils.writeText(contentStream, x + eleveTitleWidth, y, eleveGroupeWidth, ELEVE_HEIGHT, eleve.getGroupeNom(), SMALL_TEXT);
 
             int competenceX = x + eleveTitleWidth + eleveGroupeWidth;
 
@@ -119,7 +123,7 @@ public class NavetteGenerator {
                         }
                     }
 
-                    PdfUtils.createRectangle(contentStream, competenceX, y, COMPETENCE_WIDTH, ELEVE_HEIGHT, checkCompetence, FONT, 8, true, false, color);
+                    PdfUtils.writeText(contentStream, competenceX, y, COMPETENCE_WIDTH, ELEVE_HEIGHT, checkCompetence, SMALL_TEXT);
 
                     competenceX += COMPETENCE_WIDTH;
                 }

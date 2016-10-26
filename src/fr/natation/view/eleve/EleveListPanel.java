@@ -23,7 +23,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.apache.log4j.Logger;
 
 import fr.natation.model.Eleve;
-import fr.natation.pdf.PdfGenerator;
+import fr.natation.pdf.BilanGenerator;
 import fr.natation.service.EleveService;
 import fr.natation.view.ButtonColumn;
 import fr.natation.view.ButtonFactory;
@@ -176,7 +176,7 @@ public class EleveListPanel extends ListPanel {
 
     private void onPdfButton() {
         try {
-            PdfGenerator generator = new PdfGenerator();
+            BilanGenerator generator = new BilanGenerator();
 
             String fileName = "bilan" + ".pdf";
             for (Eleve eleve : EleveService.getAll()) {

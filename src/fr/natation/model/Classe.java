@@ -1,5 +1,7 @@
 package fr.natation.model;
 
+import fr.natation.service.AssnService;
+
 public class Classe {
 
     private int id;
@@ -29,6 +31,11 @@ public class Classe {
 
     public void setAssnId(int assnId) {
         this.assnId = assnId;
+    }
+
+    private Assn getAssn() throws Exception {
+        return AssnService.get(this.assnId);
+
     }
 
     @Override

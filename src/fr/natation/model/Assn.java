@@ -2,8 +2,9 @@ package fr.natation.model;
 
 public class Assn {
 
+    private int id;
     private String code;
-    private String descripption;
+    private String description;
 
     public String getCode() {
         return this.code;
@@ -13,12 +14,20 @@ public class Assn {
         this.code = code;
     }
 
-    public String getDescripption() {
-        return this.descripption;
+    public String getDescription() {
+        return this.description;
     }
 
-    public void setDescripption(String descripption) {
-        this.descripption = descripption;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public int getId() {
+        return this.id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
 }

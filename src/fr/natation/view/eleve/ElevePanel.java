@@ -17,7 +17,7 @@ import javax.swing.JScrollPane;
 import org.apache.log4j.Logger;
 
 import fr.natation.model.Eleve;
-import fr.natation.pdf.PdfGenerator;
+import fr.natation.pdf.BilanGenerator;
 import fr.natation.service.EleveService;
 import fr.natation.view.ButtonFactory;
 import fr.natation.view.IRefreshListener;
@@ -148,7 +148,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
 
     private void onPdfButton() {
         try {
-            PdfGenerator generator = new PdfGenerator();
+            BilanGenerator generator = new BilanGenerator();
             generator.addPage(this.eleve);
             String fileName = "bilan_" + this.eleve.toString().replaceAll(" ", "-") + ".pdf";
             generator.generate(fileName);
