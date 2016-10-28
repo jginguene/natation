@@ -44,7 +44,9 @@ public class EleveSelectPanel extends JPanel implements IRefreshListener, IEleve
         this.inputEleve.addItemListener(new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
-                EleveSelectPanel.this.onSelectEleve((Eleve) event.getItem());
+                if (event.getStateChange() == ItemEvent.SELECTED) {
+                    EleveSelectPanel.this.onSelectEleve((Eleve) event.getItem());
+                }
             }
         });
     }

@@ -27,7 +27,11 @@ public enum Icon {
     Exit(Utils.getExternalImage("img/exit.png")),
     Add(Utils.getExternalImage("img/plus.png")),
     SaveBackup(Utils.getExternalImage("img/save-backup.png")),
-    LoadBackup(Utils.getExternalImage("img/load-backup.png"));
+    LoadBackup(Utils.getExternalImage("img/load-backup.png")),
+    Green(Utils.getExternalImage("img/green.png")),
+    Orange(Utils.getExternalImage("img/orange.png")),
+    Blue(Utils.getExternalImage("img/blue.png")),
+    Red(Utils.getExternalImage("img/red.png"));
 
     ;
 

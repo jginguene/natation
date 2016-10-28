@@ -36,9 +36,13 @@ public class Bilan {
     }
 
     public Status getStatus(Niveau niveau, Domaine domaine) throws Exception {
+        float eleveCompetenceCount = this.eleve.getCompetences(niveau, domaine).size();
+        return this.getStatus(niveau, domaine, eleveCompetenceCount);
+    }
 
-        int eleveCompetenceCount = this.eleve.getCompetences(niveau, domaine).size();
-        int totalCompetenceCount = CompetenceService.get(niveau, domaine).size();
+    public Status getStatus(Niveau niveau, Domaine domaine, float eleveCompetenceCount) throws Exception {
+
+        float totalCompetenceCount = CompetenceService.get(niveau, domaine).size();
 
         float pct = eleveCompetenceCount / totalCompetenceCount;
 
@@ -52,9 +56,13 @@ public class Bilan {
     }
 
     public Status getStatus(Niveau niveau) throws Exception {
+        float eleveCompetenceCount = this.eleve.getCompetences(niveau).size();
+        return this.getStatus(niveau, eleveCompetenceCount);
+    }
 
-        int eleveCompetenceCount = this.eleve.getCompetences(niveau).size();
-        int totalCompetenceCount = CompetenceService.get(niveau).size();
+    public Status getStatus(Niveau niveau, float eleveCompetenceCount) throws Exception {
+
+        float totalCompetenceCount = CompetenceService.get(niveau).size();
 
         float pct = eleveCompetenceCount / totalCompetenceCount;
 

@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -18,14 +19,17 @@ import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 
 import fr.natation.Utils;
+import fr.natation.model.Bilan;
 import fr.natation.model.Competence;
 import fr.natation.model.Domaine;
 import fr.natation.model.Eleve;
 import fr.natation.model.Niveau;
+import fr.natation.model.Status;
 import fr.natation.service.CompetenceService;
 import fr.natation.service.DomaineService;
 import fr.natation.service.NiveauService;
 import fr.natation.view.GridBagConstraintsFactory;
+import fr.natation.view.Icon;
 
 public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSelectListener {
 
@@ -39,8 +43,15 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
     private final Map<Niveau, JLabel> map = new HashMap<Niveau, JLabel>();
 
     private final Map<Competence, JCheckBox> mapCompetence = new HashMap<>();
+    private final Map<Niveau, JLabel> mapNiveau = new HashMap<>();
+
+    private final Map<Domaine, JLabel> mapDomaine = new HashMap<>();
+
+    private JLabel labelNiveau;
 
     public EleveCompetenceAssociationPanel() throws Exception {
+
+        Bilan bilan = new Bilan(this.eleve);
 
         this.setBorder(BorderFactory.createTitledBorder("Competences de l'élève"));
 
@@ -53,13 +64,15 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
         int x = 1;
 
         for (Niveau niveau : niveaux) {
+
             JLabel labelNiveau = new JLabel("Niveau " + niveau.getNom());
             labelNiveau.setHorizontalAlignment(JLabel.CENTER);
-            labelNiveau.setVerticalAlignment(JLabel.BOTTOM);
+            labelNiveau.setVerticalAlignment(JLabel.CENTER);
             labelNiveau.setFont(labelNiveau.getFont().deriveFont(Font.BOLD, 14));
             labelNiveau.setBorder(BorderFactory.createLineBorder(Color.black));
-
             this.add(labelNiveau, GridBagConstraintsFactory.create(x, 0, 2, 1));
+
+            this.mapNiveau.put(niveau, labelNiveau);
 
             x += 2;
         }
@@ -73,6 +86,7 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
             JLabel labelDomaine = new JLabel("  " + domaine.getNom() + "  ");
             labelDomaine.setBorder(BorderFactory.createLineBorder(Color.black));
             labelDomaine.setFont(labelDomaine.getFont().deriveFont(Font.BOLD, 14));
+            this.mapDomaine.put(domaine, labelDomaine);
 
             this.add(labelDomaine, GridBagConstraintsFactory.create(0, y, 1, 2));
 
@@ -122,6 +136,23 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
         }
     }
 
+    private ImageIcon getImageStatus(Status status) {
+        switch (status) {
+        case Green:
+            return Icon.Green.getImage();
+
+        case Blue:
+            return Icon.Blue.getImage();
+        case Orange:
+            return Icon.Orange.getImage();
+
+        default:
+            return Icon.Red.getImage();
+
+        }
+
+    }
+
     @Override
     public void onChange(Eleve newEleve, Object source) {
         this.eleve = newEleve;
@@ -144,27 +175,71 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
 
     public void refreshScore() {
         try {
-            Map<Niveau, Integer> map = new HashMap<Niveau, Integer>();
+            Map<Niveau, Integer> mapNiveauCompetenceCount = new HashMap<Niveau, Integer>();
+            Map<Integer, Integer> mapDomaineCompetenceCount = new HashMap<Integer, Integer>();
 
             for (Competence competence : CompetenceService.getAll()) {
                 JCheckBox checkbox = this.mapCompetence.get(competence);
                 if (checkbox != null && checkbox.isSelected()) {
 
-                    if (!map.containsKey(competence.getNiveau())) {
-                        map.put(competence.getNiveau(), 0);
+                    if (!mapNiveauCompetenceCount.containsKey(competence.getNiveau())) {
+                        mapNiveauCompetenceCount.put(competence.getNiveau(), 0);
                     }
 
-                    int nb = map.get(competence.getNiveau()) + 1;
-                    map.put(competence.getNiveau(), nb);
+                    int niveauCount = mapNiveauCompetenceCount.get(competence.getNiveau()) + 1;
+                    mapNiveauCompetenceCount.put(competence.getNiveau(), niveauCount);
+
+                    if (competence.getNiveau().equals(this.eleve.getRequiredNiveau())) {
+                        Domaine domaine = competence.getDomaine();
+                        if (!mapDomaineCompetenceCount.containsKey(domaine.getId())) {
+                            mapDomaineCompetenceCount.put(domaine.getId(), 0);
+                        }
+
+                        int domainCount = mapDomaineCompetenceCount.get(domaine.getId()) + 1;
+                        mapDomaineCompetenceCount.put(domaine.getId(), domainCount);
+                    }
                 }
+
             }
 
             for (Niveau niveau : NiveauService.getAll()) {
                 int nbNiveau = 0;
-                if (map.containsKey(niveau)) {
-                    nbNiveau = map.get(niveau);
+                if (this.map.containsKey(niveau)) {
+                    nbNiveau = mapNiveauCompetenceCount.get(niveau);
                 }
                 this.map.get(niveau).setText(Integer.toString(nbNiveau));
+            }
+
+            mapDomaineCompetenceCount.keySet();
+            Bilan bilan = new Bilan(this.eleve);
+            for (Niveau niveau : NiveauService.getAll()) {
+
+                JLabel labelNiveau = this.mapNiveau.get(niveau);
+
+                if (niveau.equals(this.eleve.getRequiredNiveau())) {
+                    Status status;
+                    if (mapNiveauCompetenceCount.containsKey(niveau)) {
+                        status = bilan.getStatus(niveau, mapNiveauCompetenceCount.get(niveau));
+                    } else {
+                        status = Status.Red;
+                    }
+                    labelNiveau.setIcon(this.getImageStatus(status));
+                } else {
+                    labelNiveau.setIcon(null);
+                }
+                labelNiveau.repaint();
+            }
+
+            for (Domaine domaine : DomaineService.getAll()) {
+                JLabel labelDomaine = this.mapDomaine.get(domaine);
+                Status status;
+                if (mapDomaineCompetenceCount.containsKey(domaine.getId())) {
+                    status = bilan.getStatus(this.eleve.getRequiredNiveau(), domaine, mapDomaineCompetenceCount.get(domaine.getId()));
+                } else {
+                    status = Status.Red;
+                }
+                labelDomaine.setIcon(this.getImageStatus(status));
+
             }
         } catch (Exception e) {
             LOGGER.error("refreshScore() failed", e);

@@ -139,6 +139,7 @@ public class EleveListPanel extends ListPanel {
 
                 @Override
                 public void actionPerformed(ActionEvent e) {
+
                     int modelRow = Integer.valueOf(e.getActionCommand());
                     EleveTableModel model = (EleveTableModel) EleveListPanel.this.table.getModel();
                     Integer id = (Integer) (model).getValueAt(modelRow, EleveTableModel.COLUMN_ID);

@@ -163,10 +163,12 @@ public class SelectionEnLotDeCompetencePanel extends JPanel {
         ItemListener itemListener = new ItemListener() {
             @Override
             public void itemStateChanged(ItemEvent event) {
-                try {
-                    SelectionEnLotDeCompetencePanel.this.refreshCompetence();
-                } catch (Exception e) {
-                    LOGGER.error("error on change ", e);
+                if (event.getStateChange() == ItemEvent.SELECTED) {
+                    try {
+                        SelectionEnLotDeCompetencePanel.this.refreshCompetence();
+                    } catch (Exception e) {
+                        LOGGER.error("error on change ", e);
+                    }
                 }
             }
         };
