@@ -11,13 +11,13 @@ import org.apache.pdfbox.pdmodel.font.PDFont;
 import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
+import fr.natation.model.Bilan;
 import fr.natation.model.Capacite;
 import fr.natation.model.Domaine;
 import fr.natation.model.Eleve;
 import fr.natation.model.Niveau;
-import fr.natation.service.CompetenceService;
+import fr.natation.model.Status;
 import fr.natation.service.DomaineService;
-import fr.natation.service.NiveauService;
 
 public class BilanGenerator {
 
@@ -47,6 +47,8 @@ public class BilanGenerator {
 
     public void addPage(Eleve eleve) throws Exception {
 
+        Bilan bilan = new Bilan(eleve);
+
         PDPage page = new PDPage();
         this.doc.addPage(page);
 
@@ -70,17 +72,7 @@ public class BilanGenerator {
 
         PdfUtils.writeText(contentStream, x + 150, y, 100, 20, "Niveau atteint", TITLE);
 
-        String eleveNiveau = "-";
-        for (Niveau niveau : NiveauService.getAll()) {
-            int niveauTotalCompetenceCount = niveau.getCompetencesCount();
-            int niveauEleveCompetenceCount = eleve.getCompetences(niveau).size();
-
-            float pct = (100 * niveauEleveCompetenceCount) / (niveauTotalCompetenceCount);
-            if (pct > 80) {
-                eleveNiveau = niveau.getNom();
-            }
-
-        }
+        String eleveNiveau = bilan.getNiveauAsStr();
 
         PdfUtils.writeText(contentStream, x + 250, y, 100, 20, eleveNiveau, TEXT);
 
@@ -88,27 +80,12 @@ public class BilanGenerator {
         PdfUtils.writeText(contentStream, x + 150, y, 200, 20, "Savoir nager 1", CENTER_TITLE);
 
         y -= 40;
+        Niveau requiredNiveau = eleve.getRequiredNiveau();
         for (Domaine domaine : DomaineService.getAll()) {
-
-            Niveau requiredNiveau = eleve.getClasse().getNiveau();
-
-            int eleveCompetenceCount = eleve.getCompetences(requiredNiveau, domaine).size();
-            int totalCompetenceCount = CompetenceService.get(requiredNiveau, domaine).size();
-
-            float pct = eleveCompetenceCount / totalCompetenceCount;
-
+            Status status = bilan.getStatus(requiredNiveau, domaine);
             PdfUtils.writeText(contentStream, x + 150, y, 170, 20, domaine.getNom(), TITLE);
             PdfUtils.writeText(contentStream, x + 320, y, 30, 20, "", TITLE);
-
-            PDImageXObject pdImage = null;
-            if (pct >= 0.8) {
-                pdImage = PDImageXObject.createFromFile("img/Green.png", this.doc);
-            } else if (pct >= 0.6) {
-                pdImage = PDImageXObject.createFromFile("img/Blue.png", this.doc);
-            } else {
-                pdImage = PDImageXObject.createFromFile("img/Red.png", this.doc);
-            }
-
+            PDImageXObject pdImage = this.getImage(status);
             contentStream.drawImage(pdImage, x + 330, y + 5, pdImage.getWidth() * 10 / pdImage.getHeight(), 10);
 
             y -= 20;
@@ -118,8 +95,31 @@ public class BilanGenerator {
 
         PdfUtils.writeText(contentStream, x + 100, y, 300, 50, "Adapter ses déplacements à différents\ntypes d'environnements", SMALL_TITLE);
 
+        Status niveauStatus = bilan.getStatus(requiredNiveau);
+        PDImageXObject niveauStatusImg = this.getImage(niveauStatus);
+
+        PdfUtils.writeText(contentStream, x + 400, y, 30, 50, "", TITLE);
+        contentStream.drawImage(niveauStatusImg, x + 410, y + 20, niveauStatusImg.getWidth() * 10 / niveauStatusImg.getHeight(), 10);
+
         contentStream.close();
 
+    }
+
+    public PDImageXObject getImage(Status status) throws IOException {
+        switch (status) {
+        case Green:
+            return PDImageXObject.createFromFile("img/Green.png", this.doc);
+
+        case Blue:
+            return PDImageXObject.createFromFile("img/Blue.png", this.doc);
+
+        case Orange:
+            return PDImageXObject.createFromFile("img/Orange.png", this.doc);
+
+        default:
+            return PDImageXObject.createFromFile("img/Red.png", this.doc);
+
+        }
     }
 
     public void generate(String filename) throws IOException {

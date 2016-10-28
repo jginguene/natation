@@ -40,14 +40,14 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
     private static final int COMPETENCE_TAB = 3;
     private static final int CAPACITE_TAB = 4;
 
-    private final EleveListTabPanel eleveListTabPanel = new EleveListTabPanel();
+    private final EleveListTabPanel eleveListTabPanel;
 
-    private final EleveTabPanel eleveTabPanel = new EleveTabPanel();
-    private final GroupeListTabPanel groupeListTabPanel = new GroupeListTabPanel();
-    private final CompetenceListTabPanel competenceListTabPanel = new CompetenceListTabPanel();
-    private final CapaciteTabPanel capaciteListTabPanel = new CapaciteTabPanel();
-    private final SelectionEnLotDeCompetencePanel selectionEnLotDeCompetencePanel = new SelectionEnLotDeCompetencePanel();
-    private final NavettePanel navettePanel = new NavettePanel();
+    private final EleveTabPanel eleveTabPanel;
+    private final GroupeListTabPanel groupeListTabPanel;
+    private final CompetenceListTabPanel competenceListTabPanel;
+    private final CapaciteTabPanel capaciteListTabPanel;
+    private final SelectionEnLotDeCompetencePanel selectionEnLotDeCompetencePanel;
+    private final NavettePanel navettePanel;
 
     private final NatationMenu menu;
 
@@ -56,7 +56,17 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
     private boolean isInitialized = false;
 
     public NatationFrame() throws Exception {
+
         super("Passeport pour le natation");
+
+        this.eleveListTabPanel = new EleveListTabPanel();
+        this.eleveTabPanel = new EleveTabPanel();
+        this.groupeListTabPanel = new GroupeListTabPanel();
+        this.competenceListTabPanel = new CompetenceListTabPanel();
+        this.capaciteListTabPanel = new CapaciteTabPanel();
+        this.selectionEnLotDeCompetencePanel = new SelectionEnLotDeCompetencePanel();
+        this.navettePanel = new NavettePanel();
+
         FRAME = this;
 
         this.setIconImage(Icon.Application.getImage().getImage());
@@ -76,6 +86,8 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
         this.tabbedPane.addTab("Navette", Icon.Navette.getImage(), this.navettePanel, "");
 
         this.eleveListTabPanel.addListener(this);
+
+        LOGGER.debug("NatationFrame 2");
 
         this.tabbedPane.addChangeListener(new ChangeListener() {
             @Override
@@ -107,6 +119,8 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
                 }
             }
         });
+
+        LOGGER.debug("NatationFrame 3");
 
         this.add(this.tabbedPane);
 

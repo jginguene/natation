@@ -57,6 +57,10 @@ public class Eleve {
         }
     }
 
+    public Niveau getRequiredNiveau() throws Exception {
+        return this.getClasse().getNiveau();
+    }
+
     public String getGroupeNom() throws Exception {
         Groupe groupe = this.getGroupe();
         if (groupe != null) {
