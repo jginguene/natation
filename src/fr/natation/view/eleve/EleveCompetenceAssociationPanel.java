@@ -175,19 +175,19 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
 
     public void refreshScore() {
         try {
-            Map<Niveau, Integer> mapNiveauCompetenceCount = new HashMap<Niveau, Integer>();
+            Map<Integer, Integer> mapNiveauCompetenceCount = new HashMap<Integer, Integer>();
             Map<Integer, Integer> mapDomaineCompetenceCount = new HashMap<Integer, Integer>();
 
             for (Competence competence : CompetenceService.getAll()) {
                 JCheckBox checkbox = this.mapCompetence.get(competence);
                 if (checkbox != null && checkbox.isSelected()) {
 
-                    if (!mapNiveauCompetenceCount.containsKey(competence.getNiveau())) {
-                        mapNiveauCompetenceCount.put(competence.getNiveau(), 0);
+                    if (!mapNiveauCompetenceCount.containsKey(competence.getNiveau().getId())) {
+                        mapNiveauCompetenceCount.put(competence.getNiveau().getId(), 0);
                     }
 
-                    int niveauCount = mapNiveauCompetenceCount.get(competence.getNiveau()) + 1;
-                    mapNiveauCompetenceCount.put(competence.getNiveau(), niveauCount);
+                    int niveauCount = mapNiveauCompetenceCount.get(competence.getNiveau().getId()) + 1;
+                    mapNiveauCompetenceCount.put(competence.getNiveau().getId(), niveauCount);
 
                     if (competence.getNiveau().equals(this.eleve.getRequiredNiveau())) {
                         Domaine domaine = competence.getDomaine();
@@ -204,13 +204,12 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
 
             for (Niveau niveau : NiveauService.getAll()) {
                 int nbNiveau = 0;
-                if (this.map.containsKey(niveau)) {
-                    nbNiveau = mapNiveauCompetenceCount.get(niveau);
+                if (mapNiveauCompetenceCount.containsKey(niveau.getId())) {
+                    nbNiveau = mapNiveauCompetenceCount.get(niveau.getId());
                 }
                 this.map.get(niveau).setText(Integer.toString(nbNiveau));
             }
 
-            mapDomaineCompetenceCount.keySet();
             Bilan bilan = new Bilan(this.eleve);
             for (Niveau niveau : NiveauService.getAll()) {
 
@@ -218,8 +217,8 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
 
                 if (niveau.equals(this.eleve.getRequiredNiveau())) {
                     Status status;
-                    if (mapNiveauCompetenceCount.containsKey(niveau)) {
-                        status = bilan.getStatus(niveau, mapNiveauCompetenceCount.get(niveau));
+                    if (mapNiveauCompetenceCount.containsKey(niveau.getId())) {
+                        status = bilan.getStatus(niveau, mapNiveauCompetenceCount.get(niveau.getId()));
                     } else {
                         status = Status.Red;
                     }
