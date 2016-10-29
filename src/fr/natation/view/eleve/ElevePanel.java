@@ -114,8 +114,9 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
             EleveService.update(this.eleve);
 
             this.refresh();
-
             JOptionPane.showMessageDialog(null, "La mise à jour de " + this.eleve.toString() + " est terminée ", "Information", JOptionPane.INFORMATION_MESSAGE);
+
+            this.eleve = EleveService.get(this.eleve.getId());
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "L'ajout a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
             LOGGER.error("L'ajout a échoué", e);

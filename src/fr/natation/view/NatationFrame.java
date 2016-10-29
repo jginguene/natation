@@ -18,6 +18,7 @@ import org.apache.log4j.Logger;
 import fr.natation.DiskTools;
 import fr.natation.model.Eleve;
 import fr.natation.view.capacite.CapaciteTabPanel;
+import fr.natation.view.chart.AnalyseTabPanel;
 import fr.natation.view.competence.CompetenceListTabPanel;
 import fr.natation.view.competence.SelectionEnLotDeCompetencePanel;
 import fr.natation.view.eleve.EleveListTabPanel;
@@ -39,6 +40,8 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
     private static final int GROUPE_TAB = 2;
     private static final int COMPETENCE_TAB = 3;
     private static final int CAPACITE_TAB = 4;
+    private static final int NAVETTE_TAB = 5;
+    private static final int ANALYSE_TAB = 6;
 
     private final EleveListTabPanel eleveListTabPanel;
 
@@ -48,6 +51,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
     private final CapaciteTabPanel capaciteListTabPanel;
     private final SelectionEnLotDeCompetencePanel selectionEnLotDeCompetencePanel;
     private final NavettePanel navettePanel;
+    private final AnalyseTabPanel analyseTabPanel;
 
     private final NatationMenu menu;
 
@@ -66,6 +70,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
         this.capaciteListTabPanel = new CapaciteTabPanel();
         this.selectionEnLotDeCompetencePanel = new SelectionEnLotDeCompetencePanel();
         this.navettePanel = new NavettePanel();
+        this.analyseTabPanel = new AnalyseTabPanel();
 
         FRAME = this;
 
@@ -82,12 +87,10 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
         this.tabbedPane.addTab("Liste des compétences", Icon.Competence.getImage(), this.competenceListTabPanel, "");
         this.tabbedPane.addTab("Assignation en lot de compétences", Icon.Competence.getImage(), this.selectionEnLotDeCompetencePanel, "");
         this.tabbedPane.addTab("Liste des capacités", Icon.Capacite.getImage(), this.capaciteListTabPanel, "");
-
         this.tabbedPane.addTab("Navette", Icon.Navette.getImage(), this.navettePanel, "");
+        this.tabbedPane.addTab("Analyse", Icon.Analyse.getImage(), this.analyseTabPanel, "");
 
         this.eleveListTabPanel.addListener(this);
-
-        LOGGER.debug("NatationFrame 2");
 
         this.tabbedPane.addChangeListener(new ChangeListener() {
             @Override
@@ -109,8 +112,8 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
                         NatationFrame.this.competenceListTabPanel.refresh();
                     }
 
-                    if (NatationFrame.this.tabbedPane.getSelectedIndex() == CAPACITE_TAB) {
-                        NatationFrame.this.capaciteListTabPanel.refresh();
+                    if (NatationFrame.this.tabbedPane.getSelectedIndex() == ANALYSE_TAB) {
+                        NatationFrame.this.analyseTabPanel.refresh();
                     }
 
                 } catch (Exception e1) {

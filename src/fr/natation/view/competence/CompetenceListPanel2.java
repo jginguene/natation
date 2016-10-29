@@ -147,7 +147,7 @@ public class CompetenceListPanel2 extends JPanel {
         label.setVerticalAlignment(JLabel.CENTER);
         label.setFont(new Font(label.getFont().getName(), Font.BOLD, 14));
         label.setBorder(BorderFactory.createMatteBorder(0, 1, 1, 1, Color.black));
-        label.setBackground(this.getNiveauColor(niveau));
+        label.setBackground(ViewUtils.getNiveauColor(niveau));
         label.setOpaque(true);
         return label;
 
@@ -160,7 +160,7 @@ public class CompetenceListPanel2 extends JPanel {
         String text = Utils.cutStringHtml(competence.getDescription(), 40);
         JLabel labelCompetence = new JLabel(text);
 
-        labelCompetence.setBackground(this.getNiveauColor(niveau));
+        labelCompetence.setBackground(ViewUtils.getNiveauColor(niveau));
         labelCompetence.setOpaque(true);
         labelCompetence.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         panel.add(labelCompetence, BorderLayout.CENTER);
@@ -170,30 +170,13 @@ public class CompetenceListPanel2 extends JPanel {
         if (capacite != null) {
             JLabel labelIcon = new JLabel(ViewUtils.getCapaciteIcon(capacite, 40));
             panel.add(labelIcon, BorderLayout.WEST);
-            panel.setBackground(this.getNiveauColor(niveau));
+            panel.setBackground(ViewUtils.getNiveauColor(niveau));
             labelIcon.setSize(new Dimension(20, 20));
             labelIcon.setBorder(BorderFactory.createEmptyBorder(4, 4, 4, 4));
         }
 
         panel.setBorder(BorderFactory.createMatteBorder(0, 0, 1, 1, Color.black));
         return panel;
-    }
-
-    private Color getNiveauColor(Niveau niveau) {
-
-        if (niveau.getNom().equals("1")) {
-            return new Color(255, 153, 204);
-        }
-
-        if (niveau.getNom().equals("2")) {
-            return new Color(153, 204, 255);
-        }
-
-        if (niveau.getNom().equals("3")) {
-            return new Color(204, 255, 204);
-        }
-
-        return Color.GRAY;
     }
 
 }

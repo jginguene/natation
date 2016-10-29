@@ -31,7 +31,9 @@ public enum Icon {
     Green(Utils.getExternalImage("img/green.png")),
     Orange(Utils.getExternalImage("img/orange.png")),
     Blue(Utils.getExternalImage("img/blue.png")),
-    Red(Utils.getExternalImage("img/red.png"));
+    Red(Utils.getExternalImage("img/red.png")),
+    Analyse(Utils.getExternalImage("img/analyse.png")),
+    ;
 
     ;
 

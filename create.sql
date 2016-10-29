@@ -28,9 +28,9 @@ insert into assn(id,code,description) values (3,'ASSN','Attestation scolaire du 
 create table classe(
     id integer primary key autoincrement,
     nom varchar2(200) not null,
-    niveau integer(200) not null,
+    niveau_id integer(200) not null,
     assn_id integer,
-    FOREIGN KEY(assn_id) REFERENCES assn(id)  
+    FOREIGN KEY(assn_id) REFERENCES assn(id)  ,
     FOREIGN KEY(niveau_id) REFERENCES niveau(id)  
 );
 

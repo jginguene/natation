@@ -44,7 +44,6 @@ public class Launcher {
 
     public static void splash() throws Exception {
 
-        LOGGER.debug("splash 1");
         int width = 500;
         int height = 400;
 
@@ -57,8 +56,6 @@ public class Launcher {
         title.setVerticalAlignment(JLabel.CENTER);
         title.setFont(new Font("Arial", Font.BOLD, 30));
         title.setForeground(new Color(65, 135, 215));
-
-        LOGGER.debug("splash 2");
 
         panel.add(title, BorderLayout.NORTH);
         panel.add(new JLabel(Icon.Application.getImage()), BorderLayout.CENTER);
@@ -73,11 +70,9 @@ public class Launcher {
 
         window.setBounds(x, y, width, height);
         window.setVisible(true);
-        LOGGER.debug("splash 3-");
 
         NatationFrame frame = new NatationFrame();
 
-        LOGGER.debug("splash 4");
         frame.setVisible(true);
 
         new Thread(new Runnable() {

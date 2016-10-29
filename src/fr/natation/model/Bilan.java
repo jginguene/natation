@@ -41,18 +41,9 @@ public class Bilan {
     }
 
     public Status getStatus(Niveau niveau, Domaine domaine, float eleveCompetenceCount) throws Exception {
-
         float totalCompetenceCount = CompetenceService.get(niveau, domaine).size();
-
         float pct = eleveCompetenceCount / totalCompetenceCount;
-
-        if (pct >= 0.8) {
-            return Status.Green;
-        } else if (pct >= 0.6) {
-            return Status.Blue;
-        } else {
-            return Status.Red;
-        }
+        return this.getStatus(pct);
     }
 
     public Status getStatus(Niveau niveau) throws Exception {
@@ -61,18 +52,24 @@ public class Bilan {
     }
 
     public Status getStatus(Niveau niveau, float eleveCompetenceCount) throws Exception {
-
         float totalCompetenceCount = CompetenceService.get(niveau).size();
-
         float pct = eleveCompetenceCount / totalCompetenceCount;
+        return this.getStatus(pct);
+
+    }
+
+    public Status getStatus(float pct) {
 
         if (pct >= 0.8) {
             return Status.Green;
         } else if (pct >= 0.6) {
             return Status.Blue;
+        } else if (pct >= 0.4) {
+            return Status.Orange;
         } else {
             return Status.Red;
         }
+
     }
 
 }
