@@ -14,14 +14,9 @@ public class Bilan {
     public Niveau getNiveau() throws Exception {
         Niveau eleveNiveau = null;
         for (Niveau niveau : NiveauService.getAll()) {
-            int niveauTotalCompetenceCount = niveau.getCompetencesCount();
-            int niveauEleveCompetenceCount = this.eleve.getCompetences(niveau).size();
-
-            float pct = (100 * niveauEleveCompetenceCount) / (niveauTotalCompetenceCount);
-            if (pct > 80) {
+            if (this.getStatus(niveau) == Status.Green) {
                 eleveNiveau = niveau;
             }
-
         }
         return eleveNiveau;
     }
@@ -32,6 +27,19 @@ public class Bilan {
             return "-";
         } else {
             return niveau.getNom();
+        }
+    }
+
+    public String getAssnAsStr() throws Exception {
+        Niveau niveau = this.getNiveau();
+        if (niveau == null) {
+            return "-";
+        } else {
+            Assn assn = niveau.getAssn();
+            if (assn != null) {
+                return assn.getDescription();
+            }
+            return "Niveau " + niveau.getNom();
         }
     }
 
@@ -64,7 +72,7 @@ public class Bilan {
             return Status.Green;
         } else if (pct >= 0.6) {
             return Status.Blue;
-        } else if (pct >= 0.4) {
+        } else if (pct >= 0.3) {
             return Status.Orange;
         } else {
             return Status.Red;

@@ -1,11 +1,13 @@
 package fr.natation.view.eleve;
 
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,16 +22,19 @@ import org.apache.log4j.Logger;
 
 import fr.natation.Utils;
 import fr.natation.model.Bilan;
+import fr.natation.model.Capacite;
 import fr.natation.model.Competence;
 import fr.natation.model.Domaine;
 import fr.natation.model.Eleve;
 import fr.natation.model.Niveau;
 import fr.natation.model.Status;
+import fr.natation.service.CapaciteService;
 import fr.natation.service.CompetenceService;
 import fr.natation.service.DomaineService;
 import fr.natation.service.NiveauService;
 import fr.natation.view.GridBagConstraintsFactory;
 import fr.natation.view.Icon;
+import fr.natation.view.ViewUtils;
 
 public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSelectListener {
 
@@ -47,33 +52,30 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
 
     private final Map<Domaine, JLabel> mapDomaine = new HashMap<>();
 
-    private JLabel labelNiveau;
+    private final JLabel labelCapacite;
 
     public EleveCompetenceAssociationPanel() throws Exception {
 
-        Bilan bilan = new Bilan(this.eleve);
-
         this.setBorder(BorderFactory.createTitledBorder("Competences de l'élève"));
-
         List<Niveau> niveaux = NiveauService.getAll();
-
         this.setLayout(new GridBagLayout());
-
         this.add(new JLabel());
-
         int x = 1;
 
-        for (Niveau niveau : niveaux) {
+        this.labelCapacite = new JLabel();
+        this.labelCapacite.setHorizontalAlignment(JLabel.CENTER);
+        this.labelCapacite.setVerticalAlignment(JLabel.CENTER);
+        this.labelCapacite.setBorder(BorderFactory.createLineBorder(Color.black));
+        this.add(this.labelCapacite, GridBagConstraintsFactory.create(0, 0, 1, 1));
 
+        for (Niveau niveau : niveaux) {
             JLabel labelNiveau = new JLabel("Niveau " + niveau.getNom());
             labelNiveau.setHorizontalAlignment(JLabel.CENTER);
             labelNiveau.setVerticalAlignment(JLabel.CENTER);
             labelNiveau.setFont(labelNiveau.getFont().deriveFont(Font.BOLD, 14));
             labelNiveau.setBorder(BorderFactory.createLineBorder(Color.black));
             this.add(labelNiveau, GridBagConstraintsFactory.create(x, 0, 2, 1));
-
             this.mapNiveau.put(niveau, labelNiveau);
-
             x += 2;
         }
 
@@ -82,12 +84,10 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
         int y = 1;
 
         for (Domaine domaine : domaines) {
-
             JLabel labelDomaine = new JLabel("  " + domaine.getNom() + "  ");
             labelDomaine.setBorder(BorderFactory.createLineBorder(Color.black));
             labelDomaine.setFont(labelDomaine.getFont().deriveFont(Font.BOLD, 14));
             this.mapDomaine.put(domaine, labelDomaine);
-
             this.add(labelDomaine, GridBagConstraintsFactory.create(0, y, 1, 2));
 
             x = 1;
@@ -97,6 +97,8 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
                 panel.setLayout(new GridLayout(5, 2));
                 for (Competence competence : CompetenceService.get(niveau, domaine)) {
 
+                    JPanel panelCheckBox = new JPanel();
+                    panelCheckBox.setLayout(new BorderLayout());
                     JCheckBox checkBox = new JCheckBox(Utils.cutStringHtml(competence.getDescription(), 40));
 
                     checkBox.setToolTipText(competence.getDescription());
@@ -109,7 +111,13 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
                     });
                     this.mapCompetence.put(competence, checkBox);
 
-                    panel.add(checkBox);
+                    Capacite capacite = competence.getCapacite();
+                    if (capacite != null) {
+                        panelCheckBox.add(new JLabel(ViewUtils.getCapaciteIcon(capacite, 40)), BorderLayout.EAST);
+                    }
+
+                    panelCheckBox.add(checkBox, BorderLayout.CENTER);
+                    panel.add(panelCheckBox);
 
                 }
                 this.add(panel, GridBagConstraintsFactory.create(x, y, 2, 2));
@@ -177,10 +185,12 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
         try {
             Map<Integer, Integer> mapNiveauCompetenceCount = new HashMap<Integer, Integer>();
             Map<Integer, Integer> mapDomaineCompetenceCount = new HashMap<Integer, Integer>();
+            List<Competence> selectedCompetences = new ArrayList<Competence>();
 
             for (Competence competence : CompetenceService.getAll()) {
                 JCheckBox checkbox = this.mapCompetence.get(competence);
                 if (checkbox != null && checkbox.isSelected()) {
+                    selectedCompetences.add(competence);
 
                     if (!mapNiveauCompetenceCount.containsKey(competence.getNiveau().getId())) {
                         mapNiveauCompetenceCount.put(competence.getNiveau().getId(), 0);
@@ -239,6 +249,17 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
                 }
                 labelDomaine.setIcon(this.getImageStatus(status));
 
+            }
+
+            Capacite eleveCapacite = null;
+            for (Capacite capacite : CapaciteService.getAll()) {
+                List<Competence> allCapaciteCompetence = capacite.getCompetences();
+                if (!allCapaciteCompetence.isEmpty() && selectedCompetences.containsAll(allCapaciteCompetence)) {
+                    eleveCapacite = capacite;
+                }
+            }
+            if (eleveCapacite != null) {
+                this.labelCapacite.setIcon(ViewUtils.getCapaciteIcon(eleveCapacite, 50));
             }
         } catch (Exception e) {
             LOGGER.error("refreshScore() failed", e);

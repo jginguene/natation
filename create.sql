@@ -7,39 +7,46 @@ create table Groupe(
 );
 
 
-create table niveau(
-    id integer primary key autoincrement,
-    Nom varchar2(200) not null,
-    CONSTRAINT nom_unique UNIQUE (Nom )
-);
 
 
 create table assn(
     id integer primary key autoincrement,
     code varchar2(200) not null,
     description varchar2(200) not null
+  
 );
 
 insert into assn(id,code,description) values (1,'SN1','Savoir nager 1');
 insert into assn(id,code,description) values (2,'SN2','Savoir nager 2');
 insert into assn(id,code,description) values (3,'ASSN','Attestation scolaire du savoir nager');
 
+create table niveau(
+    id integer primary key autoincrement,
+    Nom varchar2(200) not null,
+    assn_id integer,
+    FOREIGN KEY(assn_id) REFERENCES assn(id)  ,    
+    CONSTRAINT nom_unique UNIQUE (Nom )
+);
+
+insert into niveau (nom,assn_id) values (1,null);
+insert into niveau (nom,assn_id) values (2,1);
+insert into niveau (nom,assn_id) values (3,2);
+
+
 
 create table classe(
     id integer primary key autoincrement,
     nom varchar2(200) not null,
     niveau_id integer(200) not null,
-    assn_id integer,
-    FOREIGN KEY(assn_id) REFERENCES assn(id)  ,
     FOREIGN KEY(niveau_id) REFERENCES niveau(id)  
 );
 
-insert into classe(id,nom,assn_id, niveau_id) values (1,'CP',null,1);
-insert into classe(id,nom,assn_id,niveau_id) values (2,'CE1',1,2);
-insert into classe(id,nom,assn_id, niveau_id) values (3,'CE2',1,2);
-insert into classe(id,nom,assn_id, niveau_id) values (4,'CM1',2,3);
-insert into classe(id,nom,assn_id, niveau_id) values (5,'CM2',2,3);
-insert into classe(id,nom,assn_id, niveau_id) values (6,'6ème',3,3);
+insert into classe(id,nom, niveau_id) values (1,'CP',1);
+insert into classe(id,nom,niveau_id) values (2,'CE1',2);
+insert into classe(id,nom, niveau_id) values (3,'CE2',2);
+insert into classe(id,nom, niveau_id) values (4,'CM1',3);
+insert into classe(id,nom, niveau_id) values (5,'CM2',3);
+insert into classe(id,nom, niveau_id) values (6,'6ème',3);
 
 
 create table domaine(
@@ -101,9 +108,7 @@ insert into Groupe(nom,description ) values ("C","Grand bassin - Moyenne profond
 insert into Groupe(nom,description ) values ("D","Grand bassin - Grande profondeur");
 
 
-insert into niveau (nom) values (1);
-insert into niveau (nom) values (2);
-insert into niveau (nom) values (3);
+
 --insert into niveau (nom) values (4);
 
 CREATE INDEX idx_domaine_id ON domaine (id);

@@ -70,14 +70,14 @@ public class BilanGenerator {
         }
         y -= IMG_HEIGHT;
 
-        PdfUtils.writeText(contentStream, x + 150, y, 100, 20, "Niveau atteint", TITLE);
+        // PdfUtils.writeText(contentStream, x + 150, y, 100, 20, "Niveau atteint", TITLE);
 
-        String eleveNiveau = bilan.getNiveauAsStr();
+        //        String eleveNiveau = bilan.getNiveauAsStr();
 
-        PdfUtils.writeText(contentStream, x + 250, y, 100, 20, eleveNiveau, TEXT);
+        //      PdfUtils.writeText(contentStream, x + 250, y, 100, 20, eleveNiveau, TEXT);
 
-        y -= 20;
-        PdfUtils.writeText(contentStream, x + 150, y, 200, 20, "Savoir nager 1", CENTER_TITLE);
+        //      y -= 20;
+        PdfUtils.writeText(contentStream, x + 150, y, 200, 20, bilan.getAssnAsStr(), CENTER_TITLE);
 
         y -= 40;
         Niveau requiredNiveau = eleve.getRequiredNiveau();

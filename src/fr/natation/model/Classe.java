@@ -6,7 +6,6 @@ import fr.natation.service.NiveauService;
 public class Classe {
 
     private int id;
-    private int assnId;
     private int niveauId;
     private String nom;
 
@@ -38,18 +37,7 @@ public class Classe {
         this.nom = nom;
     }
 
-    public int getAssnId() {
-        return this.assnId;
-    }
 
-    public void setAssnId(int assnId) {
-        this.assnId = assnId;
-    }
-
-    private Assn getAssn() throws Exception {
-        return AssnService.get(this.assnId);
-
-    }
 
     @Override
     public String toString() {

@@ -28,7 +28,7 @@ public class AssnService {
             if (res.next()) {
                 return convert(res);
             } else {
-                throw new Exception("La assn " + assnId + " n 'existe pas");
+                return null;
             }
         } catch (Exception e) {
             throw new Exception("get() failed", e);
