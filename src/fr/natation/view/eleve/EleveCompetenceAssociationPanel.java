@@ -44,7 +44,6 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
 
     private Eleve eleve;
 
-    //  private final CompetenceSelectionManager manager = new CompetenceSelectionManager();
     private final Map<Niveau, JLabel> map = new HashMap<Niveau, JLabel>();
 
     private final Map<Competence, JCheckBox> mapCompetence = new HashMap<>();
@@ -258,8 +257,11 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
                     eleveCapacite = capacite;
                 }
             }
+
             if (eleveCapacite != null) {
                 this.labelCapacite.setIcon(ViewUtils.getCapaciteIcon(eleveCapacite, 50));
+            } else {
+                this.labelCapacite.setIcon(null);
             }
         } catch (Exception e) {
             LOGGER.error("refreshScore() failed", e);

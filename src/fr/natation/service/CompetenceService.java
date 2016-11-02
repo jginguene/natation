@@ -43,7 +43,6 @@ public class CompetenceService {
     private final static String LAST_ID = "select last_insert_rowid()";
 
     private static List<Competence> competences = new ArrayList<>();
-
     private static Map<String, List<Competence>> mapNiveauDomaine = new HashMap<>();
     private static Map<String, List<Competence>> mapNiveauDomaineEleve = new HashMap<>();
 
@@ -300,6 +299,7 @@ public class CompetenceService {
     private static void clearCache() {
         mapNiveauDomaine.clear();
         competences.clear();
+        mapNiveauDomaineEleve.clear();
     }
 
 }

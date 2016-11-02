@@ -13,6 +13,7 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.Date;
 
+import javax.swing.BorderFactory;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JWindow;
@@ -63,8 +64,6 @@ public class Launcher {
         panel.add(title, GridBagConstraintsFactory.create(0, 0, 1, 1));
 
         JLabel label = new JLabel(Icon.SplashBackground.getImage());
-        //label.setPreferredSize(new Dimension(200, 200));
-        //label.setSize(new Dimension(200, 200));
 
         panel.add(label, GridBagConstraintsFactory.create(0, 1, 1, 4));
         panel.add(new JLabel(Icon.Splash.getImage()), GridBagConstraintsFactory.create(0, 5, 1, 1));
@@ -75,6 +74,8 @@ public class Launcher {
         Dimension dimension = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (int) ((dimension.getWidth() - width) / 2);
         int y = (int) ((dimension.getHeight() - height) / 2);
+
+        panel.setBorder(BorderFactory.createLineBorder(Color.black));
 
         window.setBounds(x, y, width, height);
         window.setVisible(true);

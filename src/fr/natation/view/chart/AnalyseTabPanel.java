@@ -38,13 +38,14 @@ import fr.natation.view.CustomComboBoxModel;
 import fr.natation.view.EmptyGroupe;
 import fr.natation.view.EmptyNiveau;
 import fr.natation.view.GridBagConstraintsFactory;
+import fr.natation.view.IEleveUpdateListener;
 import fr.natation.view.IRefreshListener;
 import fr.natation.view.Icon;
 import fr.natation.view.StatusLabel;
 import fr.natation.view.VerticalLabel;
 import fr.natation.view.ViewUtils;
 
-public class AnalyseTabPanel extends JPanel implements IRefreshListener {
+public class AnalyseTabPanel extends JPanel implements IRefreshListener, IEleveUpdateListener {
 
     private static final long serialVersionUID = 1L;
 
@@ -61,6 +62,8 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener {
 
     private final Map<Niveau, List<Component>> mapNiveauComponent = new HashMap<Niveau, List<Component>>();
     private final Map<Eleve, List<Component>> mapEleveComponent = new HashMap<Eleve, List<Component>>();
+
+    private final Map<String, StatusLabel> mapEleve = new HashMap<String, StatusLabel>();
 
     public AnalyseTabPanel() throws Exception {
 
@@ -129,19 +132,19 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener {
         CustomComboBoxModel<Niveau> modelNiveau = new CustomComboBoxModel<Niveau>(niveaux);
         modelNiveau.setSelectedItem(this.allNiveaux);
         this.inputNiveau.setModel(modelNiveau);
+
     }
 
     private JPanel createViewPanel() throws Exception {
 
         JPanel panel = new JPanel();
-
         panel.setLayout(new GridBagLayout());
 
         int x = 3;
 
         int niveauWidth = DomaineService.getAll().size() + 1;
-        for (Niveau niveau : this.getNiveaux()) {
 
+        for (Niveau niveau : this.getNiveaux()) {
             Color niveauColor = ViewUtils.getNiveauColor(niveau);
 
             GridBagConstraints constraint = GridBagConstraintsFactory.create(x, 0, niveauWidth, 1);
@@ -186,6 +189,9 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener {
 
         constraint = GridBagConstraintsFactory.create(x++, 0, 1, 2);
         panel.add(this.createLabelTitle("Niveau atteint"), constraint);
+
+        constraint = GridBagConstraintsFactory.create(x++, 0, 1, 2);
+        panel.add(this.createLabelTitle("Savoir nager"), constraint);
 
         constraint = GridBagConstraintsFactory.create(x++, 0, 1, 2);
         panel.add(this.createLabelTitle("Capacité"), constraint);
@@ -234,12 +240,14 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener {
                     constraint = GridBagConstraintsFactory.create(domaineX, y, 1, 1);
                     total += competences.size();
 
-                    JLabel labelTotal = this.createStatusLabel(Integer.toString(competences.size()), status, backgroundColor);
+                    StatusLabel labelTotal = this.createStatusLabel(Integer.toString(competences.size()), status, backgroundColor);
 
                     panel.add(labelTotal, constraint);
 
                     this.register(niveau, labelTotal);
                     this.register(eleve, labelTotal);
+
+                    this.register(eleve, niveau, domaine, labelTotal);
 
                     domaineX++;
                 }
@@ -247,13 +255,12 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener {
                 constraint = GridBagConstraintsFactory.create(domaineX, y, 1, 1);
 
                 Status status = bilan.getStatus(niveau, eleve.getCompetences(niveau).size());
-
-                JLabel labelTotal = this.createStatusTitleLabel(Integer.toString(total), status, backgroundColor);
-
+                StatusLabel labelTotal = this.createStatusTitleLabel(Integer.toString(total), status, backgroundColor);
                 panel.add(labelTotal, constraint);
 
                 this.register(niveau, labelTotal);
                 this.register(eleve, labelTotal);
+                this.register(eleve, niveau, null, labelTotal);
                 domaineX++;
             }
 
@@ -272,6 +279,11 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener {
             this.register(eleve, labelNiveauAtteint);
 
             constraint = GridBagConstraintsFactory.create(domaineX++, y, 1, 1);
+            JLabel labelSavoirNager = this.createLabel(bilan.getAssnAsStr(), backgroundColor);
+            panel.add(labelSavoirNager, constraint);
+            this.register(eleve, labelSavoirNager);
+
+            constraint = GridBagConstraintsFactory.create(domaineX++, y, 1, 1);
             JLabel labelCapactite = this.createLabelTitle("", backgroundColor);
             Capacite capacite = eleve.getCapacite();
             if (capacite != null) {
@@ -288,7 +300,7 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener {
 
     }
 
-    private JLabel createStatusLabel(String text, Status status, Color backgroundColor) {
+    private StatusLabel createStatusLabel(String text, Status status, Color backgroundColor) {
         StatusLabel label = new StatusLabel(status, text);
         label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
         label.setVerticalAlignment(JLabel.CENTER);
@@ -299,7 +311,7 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener {
         return label;
     }
 
-    private JLabel createStatusTitleLabel(String text, Status status, Color backgroundColor) {
+    private StatusLabel createStatusTitleLabel(String text, Status status, Color backgroundColor) {
         StatusLabel label = new StatusLabel(status, text);
         label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
         label.setVerticalAlignment(JLabel.CENTER);
@@ -461,6 +473,52 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener {
 
     private void register(Niveau niveau, Component component) {
         this.mapNiveauComponent.get(niveau).add(component);
+    }
+
+    private void register(Eleve eleve, Niveau niveau, Domaine domaine, StatusLabel label) {
+        this.mapEleve.put(this.getKey(eleve, niveau, domaine), label);
+    }
+
+    private StatusLabel getEleveComponent(Eleve eleve, Niveau niveau, Domaine domaine) {
+        return this.mapEleve.get(this.getKey(eleve, niveau, domaine));
+    }
+
+    private String getKey(Eleve eleve, Niveau niveau, Domaine domaine) {
+        String key = eleve.getId() + "#" + niveau.getId() + "#";
+        if (domaine != null) {
+            key += domaine.getId();
+        }
+        return key;
+
+    }
+
+    @Override
+    public void refresh(Eleve eleve) throws Exception {
+
+        Bilan bilan = new Bilan(eleve);
+
+        for (Niveau niveau : this.getNiveaux()) {
+
+            int total = 0;
+            for (Domaine domaine : DomaineService.getAll()) {
+                List<Competence> competences = eleve.getCompetences(niveau, domaine);
+                if (niveau.getNom().equals("1") && domaine.getNom().startsWith("Entr")) {
+                    System.out.println("stop");
+                }
+
+                StatusLabel labelTotal = this.getEleveComponent(eleve, niveau, domaine);
+                Status status = bilan.getStatus(niveau, domaine, competences.size());
+                labelTotal.update(Integer.toString(competences.size()), status);
+                total += competences.size();
+
+            }
+
+            StatusLabel labelTotal = this.getEleveComponent(eleve, niveau, null);
+            Status status = bilan.getStatus(niveau, eleve.getCompetences(niveau).size());
+            labelTotal.update(Integer.toString(total), status);
+
+        }
+
     }
 
 }

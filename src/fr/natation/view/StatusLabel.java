@@ -11,21 +11,27 @@ import fr.natation.model.Status;
 public class StatusLabel extends JLabel {
 
     private static final long serialVersionUID = 1L;
-    private final ImageIcon icon;
-    private final String text;
+    private ImageIcon icon;
+    private String text;
 
     public StatusLabel(Status status, String text) {
         super();
         this.text = text;
         this.icon = this.getStatusIcon(status);
-
         this.setSize(new Dimension(this.icon.getIconWidth(), this.icon.getIconHeight()));
         this.setPreferredSize(new Dimension(this.icon.getIconWidth(), this.icon.getIconHeight()));
 
     }
 
+    public void update(String text, Status status) {
+        this.icon = this.getStatusIcon(status);
+        this.text = text;
+        this.repaint();
+    }
+
     @Override
     protected void paintComponent(Graphics g) {
+
         super.paintComponent(g);
         g.drawImage(this.icon.getImage(), 0, 0, null);
 

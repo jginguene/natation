@@ -1,4 +1,16 @@
 
+create table Ecole(
+    id integer primary key autoincrement,     
+    Nom varchar2(200) ,
+    adresse varchar2(200) ,
+    code_postal varchar2(200) ,
+    ville varchar2(200) ,
+    CONSTRAINT nom_unique UNIQUE (Nom )
+);
+
+
+insert into ecole (id)values (1);
+
 create table Groupe(
     id integer primary key autoincrement, 
     Nom varchar2(200) not null,
@@ -397,7 +409,7 @@ and  nom = 'Salamandre';
 insert into capacite_competence_r (competence_id,capacite_id)
 select competence.id,capacite.id from competence, capacite  where 
 competence.description = 'Départ au bord du bassin, se déplacer sur 25 m, effectuer un virage, une coulée et une reprise de nage pour gagner le bord.'
-and  nom = 'Loutre de mer';
+and  nom = 'Tortue';
 
 insert into capacite_competence_r (competence_id,capacite_id)
 select competence.id,capacite.id from competence, capacite  where 

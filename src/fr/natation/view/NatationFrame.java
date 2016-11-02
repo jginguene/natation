@@ -21,6 +21,7 @@ import fr.natation.view.capacite.CapaciteTabPanel;
 import fr.natation.view.chart.AnalyseTabPanel;
 import fr.natation.view.competence.CompetenceListTabPanel;
 import fr.natation.view.competence.SelectionEnLotDeCompetencePanel;
+import fr.natation.view.eleve.EcoleInfoEditPanel;
 import fr.natation.view.eleve.EleveListTabPanel;
 import fr.natation.view.eleve.EleveTabPanel;
 import fr.natation.view.eleve.IEleveSelectListener;
@@ -42,6 +43,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
     private static final int CAPACITE_TAB = 4;
     private static final int NAVETTE_TAB = 5;
     private static final int ANALYSE_TAB = 6;
+    private static final int ECOLE_TAB = 7;
 
     private final EleveListTabPanel eleveListTabPanel;
 
@@ -52,6 +54,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
     private final SelectionEnLotDeCompetencePanel selectionEnLotDeCompetencePanel;
     private final NavettePanel navettePanel;
     private final AnalyseTabPanel analyseTabPanel;
+    private final EcoleInfoEditPanel ecolePanel;
 
     private final NatationMenu menu;
 
@@ -71,6 +74,9 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
         this.selectionEnLotDeCompetencePanel = new SelectionEnLotDeCompetencePanel();
         this.navettePanel = new NavettePanel();
         this.analyseTabPanel = new AnalyseTabPanel();
+        this.ecolePanel = new EcoleInfoEditPanel();
+
+        this.eleveTabPanel.addListener(this.analyseTabPanel);
 
         FRAME = this;
 
@@ -89,6 +95,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
         this.tabbedPane.addTab("Liste des capacités", Icon.Capacite.getImage(), this.capaciteListTabPanel, "");
         this.tabbedPane.addTab("Navette", Icon.Navette.getImage(), this.navettePanel, "");
         this.tabbedPane.addTab("Analyse", Icon.Analyse.getImage(), this.analyseTabPanel, "");
+        this.tabbedPane.addTab("Ecole", Icon.Ecole.getImage(), this.ecolePanel, "");
 
         this.eleveListTabPanel.addListener(this);
 

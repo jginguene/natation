@@ -40,22 +40,6 @@ public class CompetenceListPanel extends ListPanel {
     protected void init(String title) throws Exception {
         super.init(title);
 
-        /* JPanel panelButton = new JPanel();
-        panelButton.setLayout(new GridLayout(1, 5));
-        this.addCompetenceButton = ButtonFactory.createAddButton("Ajouter une competence");
-        panelButton.add(this.addCompetenceButton);
-        panelButton.add(new JLabel());
-        panelButton.add(new JLabel());
-        panelButton.add(new JLabel());
-        
-        this.add(panelButton, BorderLayout.SOUTH);
-        
-        this.addCompetenceButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent event) {
-                CompetenceListPanel.this.onAddCompetenceButton();
-            }
-        });*/
     }
 
     @Override

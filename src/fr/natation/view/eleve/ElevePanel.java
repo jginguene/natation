@@ -7,6 +7,8 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
@@ -20,6 +22,7 @@ import fr.natation.model.Eleve;
 import fr.natation.pdf.BilanGenerator;
 import fr.natation.service.EleveService;
 import fr.natation.view.ButtonFactory;
+import fr.natation.view.IEleveUpdateListener;
 import fr.natation.view.IRefreshListener;
 
 public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelectListener {
@@ -38,6 +41,8 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
     private final JButton deleteButton = ButtonFactory.createDeleteButton();
 
     private Eleve eleve;
+
+    private final List<IEleveUpdateListener> listeners = new ArrayList<>();
 
     public ElevePanel() throws Exception {
         this.setLayout(new BorderLayout());
@@ -112,14 +117,17 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
             this.editPanel.updateEleve(this.eleve);
             this.competencePanel.updateEleve(this.eleve);
             EleveService.update(this.eleve);
+            this.eleve = EleveService.get(this.eleve.getId());
 
-            this.refresh();
+            for (IEleveUpdateListener listener : this.listeners) {
+                listener.refresh(this.eleve);
+            }
+
             JOptionPane.showMessageDialog(null, "La mise à jour de " + this.eleve.toString() + " est terminée ", "Information", JOptionPane.INFORMATION_MESSAGE);
 
-            this.eleve = EleveService.get(this.eleve.getId());
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "L'ajout a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
-            LOGGER.error("L'ajout a échoué", e);
+            JOptionPane.showMessageDialog(null, "La mise à jour de " + this.eleve.toString() + " a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
+            LOGGER.error("La mise à jour de " + this.eleve.toString() + " a échoué", e);
         }
     }
 
@@ -166,6 +174,10 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
         this.eleve = newEleve;
         this.selectPanel.onChange(newEleve, source);
         this.competencePanel.onChange(newEleve, source);
+    }
+
+    public void addListener(IEleveUpdateListener listener) {
+        this.listeners.add(listener);
     }
 
 }
