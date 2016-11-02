@@ -1,9 +1,9 @@
 package fr.natation;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Font;
+import java.awt.GridBagLayout;
 import java.awt.Toolkit;
 import java.io.File;
 import java.io.IOException;
@@ -20,6 +20,7 @@ import javax.swing.SwingConstants;
 
 import org.apache.log4j.Logger;
 
+import fr.natation.view.GridBagConstraintsFactory;
 import fr.natation.view.Icon;
 import fr.natation.view.NatationFrame;
 
@@ -48,8 +49,10 @@ public class Launcher {
         int height = 400;
 
         JWindow window = new JWindow();
+
         JPanel panel = new JPanel();
-        panel.setLayout(new BorderLayout());
+        panel.setLayout(new GridBagLayout());
+
         JLabel title = new JLabel("Passeport pour la natation");
         title.setPreferredSize(new Dimension(width, 50));
         title.setHorizontalAlignment(JLabel.CENTER);
@@ -57,9 +60,14 @@ public class Launcher {
         title.setFont(new Font("Arial", Font.BOLD, 30));
         title.setForeground(new Color(65, 135, 215));
 
-        panel.add(title, BorderLayout.NORTH);
-        panel.add(new JLabel(Icon.Application.getImage()), BorderLayout.CENTER);
-        panel.add(new JLabel(Icon.Splash.getImage()), BorderLayout.SOUTH);
+        panel.add(title, GridBagConstraintsFactory.create(0, 0, 1, 1));
+
+        JLabel label = new JLabel(Icon.SplashBackground.getImage());
+        //label.setPreferredSize(new Dimension(200, 200));
+        //label.setSize(new Dimension(200, 200));
+
+        panel.add(label, GridBagConstraintsFactory.create(0, 1, 1, 4));
+        panel.add(new JLabel(Icon.Splash.getImage()), GridBagConstraintsFactory.create(0, 5, 1, 1));
         panel.setBackground(Color.white);
 
         window.getContentPane().add(panel, SwingConstants.CENTER);
@@ -70,6 +78,7 @@ public class Launcher {
 
         window.setBounds(x, y, width, height);
         window.setVisible(true);
+        window.pack();
 
         NatationFrame frame = new NatationFrame();
 

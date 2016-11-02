@@ -16,6 +16,7 @@ public enum Icon {
     Delete(Utils.getExternalImage("img/delete.png")),
     Print(Utils.getExternalImage("img/print.png")),
     Application(Utils.getExternalImage("img/app.png")),
+    SplashBackground(Utils.getExternalImage("img/splash-background.png")),
     Pdf(Utils.getExternalImage("img/pdf.png")),
     Excel(Utils.getExternalImage("img/excel.png")),
     Cancel(Utils.getExternalImage("img/cancel.png")),
