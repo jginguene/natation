@@ -19,7 +19,7 @@ public class CapaciteListPanel extends ListPanel implements TableCellRenderer {
 
     private static final long serialVersionUID = 1L;
 
-    public static int ROW_HEIGHT = 75;
+    public static int ROW_HEIGHT = 85;
 
     private final static Logger LOGGER = Logger.getLogger(EleveListPanel.class.getName());
 
