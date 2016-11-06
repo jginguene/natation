@@ -1,5 +1,6 @@
 package fr.natation.model;
 
+import fr.natation.Utils;
 import fr.natation.service.CompetenceService;
 import fr.natation.service.NiveauService;
 
@@ -31,16 +32,27 @@ public class Bilan {
     }
 
     public String getAssnAsStr() throws Exception {
-        Niveau niveau = this.getNiveau();
-        if (niveau == null) {
-            return "-";
+        Assn assn = this.eleve.getAssn();
+        if (assn == null) {
+            return null;
         } else {
-            Assn assn = niveau.getAssn();
-            if (assn != null) {
-                return assn.getDescription();
-            }
-            return "Niveau " + niveau.getNom();
+            return assn.getDescription();
         }
+
+    }
+
+    public String getCapaciteFullDesc() throws Exception {
+        Capacite capacite = this.eleve.getCapacite();
+        String desc = "";
+        if (capacite != null) {
+            desc += capacite.getNom() + ":\n";
+            for (Competence competence : capacite.getCompetences()) {
+                desc += Utils.cutString(competence.getDescription(), 70) + "\n";
+            }
+        }
+
+        return desc;
+
     }
 
     public Status getStatus(Niveau niveau, Domaine domaine) throws Exception {

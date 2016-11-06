@@ -15,6 +15,17 @@ public class PdfTextConf {
     private Color borderColor = Color.BLACK;
     private Color backgroundColor = Color.WHITE;
 
+    private int lineHeight = 20;
+
+    public int getLineHeight() {
+        return this.lineHeight;
+    }
+
+    public PdfTextConf setLineHeight(int lineHeight) {
+        this.lineHeight = lineHeight;
+        return this;
+    }
+
     public Color getBackgroundColor() {
         return this.backgroundColor;
     }

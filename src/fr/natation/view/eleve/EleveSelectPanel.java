@@ -1,5 +1,6 @@
 package fr.natation.view.eleve;
 
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.event.ItemEvent;
@@ -37,6 +38,9 @@ public class EleveSelectPanel extends JPanel implements IRefreshListener, IEleve
 
         constraint.gridx = 1;
         this.add(this.inputEleve, constraint);
+        this.inputEleve.setMinimumSize(new Dimension(200, 20));
+        this.inputEleve.setSize(new Dimension(200, 20));
+        this.inputEleve.setPreferredSize(new Dimension(200, 20));
 
         this.setVisible(true);
         this.refresh();
@@ -59,9 +63,14 @@ public class EleveSelectPanel extends JPanel implements IRefreshListener, IEleve
 
     @Override
     public void refresh() throws Exception {
-        CustomComboBoxModel<Eleve> modelEleve = new CustomComboBoxModel<Eleve>(EleveService.getAll());
+
+        List<Eleve> all = EleveService.getAll();
+        CustomComboBoxModel<Eleve> modelEleve = new CustomComboBoxModel<Eleve>(all);
         this.inputEleve.setModel(modelEleve);
-        this.inputEleve.setSelectedIndex(0);
+
+        if (all.size() > 0) {
+            this.inputEleve.setSelectedIndex(0);
+        }
     }
 
     public void addListener(IEleveSelectListener listener) {

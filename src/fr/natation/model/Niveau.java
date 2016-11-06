@@ -2,22 +2,12 @@ package fr.natation.model;
 
 import java.util.List;
 
-import fr.natation.service.AssnService;
 import fr.natation.service.CompetenceService;
 
 public class Niveau {
 
     private int id;
     private String nom;
-    private int assnId;
-
-    public int getAssnId() {
-        return this.assnId;
-    }
-
-    public void setAssnId(int assnId) {
-        this.assnId = assnId;
-    }
 
     public int getId() {
         return this.id;
@@ -33,10 +23,6 @@ public class Niveau {
 
     public void setNom(String nom) {
         this.nom = nom;
-    }
-
-    public Assn getAssn() throws Exception {
-        return AssnService.get(this.assnId);
     }
 
     @Override

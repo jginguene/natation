@@ -198,7 +198,7 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
                     int niveauCount = mapNiveauCompetenceCount.get(competence.getNiveau().getId()) + 1;
                     mapNiveauCompetenceCount.put(competence.getNiveau().getId(), niveauCount);
 
-                    if (competence.getNiveau().equals(this.eleve.getRequiredNiveau())) {
+                    if (competence != null && competence.getNiveau() != null && competence.getNiveau().equals(this.eleve.getRequiredNiveau())) {
                         Domaine domaine = competence.getDomaine();
                         if (!mapDomaineCompetenceCount.containsKey(domaine.getId())) {
                             mapDomaineCompetenceCount.put(domaine.getId(), 0);

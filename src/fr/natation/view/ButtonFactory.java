@@ -28,6 +28,10 @@ public class ButtonFactory {
         return new JButton("Export", Icon.Excel.getImage());
     }
 
+    public static JButton createExcelButton(String text) {
+        return new JButton(text, Icon.Excel.getImage());
+    }
+
     public static JButton createCancelButton() {
         return new JButton("Annuler", Icon.Cancel.getImage());
     }

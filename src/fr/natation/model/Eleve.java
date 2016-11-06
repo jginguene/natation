@@ -1,6 +1,7 @@
 
 package fr.natation.model;
 
+import java.util.Date;
 import java.util.List;
 
 import fr.natation.service.CapaciteService;
@@ -12,8 +13,9 @@ public class Eleve {
 
     private String nom;
     private String prenom;
-    private int classeId;
+    private Date dateDeNaissance;
 
+    private int classeId;
     private int groupeId;
     private int id;
 
@@ -58,7 +60,10 @@ public class Eleve {
     }
 
     public Niveau getRequiredNiveau() throws Exception {
-        return this.getClasse().getNiveau();
+        if (this.getClasse() != null) {
+            return this.getClasse().getNiveau();
+        }
+        return null;
     }
 
     public String getGroupeNom() throws Exception {
@@ -146,6 +151,30 @@ public class Eleve {
             }
         }
         return eleveCapactite;
+    }
+
+    public Assn getAssn() throws Exception {
+
+        List<Competence> competences = this.getCompetences();
+        Assn assn = null;
+        for (Capacite capacite : CapaciteService.getAll()) {
+
+            if (!capacite.getCompetences().isEmpty() && competences.containsAll(capacite.getCompetences()) && capacite.getAssn() != null) {
+                assn = capacite.getAssn();
+            }
+
+        }
+
+        return assn;
+
+    }
+
+    public Date getDateDeNaissance() {
+        return this.dateDeNaissance;
+    }
+
+    public void setDateDeNaissance(Date dateDeNaissance) {
+        this.dateDeNaissance = dateDeNaissance;
     }
 
 }

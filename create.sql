@@ -18,9 +18,6 @@ create table Groupe(
     CONSTRAINT nom_unique UNIQUE (Nom )
 );
 
-
-
-
 create table assn(
     id integer primary key autoincrement,
     code varchar2(200) not null,
@@ -34,15 +31,13 @@ insert into assn(id,code,description) values (3,'ASSN','Attestation scolaire du 
 
 create table niveau(
     id integer primary key autoincrement,
-    Nom varchar2(200) not null,
-    assn_id integer,
-    FOREIGN KEY(assn_id) REFERENCES assn(id)  ,    
+    Nom varchar2(200) not null,  
     CONSTRAINT nom_unique UNIQUE (Nom )
 );
 
-insert into niveau (nom,assn_id) values (1,null);
-insert into niveau (nom,assn_id) values (2,1);
-insert into niveau (nom,assn_id) values (3,2);
+insert into niveau (nom) values (1);
+insert into niveau (nom) values (2);
+insert into niveau (nom) values (3);
 
 
 
@@ -83,6 +78,8 @@ create table capacite(
     id integer primary key autoincrement,
     Nom varchar2(200) not null,
     description varchar2(1000),
+    assn_id integer,    
+    FOREIGN KEY(assn_id) REFERENCES assn(id),
     CONSTRAINT nom_unique UNIQUE (Nom)
 );
 
@@ -99,6 +96,7 @@ create table Eleve(
     Prenom varchar2(200) not null,
     Groupe_Id integer ,
     capactite_Id integer ,
+    date_de_naissance Datetime,
     classe_id integer,
     FOREIGN KEY(Groupe_Id) REFERENCES Groupe(id),
     FOREIGN KEY(capactite_Id) REFERENCES Capacite(id),
@@ -331,10 +329,10 @@ insert into capacite(id,nom ) values (1,"Coquillage");
 insert into capacite(id,nom ) values (2,"Etoile de mer");
 insert into capacite(id,nom ) values (3,"Canard");
 insert into capacite(id,nom ) values (4,"Crocodile");
-insert into capacite(id,nom ) values (5,"Poisson");
-insert into capacite(id,nom ) values (6,"Tortue");
+insert into capacite(id,nom,assn_id ) values (5,"Poisson",1);
+insert into capacite(id,nom ,assn_id ) values (6,"Tortue",2);
 insert into capacite(id,nom ) values (7,"Salamandre");
-insert into capacite(id,nom ) values (8,"Loutre de mer");
+insert into capacite(id,nom ,assn_id ) values (8,"Loutre de mer",3);
 
 
 

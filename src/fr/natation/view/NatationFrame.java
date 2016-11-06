@@ -130,8 +130,6 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
             }
         });
 
-        LOGGER.debug("NatationFrame 3");
-
         this.add(this.tabbedPane);
 
         this.pack();

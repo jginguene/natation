@@ -2,11 +2,13 @@ package fr.natation.model;
 
 import java.util.List;
 
+import fr.natation.service.AssnService;
 import fr.natation.service.CompetenceService;
 
 public class Capacite {
 
     private int id;
+    private int assnId;
     private String nom;
 
     public int getId() {
@@ -32,6 +34,18 @@ public class Capacite {
 
     public List<Competence> getCompetences() throws Exception {
         return CompetenceService.get(this);
+    }
+
+    public int getAssnId() {
+        return this.assnId;
+    }
+
+    public void setAssnId(int assnId) {
+        this.assnId = assnId;
+    }
+
+    public Assn getAssn() throws Exception {
+        return AssnService.get(this.assnId);
     }
 
 }

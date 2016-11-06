@@ -33,6 +33,8 @@ public class BilanGenerator {
     private final static PdfTextConf TITLE = new PdfTextConf().setFont(FONT_BOLD).setFontSize(12).setCenter(false);
     private final static PdfTextConf CENTER_TITLE = new PdfTextConf().setFont(FONT_BOLD).setFontSize(12).setCenter(true);
 
+    private final static PdfTextConf SMALL_TEXT = new PdfTextConf().setFont(FONT).setFontSize(10).setCenter(false).setLineHeight(12);
+
     private final static PdfTextConf GREEN = new PdfTextConf().setFont(FONT_BOLD).setFontSize(12).setCenter(true).setBackgroundColor(Color.GREEN);
     private final static PdfTextConf RED = new PdfTextConf().setFont(FONT_BOLD).setFontSize(12).setCenter(true).setBackgroundColor(Color.RED);
     private final static PdfTextConf VERTICAL_TEXT = new PdfTextConf().setFont(FONT).setFontSize(8).setCenter(false).setVertical(true);
@@ -61,29 +63,35 @@ public class BilanGenerator {
         y -= 40;
 
         PdfUtils.writeText(contentStream, x, y, 500, 20, eleve.toString(), ELEVE_TITLE);
-        y -= (IMG_HEIGHT + 40);
+        y -= 20;
+        PdfUtils.writeText(contentStream, x, y, 500, 20, eleve.getClasseNom(), ELEVE_TITLE);
+
+        y -= (IMG_HEIGHT + 20);
 
         Capacite capactite = eleve.getCapacite();
         if (capactite != null) {
             PDImageXObject pdImage = PDImageXObject.createFromFile("img/" + capactite.getNom() + ".png", this.doc);
             contentStream.drawImage(pdImage, 220, y, pdImage.getWidth() * IMG_HEIGHT / pdImage.getHeight(), IMG_HEIGHT);
         }
-        y -= IMG_HEIGHT;
+        y -= 80;
 
-        // PdfUtils.writeText(contentStream, x + 150, y, 100, 20, "Niveau atteint", TITLE);
+        String capaciteDesc = bilan.getCapaciteFullDesc();
 
-        //        String eleveNiveau = bilan.getNiveauAsStr();
+        int height = (1 + capaciteDesc.split("\n").length) * SMALL_TEXT.getLineHeight();
 
-        //      PdfUtils.writeText(contentStream, x + 250, y, 100, 20, eleveNiveau, TEXT);
+        PdfUtils.writeText(contentStream, x + 100, y, 330, height, capaciteDesc, SMALL_TEXT);
+        y -= height;
 
-        //      y -= 20;
-        PdfUtils.writeText(contentStream, x + 150, y, 200, 20, bilan.getAssnAsStr(), CENTER_TITLE);
+        String assn = bilan.getAssnAsStr();
+        if (assn != null) {
+            PdfUtils.writeText(contentStream, x + 150, y, 200, 20, bilan.getAssnAsStr(), CENTER_TITLE);
+            y -= 40;
+        }
 
-        y -= 40;
         Niveau requiredNiveau = eleve.getRequiredNiveau();
         for (Domaine domaine : DomaineService.getAll()) {
             Status status = bilan.getStatus(requiredNiveau, domaine);
-            PdfUtils.writeText(contentStream, x + 150, y, 170, 20, domaine.getNom(), TITLE);
+            PdfUtils.writeText(contentStream, x + 150, y, 190, 20, domaine.getNom(), TITLE);
             PdfUtils.writeText(contentStream, x + 320, y, 30, 20, "", TITLE);
             PDImageXObject pdImage = this.getImage(status);
             contentStream.drawImage(pdImage, x + 330, y + 5, pdImage.getWidth() * 10 / pdImage.getHeight(), 10);

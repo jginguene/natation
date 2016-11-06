@@ -16,7 +16,7 @@ import fr.natation.model.Groupe;
 
 public class EleveService {
 
-    private static String INSERT = "insert into Eleve (Nom, Prenom, groupe_id, classe_id) values (?,?,?,?)";
+    private static String INSERT = "insert into Eleve (Nom, Prenom, groupe_id, classe_id, date_de_naissance) values (?,?,?,?,?)";
     private static String UPDATE = "update Eleve set Nom=?, Prenom=? , groupe_id=?, classe_id=? where  id = ?";
     private static String DELETE = "delete from Eleve  where  id = ?";
     private static String GET_ALL = "select * from Eleve";
@@ -74,6 +74,8 @@ public class EleveService {
             statement.setString(2, eleve.getPrenom().trim().toLowerCase());
             statement.setInt(3, eleve.getGroupeId());
             statement.setInt(4, eleve.getClasseId());
+            statement.setDate(5, new java.sql.Date(eleve.getDateDeNaissance().getTime()));
+
             statement.execute();
 
             statement = connection.prepareStatement(LAST_ID);
@@ -156,7 +158,6 @@ public class EleveService {
         clearCache();
         Connection connection = ConnectionFactory.createConnection();
         try {
-
             PreparedStatement statement = connection.prepareStatement(UPDATE);
             statement.setString(1, eleve.getNom());
             statement.setString(2, eleve.getPrenom());
@@ -179,6 +180,8 @@ public class EleveService {
         eleve.setPrenom(Utils.capitalize(res.getString("Prenom")));
         eleve.setGroupeId(res.getInt("Groupe_Id"));
         eleve.setClasseId(res.getInt("classe_Id"));
+        eleve.setDateDeNaissance(res.getDate("date_de_naissance"));
+
         return eleve;
 
     }

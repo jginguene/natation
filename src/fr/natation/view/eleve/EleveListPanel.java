@@ -3,6 +3,7 @@ package fr.natation.view.eleve;
 import java.awt.BorderLayout;
 import java.awt.Desktop;
 import java.awt.Dialog;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +28,7 @@ import fr.natation.pdf.BilanGenerator;
 import fr.natation.service.EleveService;
 import fr.natation.view.ButtonColumn;
 import fr.natation.view.ButtonFactory;
+import fr.natation.view.GridBagConstraintsFactory;
 import fr.natation.view.Icon;
 import fr.natation.view.ListPanel;
 import fr.natation.view.NatationFrame;
@@ -41,11 +43,15 @@ public class EleveListPanel extends ListPanel {
     private JButton pdfButton;
     private JButton exportButton;
 
+    private JButton importButton;
+
     private JButton addEleveButton;
     private Action viewAction;
 
+    private ImportElevesPanel importPanel;
     private EleveAddPanel addPanel;
-    private JDialog dialog;
+    private JDialog addDialog;
+    private JDialog importDialog;
 
     public EleveListPanel(boolean isSelectList) throws Exception {
         super("Liste des élèves", isSelectList);
@@ -91,7 +97,7 @@ public class EleveListPanel extends ListPanel {
         }
     }
 
-    private void initPanelButton() {
+    private void initPanelButton() throws Exception {
 
         if (!this.isSelectList) {
 
@@ -99,11 +105,17 @@ public class EleveListPanel extends ListPanel {
             panelButton.setLayout(new GridLayout(1, 5));
             this.pdfButton = ButtonFactory.createPdfButton("Créer les bilans de tous les élèves");
             this.exportButton = ButtonFactory.createExcelButton();
-            this.addEleveButton = ButtonFactory.createAddButton("Ajouter un élève");
+            this.addEleveButton = ButtonFactory.createAddButton("Ajouter des élèves");
+
+            this.importButton = ButtonFactory.createExcelButton("Importer des élèves");
+
+            this.importPanel = new ImportElevesPanel(this);
 
             panelButton.add(this.addEleveButton);
             panelButton.add(this.pdfButton);
             panelButton.add(this.exportButton);
+
+            panelButton.add(this.importButton);
 
             this.add(panelButton, BorderLayout.SOUTH);
 
@@ -125,6 +137,13 @@ public class EleveListPanel extends ListPanel {
                 @Override
                 public void actionPerformed(ActionEvent event) {
                     EleveListPanel.this.onAddEleveButton();
+                }
+            });
+
+            this.importButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    EleveListPanel.this.onImportButton();
                 }
             });
 
@@ -192,6 +211,11 @@ public class EleveListPanel extends ListPanel {
         }
     }
 
+    private void onImportButton() {
+        this.getImportDialog().setVisible(true);
+
+    }
+
     private void onExportButton() {
         try {
 
@@ -218,21 +242,38 @@ public class EleveListPanel extends ListPanel {
     }
 
     private void onAddEleveButton() {
-        this.getDialog().setVisible(true);
+        this.getAddDialog().setVisible(true);
     }
 
-    private JDialog getDialog() {
-        if (this.dialog == null) {
-            this.dialog = new JDialog(NatationFrame.FRAME, "", Dialog.ModalityType.DOCUMENT_MODAL);
-            this.dialog.setIconImage(Icon.Add.getImage().getImage());
-            this.addPanel.setDialog(this.dialog);
-            this.dialog.add(this.addPanel);
-            this.dialog.pack();
-            this.dialog.setResizable(false);
-            this.dialog.setLocationRelativeTo(NatationFrame.FRAME);
-            this.dialog.setTitle("Ajouter un élève");
+    private JDialog getAddDialog() {
+        if (this.addDialog == null) {
+            this.addDialog = new JDialog(NatationFrame.FRAME, "", Dialog.ModalityType.DOCUMENT_MODAL);
+            this.addDialog.setIconImage(Icon.Add.getImage().getImage());
+            this.addPanel.setDialog(this.addDialog);
+            this.addDialog.add(this.addPanel);
+            this.addDialog.pack();
+            this.addDialog.setResizable(false);
+            this.addDialog.setLocationRelativeTo(NatationFrame.FRAME);
+            this.addDialog.setTitle("Ajouter un élève");
         }
-        return this.dialog;
+        return this.addDialog;
+    }
+
+    private JDialog getImportDialog() {
+        if (this.importDialog == null) {
+            this.importDialog = new JDialog(NatationFrame.FRAME, "", Dialog.ModalityType.DOCUMENT_MODAL);
+            this.importDialog.setIconImage(Icon.Excel.getImage().getImage());
+            this.importDialog.setLayout(new GridBagLayout());
+
+            this.importPanel.setDialog(this.importDialog);
+
+            this.importDialog.add(this.importPanel, GridBagConstraintsFactory.create(1, 1, 1, 1));
+            this.importDialog.pack();
+            this.importDialog.setResizable(false);
+            this.importDialog.setLocationRelativeTo(NatationFrame.FRAME);
+            this.importDialog.setTitle("Importer des élèves");
+        }
+        return this.importDialog;
     }
 
     public void selectAll() {

@@ -77,6 +77,7 @@ public class CapaciteService {
         Capacite capacite = new Capacite();
         capacite.setId(res.getInt("id"));
         capacite.setNom(res.getString("nom"));
+        capacite.setAssnId(res.getInt("assn_id"));
         return capacite;
     }
 

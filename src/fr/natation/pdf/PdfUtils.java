@@ -31,7 +31,7 @@ public class PdfUtils {
         }
 
         for (int i = lines.length - 1; i >= 0; i--) {
-            String line = lines[i];
+            String line = lines[i].trim();
             int lineX;
             int lineY = y - 1 + startY;
 
@@ -48,14 +48,14 @@ public class PdfUtils {
                 lineY += 4;
             }
 
-            lineX += 7 * i;
+            //lineX += 7 * i;
             contentStream.beginText();
             contentStream.newLineAtOffset(lineX, lineY);
 
             if (conf.isVertical()) {
                 contentStream.setTextRotation(Math.PI / 2, lineX, lineY);
             } else {
-                y += 20;
+                y += conf.getLineHeight();
             }
 
             contentStream.showText(line);

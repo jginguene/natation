@@ -98,7 +98,6 @@ public class Launcher {
                     e.printStackTrace();
                 }
 
-                LOGGER.debug("splash 3");
                 window.setVisible(false);
 
                 frame.setVisible(true);
@@ -118,7 +117,6 @@ public class Launcher {
         String backupFilneName = "backup/" + new SimpleDateFormat("yyyy-MM-dd-HH").format(new Date()) + "_" + "natation.db";
         if (!new File(backupFilneName).exists()) {
             //Files.copy(Paths.get("natation.db"), Paths.get(backupFilneName));
-
             DiskTools.threadCopy(Paths.get("natation.db"), Paths.get(backupFilneName));
             new File(backupFilneName).setLastModified(new Date().getTime());
             LOGGER.debug("Create backup " + backupFilneName);
