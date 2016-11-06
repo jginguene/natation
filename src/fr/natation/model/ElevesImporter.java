@@ -9,7 +9,7 @@ import fr.natation.service.EleveService;
 
 public class ElevesImporter {
 
-    private final SimpleDateFormat format = new SimpleDateFormat("DD/MM/YYYY");
+    private final SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
     public int importEleves(String fileName, Classe classe) throws Exception {
 

@@ -1,6 +1,7 @@
 
 package fr.natation.model;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -18,6 +19,8 @@ public class Eleve {
     private int classeId;
     private int groupeId;
     private int id;
+
+    private static final SimpleDateFormat FORMAT = new SimpleDateFormat("dd/MM/yyyy");
 
     public String getNom() {
         return this.nom;
@@ -171,6 +174,10 @@ public class Eleve {
 
     public Date getDateDeNaissance() {
         return this.dateDeNaissance;
+    }
+
+    public String getDateDeNaissanceAsString() {
+        return FORMAT.format(this.dateDeNaissance);
     }
 
     public void setDateDeNaissance(Date dateDeNaissance) {

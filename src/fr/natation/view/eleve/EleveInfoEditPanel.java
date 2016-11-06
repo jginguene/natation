@@ -35,6 +35,8 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
     private final JComboBox<Groupe> inputGroupe = new JComboBox<Groupe>();
     private final JComboBox<Classe> inputClasse = new JComboBox<Classe>();
 
+    private final JLabel dateNaissance;
+
     private Eleve eleve;
 
     public EleveInfoEditPanel() throws Exception {
@@ -70,6 +72,15 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
 
         constraint.gridx = 1;
         panel.add(this.inputPrenom, constraint);
+
+        constraint.gridy++;
+        constraint.gridx = 0;
+
+        panel.add(new JLabel("Date de naissance"), constraint);
+
+        constraint.gridx = 1;
+        this.dateNaissance = new JLabel();
+        panel.add(this.dateNaissance, constraint);
 
         constraint.gridy++;
         constraint.gridx = 0;
@@ -115,6 +126,7 @@ public class EleveInfoEditPanel extends JPanel implements IEleveSelectListener, 
             this.eleve = newEleve;
             this.inputNom.setText(newEleve.getNom());
             this.inputPrenom.setText(newEleve.getPrenom());
+            this.dateNaissance.setText(newEleve.getDateDeNaissanceAsString());
 
             try {
                 this.inputGroupe.setSelectedItem(newEleve.getGroupe());
