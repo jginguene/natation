@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import org.apache.log4j.Logger;
 
 import fr.natation.model.Eleve;
+import fr.natation.pdf.AttestationGenerator;
 import fr.natation.pdf.BilanGenerator;
 import fr.natation.service.EleveService;
 import fr.natation.view.ButtonColumn;
@@ -40,7 +41,8 @@ public class EleveListPanel extends ListPanel {
 
     private final List<IEleveSelectListener> listeners = new ArrayList<IEleveSelectListener>();
 
-    private JButton pdfButton;
+    private JButton bilanButton;
+    private JButton attestationButton;
     private JButton exportButton;
 
     private JButton importButton;
@@ -103,7 +105,8 @@ public class EleveListPanel extends ListPanel {
 
             JPanel panelButton = new JPanel();
             panelButton.setLayout(new GridLayout(1, 5));
-            this.pdfButton = ButtonFactory.createPdfButton("Créer les bilans de tous les élèves");
+            this.bilanButton = ButtonFactory.createPdfButton("Créer les bilans");
+            this.attestationButton = ButtonFactory.createPdfButton("Créer les attestations de savoir nager");
             this.exportButton = ButtonFactory.createExcelButton();
             this.addEleveButton = ButtonFactory.createAddButton("Ajouter des élèves");
 
@@ -112,17 +115,25 @@ public class EleveListPanel extends ListPanel {
             this.importPanel = new ImportElevesPanel(this);
 
             panelButton.add(this.addEleveButton);
-            panelButton.add(this.pdfButton);
+            panelButton.add(this.bilanButton);
             panelButton.add(this.exportButton);
+            panelButton.add(this.attestationButton);
 
             panelButton.add(this.importButton);
 
             this.add(panelButton, BorderLayout.SOUTH);
 
-            this.pdfButton.addActionListener(new ActionListener() {
+            this.bilanButton.addActionListener(new ActionListener() {
                 @Override
                 public void actionPerformed(ActionEvent event) {
-                    EleveListPanel.this.onPdfButton();
+                    EleveListPanel.this.onBilanButton();
+                }
+            });
+
+            this.attestationButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent event) {
+                    EleveListPanel.this.onAttestationButton();
                 }
             });
 
@@ -194,7 +205,7 @@ public class EleveListPanel extends ListPanel {
         return EleveService.getAll();
     }
 
-    private void onPdfButton() {
+    private void onBilanButton() {
         try {
             BilanGenerator generator = new BilanGenerator();
 
@@ -208,6 +219,23 @@ public class EleveListPanel extends ListPanel {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "La génération des bilans a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
             LOGGER.error("La génération des bilans a échoué", e);
+        }
+    }
+
+    private void onAttestationButton() {
+        try {
+            AttestationGenerator generator = new AttestationGenerator();
+
+            String fileName = "attestation.pdf";
+            for (Eleve eleve : EleveService.getAll()) {
+                generator.addPage(eleve);
+            }
+            generator.generate(fileName);
+            JOptionPane.showMessageDialog(null, "Le fichier " + fileName + " a été créé", "Information", JOptionPane.INFORMATION_MESSAGE);
+            Desktop.getDesktop().open(new File(fileName));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "La génération des attesations a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
+            LOGGER.error("La génération des attesations a échoué", e);
         }
     }
 

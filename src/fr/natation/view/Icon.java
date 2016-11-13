@@ -35,7 +35,7 @@ public enum Icon {
     Red(Utils.getExternalImage("img/red.png")),
     Ecole(Utils.getExternalImage("img/ecole.png")),
     Analyse(Utils.getExternalImage("img/analyse.png")),
-    ;
+    LogoSqy(Utils.getExternalImage("img/logo-sqy.png")),
 
     ;
 

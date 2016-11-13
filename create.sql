@@ -145,6 +145,7 @@ insert into domaine(id,nom) values (2,"Equilibre");
 insert into domaine(id,nom) values (3,"Immersion");
 insert into domaine(id,nom) values (4,"Respiration");
 insert into domaine(id,nom) values (5,"Propulsion");
+insert into domaine(id,nom) values (6,"Compétences transversales");
 
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('Entrer dans l''eau par les escaliers sans s''immerger seul ou à plusieurs.',1,1,1);
@@ -324,6 +325,22 @@ values ('Départ au bord du bassin, se déplacer sur 25 m, effectuer un virage, 
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('Départ sauté ou plongé, se déplacer 15 m sur le ventre, effectuer un demi-tour, se déplacer 15 m sur le dos.',3,5,3);
 
+insert into  competence(description,num,domaine_id,niveau_id)
+values ('Réaliser le parcourt du savoir nager',4,5,3);
+
+
+insert into  competence(description,num,domaine_id,niveau_id)
+values ('Savoir identifier la personne respondable de la surveillance à alerter en cas de problème',1,6,3);
+
+insert into  competence(description,num,domaine_id,niveau_id)
+values ('Connaître les règles de base liées à l''hygiène et à la sécurité das un établissement de bains ou un espace surveillé',2,6,3);
+
+insert into  competence(description,num,domaine_id,niveau_id)
+values ('Savoir identifier les environnements et les circonstances pour lesquels la maitrise du savoir-nager est adaptée',3,6,3);
+
+
+
+
 
 insert into capacite(id,nom ) values (1,"Coquillage");
 insert into capacite(id,nom ) values (2,"Etoile de mer");
@@ -413,6 +430,56 @@ insert into capacite_competence_r (competence_id,capacite_id)
 select competence.id,capacite.id from competence, capacite  where 
 competence.description = 'Départ sauté ou plongé, se déplacer 15 m sur le ventre, effectuer un demi-tour, se déplacer 15 m sur le dos.'
 and  nom = 'Salamandre';
+
+
+insert into capacite_competence_r (competence_id,capacite_id)
+select competence.id,capacite.id from competence, capacite  where 
+competence.description = 'Réaliser le parcourt du savoir nager'
+and  nom = 'Loutre de mer';
+
+insert into capacite_competence_r (competence_id,capacite_id)
+select competence.id,capacite.id from competence, capacite  where 
+competence.description = 'Savoir identifier la personne respondable de la surveillance à alerter en cas de problème'
+and  nom = 'Loutre de mer';
+
+
+insert into capacite_competence_r (competence_id,capacite_id)
+select competence.id,capacite.id from competence, capacite  where 
+competence.description = 'Connaître les règles de base liées à l''hygiène et à la sécurité das un établissement de bains ou un espace surveillé'
+and  nom = 'Loutre de mer';
+
+
+insert into capacite_competence_r (competence_id,capacite_id)
+select competence.id,capacite.id from competence, capacite  where 
+competence.description = 'Savoir identifier les environnements et les circonstances pour lesquels la maitrise du savoir-nager est adaptée'
+and  nom = 'Loutre de mer';
+
+
+
+
+create table etape(
+    id integer primary key autoincrement,
+    num integer ,
+    description varchar2(200) not null,
+    capacite_id integer, 
+    FOREIGN KEY(capacite_id) REFERENCES capacite(id)  
+);
+
+insert into etape_parcours (id,num,capacite_id,description) values (1,1,8,'A partir du bord du bassin, entrer dans l''eau en chutte arrière');
+insert into etape_parcours (id,num,capacite_id,description) values (2,2,8,'Se déplacer sur 3.5m en direction d''un obstacle');
+insert into etape_parcours (id,num,capacite_id,description) values (3,3,8,'Franchir en immersion complète l''obstacle sur une distance de 1,5m');
+insert into etape_parcours (id,num,capacite_id,description) values (4,4,8,'Se déplacer sur le ventre sur une distance de 15m');
+insert into etape_parcours (id,num,capacite_id,description) values (5,5,8,'Au cours de ce déplacement, au signal sonore, réaliser un surplace vertical pendant 15s puis reprendre le déplacement pour terminer la distance des 15m');
+insert into etape_parcours (id,num,capacite_id,description) values (6,6,8,'Faire 1/2 tour sans reprise d''appuis et passer d''une position ventrale à une position dorsale');
+insert into etape_parcours (id,num,capacite_id,description) values (7,7,8,'Se déplacer sur le dos sur une distance de 15m');
+insert into etape_parcours (id,num,capacite_id,description) values (8,8,8,'Au cours de ce déplacement , au signal sonore, réaliser un surplace en position horizontale dorsale pendant 15 s puis reprendre le déplacement pour terminer la distance des 15m');
+insert into etape_parcours (id,num,capacite_id,description) values (9,9,8,'Se retourner sur le ventre pour franchir à nouveau l''obstacle en immersion complète');
+insert into etape_parcours (id,num,capacite_id,description) values (10,10,8,'Se déplacer sur le ventre pour revenir au point de départ');
+insert into etape_parcours (id,num,capacite_id,description) values (11,11,8,'Savoir identifier la personne respondable de la surveillance à alerter en cas de problème');
+insert into etape_parcours (id,num,capacite_id,description) values (12,12,8,'Connaître les règles de base liées à l''hygiène et à la sécurité das un établissement de bains ou un espace surveillé');
+insert into etape_parcours (id,num,capacite_id,description) values (13,13,8,'Savoir identifier les environnements et les circonstances pour lesquels la maitrise du savoir-nager est adaptée');
+
+
 
 
 

@@ -4,6 +4,7 @@ import java.util.List;
 
 import fr.natation.service.AssnService;
 import fr.natation.service.CompetenceService;
+import fr.natation.service.EtapeService;
 
 public class Capacite {
 
@@ -46,6 +47,10 @@ public class Capacite {
 
     public Assn getAssn() throws Exception {
         return AssnService.get(this.assnId);
+    }
+
+    public List<Etape> getEtapes() throws Exception {
+        return EtapeService.get(this.id);
     }
 
 }

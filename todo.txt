@@ -1,0 +1,5 @@
+  - La gestion de la loutre
+     - Parcourt  
+     -compétences transversales => ok
+  - Modifier la gestion d'atteinte des niveaux (80% des compétences + les compétence d'une capacité)
+  - Génération de l'attestation de savoir nager.
