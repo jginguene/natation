@@ -47,9 +47,10 @@ import fr.natation.view.CustomComboBoxModel;
 import fr.natation.view.EmptyGroupe;
 import fr.natation.view.EmptyNiveau;
 import fr.natation.view.GridBagConstraintsFactory;
+import fr.natation.view.IRefreshListener;
 import fr.natation.view.VerticalLabel;
 
-public class NavettePanel extends JPanel {
+public class NavettePanel extends JPanel implements IRefreshListener {
 
     private static final long serialVersionUID = 1L;
 
@@ -142,7 +143,8 @@ public class NavettePanel extends JPanel {
 
     }
 
-    private void refresh() throws Exception {
+    @Override
+    public void refresh() throws Exception {
         List<Groupe> groupes = GroupeService.getAll();
         groupes.add(0, this.allGroupes);
         CustomComboBoxModel<Groupe> modelGroupe = new CustomComboBoxModel<Groupe>(groupes);
@@ -154,6 +156,8 @@ public class NavettePanel extends JPanel {
         CustomComboBoxModel<Niveau> modelNiveau = new CustomComboBoxModel<Niveau>(niveaux);
         modelNiveau.setSelectedItem(this.allNiveaux);
         this.inputNiveau.setModel(modelNiveau);
+
+        this.refreshPanel();
     }
 
     private JPanel createViewPanel() throws Exception {
@@ -225,10 +229,13 @@ public class NavettePanel extends JPanel {
             i++;
 
             JLabel labelEleve = this.createLabel(eleve.toString(), backgroundColor);
+            labelEleve.setName("nom");
+
             panel.add(labelEleve, GridBagConstraintsFactory.create(1, y, 1, 1));
             this.register(eleve, labelEleve);
 
             JLabel labelGroupe = this.createLabel(eleve.getGroupeNom(), backgroundColor);
+            labelGroupe.setName("groupe");
             labelGroupe.setHorizontalAlignment(JLabel.CENTER);
             panel.add(labelGroupe, GridBagConstraintsFactory.create(2, y, 1, 1));
             this.register(eleve, labelGroupe);
@@ -375,6 +382,20 @@ public class NavettePanel extends JPanel {
             for (Eleve eleve : elevesToHide) {
                 for (Component component : this.mapEleveComponent.get(eleve)) {
                     component.setVisible(false);
+                }
+            }
+
+            for (Eleve eleve : visibleEleves) {
+                for (Component component : this.mapEleveComponent.get(eleve)) {
+                    if ("groupe".equals(component.getName())) {
+                        JLabel labelGroupe = (JLabel) component;
+                        labelGroupe.setText(eleve.getGroupeNom());
+                    }
+                    if ("nom".equals(component.getName())) {
+                        JLabel labelNom = (JLabel) component;
+                        labelNom.setText(eleve.toString());
+
+                    }
                 }
             }
 

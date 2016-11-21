@@ -263,7 +263,7 @@ insert into  competence(description,num,domaine_id,niveau_id)
 values ('Ramasser un objet à 1 m de profondeur départ assis.',4,3,2);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Sauter en moyennement profondeur, se déplacer sous l''eau, se laisser flotter et regagner le bord.',5,3,2);
+values ('Sauter en moyenne profondeur, se déplacer sous l''eau, se laisser flotter et regagner le bord.',5,3,2);
 
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('Souffler dans l''eau avec la bouche et le nez en immersion totale.',1,4,2);
@@ -342,7 +342,7 @@ insert into  competence(description,num,domaine_id,niveau_id)
 values ('Départ sauté ou plongé, se déplacer 15 m sur le ventre, effectuer un demi-tour, se déplacer 15 m sur le dos.',3,5,3);
 
 insert into  competence(description,num,domaine_id,niveau_id)
-values ('Réaliser le parcourt du savoir nager',4,5,3);
+values ('Réaliser le parcours du savoir nager',4,5,3);
 
 
 insert into  competence(description,num,domaine_id,niveau_id)
@@ -443,7 +443,7 @@ and  nom = 'Salamandre';
 
 insert into capacite_competence_r (competence_id,capacite_id)
 select competence.id,capacite.id from competence, capacite  where 
-competence.description = 'Réaliser le parcourt du savoir nager'
+competence.description = 'Réaliser le parcours du savoir nager'
 and  nom = 'Loutre de mer';
 
 insert into capacite_competence_r (competence_id,capacite_id)

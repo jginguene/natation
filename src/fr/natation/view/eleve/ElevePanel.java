@@ -19,6 +19,7 @@ import javax.swing.JScrollPane;
 import org.apache.log4j.Logger;
 
 import fr.natation.model.Eleve;
+import fr.natation.pdf.AttestationGenerator;
 import fr.natation.pdf.BilanGenerator;
 import fr.natation.service.EleveService;
 import fr.natation.view.ButtonFactory;
@@ -38,6 +39,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
     private final JButton updateButton = ButtonFactory.createUpdateButton();
     private final JButton pdfButton = ButtonFactory.createPdfButton("Créer le bilan de l'élève");
     private final JButton cancelButton = ButtonFactory.createCancelButton("Annuler les modifications");
+    private final JButton attestationButton = ButtonFactory.createPdfButton("Créer l'attestation de savoir nager");
     private final JButton deleteButton = ButtonFactory.createDeleteButton();
 
     private Eleve eleve;
@@ -73,6 +75,7 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
         buttonPanel.add(this.cancelButton);
         buttonPanel.add(this.updateButton);
         buttonPanel.add(this.pdfButton);
+        buttonPanel.add(this.attestationButton);
         buttonPanel.add(this.deleteButton);
 
         this.cancelButton.addActionListener(new ActionListener() {
@@ -93,6 +96,13 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
             @Override
             public void actionPerformed(ActionEvent event) {
                 ElevePanel.this.onPdfButton();
+            }
+        });
+
+        this.attestationButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent event) {
+                ElevePanel.this.onAttestationButton();
             }
         });
 
@@ -119,9 +129,9 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
             EleveService.update(this.eleve);
             this.eleve = EleveService.get(this.eleve.getId());
 
-            for (IEleveUpdateListener listener : this.listeners) {
+            /* for (IEleveUpdateListener listener : this.listeners) {
                 listener.refresh(this.eleve);
-            }
+            }*/
 
             JOptionPane.showMessageDialog(null, "La mise à jour de " + this.eleve.toString() + " est terminée ", "Information", JOptionPane.INFORMATION_MESSAGE);
 
@@ -178,6 +188,23 @@ public class ElevePanel extends JPanel implements IRefreshListener, IEleveSelect
 
     public void addListener(IEleveUpdateListener listener) {
         this.listeners.add(listener);
+    }
+
+    private void onAttestationButton() {
+        try {
+            AttestationGenerator generator = new AttestationGenerator();
+
+            String fileName = "attestation_" + this.eleve.toString().replaceAll(" ", "-") + ".pdf";
+            for (Eleve eleve : EleveService.getAll()) {
+                generator.addPage(eleve);
+            }
+            generator.generate(fileName);
+            JOptionPane.showMessageDialog(null, "Le fichier " + fileName + " a été créé", "Information", JOptionPane.INFORMATION_MESSAGE);
+            Desktop.getDesktop().open(new File(fileName));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "La génération des attesations a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
+            LOGGER.error("La génération des attesations a échoué", e);
+        }
     }
 
 }

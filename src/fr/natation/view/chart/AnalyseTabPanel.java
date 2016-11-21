@@ -30,6 +30,7 @@ import fr.natation.model.Eleve;
 import fr.natation.model.Groupe;
 import fr.natation.model.Niveau;
 import fr.natation.model.Status;
+import fr.natation.service.CompetenceService;
 import fr.natation.service.DomaineService;
 import fr.natation.service.EleveService;
 import fr.natation.service.GroupeService;
@@ -142,33 +143,32 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener, IEleveU
 
         int x = 3;
 
-        int niveauWidth = DomaineService.getAll().size() + 1;
-
         for (Niveau niveau : this.getNiveaux()) {
+            int niveauWidth = 1;
+            int niveauX = x;
             Color niveauColor = ViewUtils.getNiveauColor(niveau);
+            GridBagConstraints constraint = null;
 
-            GridBagConstraints constraint = GridBagConstraintsFactory.create(x, 0, niveauWidth, 1);
-            constraint.fill = GridBagConstraints.BOTH;
-
-            JLabel labelNiveau = this.createLabelNiveau(niveau);
-            labelNiveau.setBackground(niveauColor);
-            panel.add(labelNiveau, constraint);
-            this.register(niveau, labelNiveau);
+            this.register(niveau, this.labelNiveau);
 
             int domaineX = x;
             int domaineCount = 0;
             for (Domaine domaine : DomaineService.getAll()) {
 
-                constraint = GridBagConstraintsFactory.create(domaineX, 1, 1, 1);
-                constraint.fill = GridBagConstraints.BOTH;
+                if (CompetenceService.get(niveau, domaine).size() > 0) {
+                    niveauWidth++;
 
-                JLabel labelDomaine = this.createLabelDomaine(domaine);
-                labelDomaine.setBackground(niveauColor);
-                panel.add(labelDomaine, constraint);
-                this.register(niveau, labelDomaine);
+                    constraint = GridBagConstraintsFactory.create(domaineX, 1, 1, 1);
+                    constraint.fill = GridBagConstraints.BOTH;
 
-                domaineCount++;
-                domaineX += 1;
+                    JLabel labelDomaine = this.createLabelDomaine(domaine);
+                    labelDomaine.setBackground(niveauColor);
+                    panel.add(labelDomaine, constraint);
+                    this.register(niveau, labelDomaine);
+
+                    domaineCount++;
+                    domaineX += 1;
+                }
             }
 
             constraint = GridBagConstraintsFactory.create(domaineX, 1, 1, 1);
@@ -181,6 +181,13 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener, IEleveU
             domaineCount++;
 
             x += domaineCount;
+
+            constraint = GridBagConstraintsFactory.create(niveauX, 0, niveauWidth, 1);
+            constraint.fill = GridBagConstraints.BOTH;
+
+            JLabel labelNiveau = this.createLabelNiveau(niveau);
+            labelNiveau.setBackground(niveauColor);
+            panel.add(labelNiveau, constraint);
 
         }
 
@@ -234,22 +241,25 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener, IEleveU
 
                 int total = 0;
                 for (Domaine domaine : DomaineService.getAll()) {
-                    List<Competence> competences = eleve.getCompetences(niveau, domaine);
 
-                    Status status = bilan.getStatus(niveau, domaine, competences.size());
-                    constraint = GridBagConstraintsFactory.create(domaineX, y, 1, 1);
-                    total += competences.size();
+                    if (CompetenceService.get(niveau, domaine).size() > 0) {
+                        List<Competence> competences = eleve.getCompetences(niveau, domaine);
 
-                    StatusLabel labelTotal = this.createStatusLabel(Integer.toString(competences.size()), status, backgroundColor);
+                        Status status = bilan.getStatus(niveau, domaine, competences.size());
+                        constraint = GridBagConstraintsFactory.create(domaineX, y, 1, 1);
+                        total += competences.size();
 
-                    panel.add(labelTotal, constraint);
+                        StatusLabel labelTotal = this.createStatusLabel(Integer.toString(competences.size()), status, backgroundColor);
 
-                    this.register(niveau, labelTotal);
-                    this.register(eleve, labelTotal);
+                        panel.add(labelTotal, constraint);
 
-                    this.register(eleve, niveau, domaine, labelTotal);
+                        this.register(niveau, labelTotal);
+                        this.register(eleve, labelTotal);
 
-                    domaineX++;
+                        this.register(eleve, niveau, domaine, labelTotal);
+
+                        domaineX++;
+                    }
                 }
 
                 constraint = GridBagConstraintsFactory.create(domaineX, y, 1, 1);
@@ -501,15 +511,15 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener, IEleveU
 
             int total = 0;
             for (Domaine domaine : DomaineService.getAll()) {
-                List<Competence> competences = eleve.getCompetences(niveau, domaine);
-                if (niveau.getNom().equals("1") && domaine.getNom().startsWith("Entr")) {
-                    System.out.println("stop");
-                }
 
-                StatusLabel labelTotal = this.getEleveComponent(eleve, niveau, domaine);
-                Status status = bilan.getStatus(niveau, domaine, competences.size());
-                labelTotal.update(Integer.toString(competences.size()), status);
-                total += competences.size();
+                if (CompetenceService.get(niveau, domaine).size() > 0) {
+                    List<Competence> competences = eleve.getCompetences(niveau, domaine);
+
+                    StatusLabel labelTotal = this.getEleveComponent(eleve, niveau, domaine);
+                    Status status = bilan.getStatus(niveau, domaine, competences.size());
+                    labelTotal.update(Integer.toString(competences.size()), status);
+                    total += competences.size();
+                }
 
             }
 

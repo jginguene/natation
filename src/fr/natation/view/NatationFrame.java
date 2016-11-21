@@ -36,14 +36,15 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
 
     private static final long serialVersionUID = 1L;
 
-    private static final int ELEVE_LIST_TAB = 0;
-    private static final int ELEVE_TAB = 1;
-    private static final int GROUPE_TAB = 2;
-    private static final int COMPETENCE_TAB = 3;
-    private static final int CAPACITE_TAB = 4;
-    private static final int NAVETTE_TAB = 5;
-    private static final int ANALYSE_TAB = 6;
-    private static final int ECOLE_TAB = 7;
+    private static final int ECOLE_TAB = 0;
+    private static final int ELEVE_LIST_TAB = 1;
+    private static final int ELEVE_TAB = 2;
+    private static final int GROUPE_TAB = 4;
+    private static final int COMPETENCE_TAB = 5;
+    private static final int ASSIGNATION_TAB = 3;
+    private static final int CAPACITE_TAB = 6;
+    private static final int NAVETTE_TAB = 7;
+    private static final int ANALYSE_TAB = 8;
 
     private final EleveListTabPanel eleveListTabPanel;
 
@@ -86,16 +87,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
         this.menu = new NatationMenu(this);
         this.setJMenuBar(this.menu);
 
-        this.tabbedPane.addTab("Liste des élèves", Icon.Liste.getImage(), this.eleveListTabPanel, "");
-        this.tabbedPane.addTab("Fiche des élèves", Icon.Eleve.getImage(), this.eleveTabPanel, "");
-        this.tabbedPane.addTab("Liste des groupes", Icon.Liste.getImage(), this.groupeListTabPanel, "");
-
-        this.tabbedPane.addTab("Liste des compétences", Icon.Competence.getImage(), this.competenceListTabPanel, "");
-        this.tabbedPane.addTab("Assignation en lot de compétences", Icon.Competence.getImage(), this.selectionEnLotDeCompetencePanel, "");
-        this.tabbedPane.addTab("Liste des capacités", Icon.Capacite.getImage(), this.capaciteListTabPanel, "");
-        this.tabbedPane.addTab("Navette", Icon.Navette.getImage(), this.navettePanel, "");
-        this.tabbedPane.addTab("Analyse", Icon.Analyse.getImage(), this.analyseTabPanel, "");
-        this.tabbedPane.addTab("Ecole", Icon.Ecole.getImage(), this.ecolePanel, "");
+        this.addTabs();
 
         this.eleveListTabPanel.addListener(this);
 
@@ -123,6 +115,10 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
                         NatationFrame.this.analyseTabPanel.refresh();
                     }
 
+                    if (NatationFrame.this.tabbedPane.getSelectedIndex() == NAVETTE_TAB) {
+                        NatationFrame.this.navettePanel.refresh();
+                    }
+
                 } catch (Exception e1) {
                     JOptionPane.showMessageDialog(null, "Le rafraichissement de l'onglet a échoué");
                     NatationFrame.LOGGER.error("Le rafraichissement de l'onglet a échoué", e1);
@@ -137,6 +133,48 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
         this.setSize(800, 800);
 
         this.isInitialized = true;
+    }
+
+    private void addTabs() {
+        for (int i = 0; i < 20; i++) {
+
+            if (i == ELEVE_LIST_TAB) {
+                this.tabbedPane.addTab("Liste des élèves", Icon.Liste.getImage(), this.eleveListTabPanel, "");
+            }
+
+            if (i == ELEVE_TAB) {
+                this.tabbedPane.addTab("Fiches des élèves", Icon.Eleve.getImage(), this.eleveTabPanel, "");
+            }
+
+            if (i == GROUPE_TAB) {
+                this.tabbedPane.addTab("Liste des groupes", Icon.Liste.getImage(), this.groupeListTabPanel, "");
+            }
+
+            if (i == COMPETENCE_TAB) {
+                this.tabbedPane.addTab("Les compétences", Icon.Competence.getImage(), this.competenceListTabPanel, "");
+            }
+
+            if (i == ASSIGNATION_TAB) {
+                this.tabbedPane.addTab("Saisie collective des compétences", Icon.Competence.getImage(), this.selectionEnLotDeCompetencePanel, "");
+            }
+
+            if (i == CAPACITE_TAB) {
+                this.tabbedPane.addTab("Les capacités", Icon.Capacite.getImage(), this.capaciteListTabPanel, "");
+            }
+
+            if (i == NAVETTE_TAB) {
+                this.tabbedPane.addTab("Navette", Icon.Navette.getImage(), this.navettePanel, "");
+            }
+
+            if (i == ANALYSE_TAB) {
+                this.tabbedPane.addTab("Analyse", Icon.Analyse.getImage(), this.analyseTabPanel, "");
+            }
+
+            if (i == ECOLE_TAB) {
+                this.tabbedPane.addTab("Ecole", Icon.Ecole.getImage(), this.ecolePanel, "");
+            }
+
+        }
     }
 
     public boolean isInitialized() {
