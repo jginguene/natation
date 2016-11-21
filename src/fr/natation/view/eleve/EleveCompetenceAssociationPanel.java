@@ -227,7 +227,8 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
                 if (niveau.equals(this.eleve.getRequiredNiveau())) {
                     Status status;
                     if (mapNiveauCompetenceCount.containsKey(niveau.getId())) {
-                        status = bilan.getStatus(niveau, mapNiveauCompetenceCount.get(niveau.getId()));
+                        status = bilan.getStatus(niveau, selectedCompetences);
+
                     } else {
                         status = Status.Red;
                     }

@@ -66,6 +66,7 @@ public class DomaineService {
         Domaine domaine = new Domaine();
         domaine.setId(res.getInt("id"));
         domaine.setNom(res.getString("nom"));
+        domaine.setUrl(res.getString("url"));
         return domaine;
     }
 

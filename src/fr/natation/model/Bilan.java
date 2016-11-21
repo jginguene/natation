@@ -1,5 +1,7 @@
 package fr.natation.model;
 
+import java.util.List;
+
 import fr.natation.Utils;
 import fr.natation.service.CompetenceService;
 import fr.natation.service.NiveauService;
@@ -71,9 +73,29 @@ public class Bilan {
         return this.getStatus(niveau, eleveCompetenceCount);
     }
 
+    public Status getStatus(Niveau niveau, List<Competence> eleveCompetences) throws Exception {
+        float eleveCompetenceCount = 0;
+        List<Competence> niveauCompetence = niveau.getCompetences();
+
+        for (Competence competence : eleveCompetences) {
+            if (niveauCompetence.contains(competence)) {
+                eleveCompetenceCount++;
+            }
+        }
+
+        Status status = this.getStatus(niveau, eleveCompetenceCount);
+        if (status == Status.Green) {
+            if (!eleveCompetences.containsAll(niveau.getCapacite().getCompetences())) {
+                status = Status.Blue;
+            }
+        }
+        return status;
+    }
+
     public Status getStatus(Niveau niveau, float eleveCompetenceCount) throws Exception {
         float totalCompetenceCount = CompetenceService.get(niveau).size();
         float pct = eleveCompetenceCount / totalCompetenceCount;
+
         return this.getStatus(pct);
 
     }

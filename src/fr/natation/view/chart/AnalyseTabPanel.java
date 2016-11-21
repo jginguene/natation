@@ -254,7 +254,7 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener, IEleveU
 
                 constraint = GridBagConstraintsFactory.create(domaineX, y, 1, 1);
 
-                Status status = bilan.getStatus(niveau, eleve.getCompetences(niveau).size());
+                Status status = bilan.getStatus(niveau, eleve.getCompetences(niveau));
                 StatusLabel labelTotal = this.createStatusTitleLabel(Integer.toString(total), status, backgroundColor);
                 panel.add(labelTotal, constraint);
 
@@ -514,7 +514,7 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener, IEleveU
             }
 
             StatusLabel labelTotal = this.getEleveComponent(eleve, niveau, null);
-            Status status = bilan.getStatus(niveau, eleve.getCompetences(niveau).size());
+            Status status = bilan.getStatus(niveau, eleve.getCompetences(niveau));
             labelTotal.update(Integer.toString(total), status);
 
         }

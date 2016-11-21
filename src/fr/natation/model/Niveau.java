@@ -2,12 +2,26 @@ package fr.natation.model;
 
 import java.util.List;
 
+import fr.natation.service.CapaciteService;
 import fr.natation.service.CompetenceService;
 
 public class Niveau {
 
     private int id;
     private String nom;
+    private int capaciteId;
+
+    public Capacite getCapacite() throws Exception {
+        return CapaciteService.get(this.capaciteId);
+    }
+
+    public int getCapaciteId() {
+        return this.capaciteId;
+    }
+
+    public void setCapaciteId(int capaciteId) {
+        this.capaciteId = capaciteId;
+    }
 
     public int getId() {
         return this.id;

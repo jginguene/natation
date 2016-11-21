@@ -66,6 +66,7 @@ public class NiveauService {
         Niveau niveau = new Niveau();
         niveau.setId(res.getInt("id"));
         niveau.setNom(res.getString("nom"));
+        niveau.setCapaciteId(res.getInt("capacite_id"));
         return niveau;
     }
 

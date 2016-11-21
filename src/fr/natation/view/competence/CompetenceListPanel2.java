@@ -3,10 +3,15 @@ package fr.natation.view.competence;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Cursor;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +29,7 @@ import fr.natation.service.CompetenceService;
 import fr.natation.service.DomaineService;
 import fr.natation.service.NiveauService;
 import fr.natation.view.GridBagConstraintsFactory;
+import fr.natation.view.Icon;
 import fr.natation.view.ViewUtils;
 
 public class CompetenceListPanel2 extends JPanel {
@@ -124,14 +130,46 @@ public class CompetenceListPanel2 extends JPanel {
 
     }
 
-    private JLabel createDomaineLabel(Domaine domaine) {
+    private JLabel createDomaineLabel(final Domaine domaine) {
+
         JLabel label = new JLabel(domaine.getNom());
+
+        if (domaine.getUrl() != null) {
+            label.setIcon(Icon.View.getImage());
+            label.setCursor(new Cursor(Cursor.HAND_CURSOR));
+
+            label.addMouseListener(new MouseAdapter() {
+                @Override
+                public void mouseClicked(MouseEvent e) {
+                    CompetenceListPanel2.this.onLink(domaine);
+                }
+
+                @Override
+                public void mouseEntered(MouseEvent e) {
+                }
+
+                @Override
+                public void mouseExited(MouseEvent e) {
+                }
+
+            });
+        }
+
         label.setBorder(BorderFactory.createMatteBorder(1, 0, 1, 1, Color.black));
         label.setSize(WIDTH, HEIGHT);
         label.setPreferredSize(new Dimension(WIDTH, HEIGHT));
         label.setHorizontalAlignment(JLabel.CENTER);
         label.setFont(new Font(label.getFont().getName(), Font.BOLD, 16));
         return label;
+    }
+
+    private void onLink(Domaine domaine) {
+        try {
+            Desktop.getDesktop().browse(new URI(domaine.getUrl()));
+        } catch (Exception ex) {
+
+        }
+
     }
 
     private JLabel createNiveauLabel(Niveau niveau) {

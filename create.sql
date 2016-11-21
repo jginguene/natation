@@ -29,15 +29,38 @@ insert into assn(id,code,description) values (1,'SN1','Savoir nager 1');
 insert into assn(id,code,description) values (2,'SN2','Savoir nager 2');
 insert into assn(id,code,description) values (3,'ASSN','Attestation scolaire du savoir nager');
 
+create table capacite(
+    id integer primary key autoincrement,
+    Nom varchar2(200) not null,
+    description varchar2(1000),
+    assn_id integer,    
+    FOREIGN KEY(assn_id) REFERENCES assn(id),
+    CONSTRAINT nom_unique UNIQUE (Nom)
+);
+
+
+insert into capacite(id,nom ) values (1,"Coquillage");
+insert into capacite(id,nom ) values (2,"Etoile de mer");
+insert into capacite(id,nom ) values (3,"Canard");
+insert into capacite(id,nom ) values (4,"Crocodile");
+insert into capacite(id,nom,assn_id ) values (5,"Poisson",1);
+insert into capacite(id,nom ,assn_id ) values (6,"Tortue",2);
+insert into capacite(id,nom ) values (7,"Salamandre");
+insert into capacite(id,nom ,assn_id ) values (8,"Loutre de mer",3);
+
 create table niveau(
     id integer primary key autoincrement,
     Nom varchar2(200) not null,  
-    CONSTRAINT nom_unique UNIQUE (Nom )
+    capacite_id integer(200),
+    CONSTRAINT nom_unique UNIQUE (Nom ),
+    FOREIGN KEY(capacite_id) REFERENCES capacite(id)  
 );
 
-insert into niveau (nom) values (1);
-insert into niveau (nom) values (2);
-insert into niveau (nom) values (3);
+insert into niveau (nom,capacite_id) values (1,2);
+insert into niveau (nom,capacite_id) values (2,5);
+insert into niveau (nom,capacite_id) values (3,8);
+
+
 
 
 
@@ -59,6 +82,7 @@ insert into classe(id,nom, niveau_id) values (6,'6ème',3);
 create table domaine(
     id integer primary key autoincrement,
     Nom varchar2(200) not null,
+    url varchar2(200),
     CONSTRAINT nom_unique UNIQUE (Nom)
 );
 
@@ -74,14 +98,6 @@ create table competence(
 );
 
 
-create table capacite(
-    id integer primary key autoincrement,
-    Nom varchar2(200) not null,
-    description varchar2(1000),
-    assn_id integer,    
-    FOREIGN KEY(assn_id) REFERENCES assn(id),
-    CONSTRAINT nom_unique UNIQUE (Nom)
-);
 
 create table capacite_competence_r(
     capacite_id integer ,
@@ -140,12 +156,12 @@ CREATE INDEX idx_elev_comp_2 ON eleve_competence_r (competence_id);
 
         
 
-insert into domaine(id,nom) values (1,"Entrée dans l'eau");
-insert into domaine(id,nom) values (2,"Equilibre");
-insert into domaine(id,nom) values (3,"Immersion");
-insert into domaine(id,nom) values (4,"Respiration");
-insert into domaine(id,nom) values (5,"Propulsion");
-insert into domaine(id,nom) values (6,"Compétences transversales");
+insert into domaine(id,nom,url) values (1,"Entrée dans l'eau","http://www.ec-coty-lesclayes.ac-versailles.fr/entree-dans-leau/");
+insert into domaine(id,nom,url) values (2,"Equilibre","http://www.ec-coty-lesclayes.ac-versailles.fr/equilibre/");
+insert into domaine(id,nom,url) values (3,"Immersion","http://www.ec-coty-lesclayes.ac-versailles.fr/immersion/");
+insert into domaine(id,nom,url) values (4,"Respiration","http://www.ec-coty-lesclayes.ac-versailles.fr/respiration/ ");
+insert into domaine(id,nom,url) values (5,"Propulsion","http://www.ec-coty-lesclayes.ac-versailles.fr/propulsion/");
+insert into domaine(id,nom,url) values (6,"Compétences transversales");
 
 insert into  competence(description,num,domaine_id,niveau_id)
 values ('Entrer dans l''eau par les escaliers sans s''immerger seul ou à plusieurs.',1,1,1);
@@ -342,14 +358,7 @@ values ('Savoir identifier les environnements et les circonstances pour lesquels
 
 
 
-insert into capacite(id,nom ) values (1,"Coquillage");
-insert into capacite(id,nom ) values (2,"Etoile de mer");
-insert into capacite(id,nom ) values (3,"Canard");
-insert into capacite(id,nom ) values (4,"Crocodile");
-insert into capacite(id,nom,assn_id ) values (5,"Poisson",1);
-insert into capacite(id,nom ,assn_id ) values (6,"Tortue",2);
-insert into capacite(id,nom ) values (7,"Salamandre");
-insert into capacite(id,nom ,assn_id ) values (8,"Loutre de mer",3);
+
 
 
 
@@ -476,7 +485,7 @@ insert into etape_parcours (id,num,capacite_id,description) values (8,8,8,'Au co
 insert into etape_parcours (id,num,capacite_id,description) values (9,9,8,'Se retourner sur le ventre pour franchir à nouveau l''obstacle en immersion complète');
 insert into etape_parcours (id,num,capacite_id,description) values (10,10,8,'Se déplacer sur le ventre pour revenir au point de départ');
 insert into etape_parcours (id,num,capacite_id,description) values (11,11,8,'Savoir identifier la personne respondable de la surveillance à alerter en cas de problème');
-insert into etape_parcours (id,num,capacite_id,description) values (12,12,8,'Connaître les règles de base liées à l''hygiène et à la sécurité das un établissement de bains ou un espace surveillé');
+insert into etape_parcours (id,num,capacite_id,description) values (12,12,8,'Connaître les règles de base liées à l''hygiène et à la sécurité dans un établissement de bains ou un espace surveillé');
 insert into etape_parcours (id,num,capacite_id,description) values (13,13,8,'Savoir identifier les environnements et les circonstances pour lesquels la maitrise du savoir-nager est adaptée');
 
 
