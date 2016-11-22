@@ -10,7 +10,7 @@ import fr.natation.view.IRefreshListener;
 public class CompetenceListTabPanel extends JPanel implements IRefreshListener {
 
     private static final long serialVersionUID = 1L;
-    private final CompetenceListPanel2 listPanel = new CompetenceListPanel2();
+    private final CompetenceListPanel listPanel = new CompetenceListPanel();
 
     public CompetenceListTabPanel() throws Exception {
         this.setLayout(new BorderLayout());

@@ -73,7 +73,7 @@ public class CompetenceTableModel extends AbstractTableModel {
 
             case COLUMN_CAPACITE:
                 if (competence.getCapacite() != null) {
-                    return ViewUtils.getCapaciteIcon(competence.getCapacite(), CompetenceListPanel.ROW_HEIGHT + 8);
+                    return ViewUtils.getCapaciteIcon(competence.getCapacite(), 50 + 8);
                 } else {
                     return new ImageIcon();
                 }

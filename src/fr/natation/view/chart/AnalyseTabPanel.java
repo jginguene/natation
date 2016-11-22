@@ -7,6 +7,8 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.util.ArrayList;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.swing.BorderFactory;
+import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -30,11 +33,13 @@ import fr.natation.model.Eleve;
 import fr.natation.model.Groupe;
 import fr.natation.model.Niveau;
 import fr.natation.model.Status;
+import fr.natation.pdf.PdfUtils;
 import fr.natation.service.CompetenceService;
 import fr.natation.service.DomaineService;
 import fr.natation.service.EleveService;
 import fr.natation.service.GroupeService;
 import fr.natation.service.NiveauService;
+import fr.natation.view.ButtonFactory;
 import fr.natation.view.CustomComboBoxModel;
 import fr.natation.view.EmptyGroupe;
 import fr.natation.view.EmptyNiveau;
@@ -66,6 +71,9 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener, IEleveU
 
     private final Map<String, StatusLabel> mapEleve = new HashMap<String, StatusLabel>();
 
+    private final JButton exportButton = ButtonFactory.createExcelButton("Exporter");
+    private final Component componentToExport;
+
     public AnalyseTabPanel() throws Exception {
 
         for (Niveau niveau : NiveauService.getAll()) {
@@ -93,7 +101,8 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener, IEleveU
 
         this.add(selectPanel, BorderLayout.NORTH);
 
-        JScrollPane scrollPane = new JScrollPane(this.createViewPanel());
+        this.componentToExport = this.createViewPanel();
+        JScrollPane scrollPane = new JScrollPane(this.componentToExport);
 
         this.setPreferredSize(new Dimension(450, 110));
         this.add(scrollPane, BorderLayout.CENTER);
@@ -118,6 +127,20 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener, IEleveU
             }
         });
 
+        this.add(this.exportButton, BorderLayout.SOUTH);
+
+        this.exportButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                AnalyseTabPanel.this.onExportButton();
+
+            }
+        });
+
+    }
+
+    private void onExportButton() {
+        PdfUtils.save("analyse.pdf", this.componentToExport, 20, 100, 0.55f);
     }
 
     @Override

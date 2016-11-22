@@ -1,13 +1,66 @@
 package fr.natation.pdf;
 
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Desktop;
+import java.awt.Graphics;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.io.IOException;
 
+import javax.imageio.ImageIO;
+import javax.swing.JOptionPane;
+
+import org.apache.log4j.Logger;
+import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.PDPageContentStream.AppendMode;
 import org.apache.pdfbox.pdmodel.common.PDRectangle;
+import org.apache.pdfbox.pdmodel.graphics.image.PDImageXObject;
 
 public class PdfUtils {
+    private final static Logger LOGGER = Logger.getLogger(PdfUtils.class.getName());
+
+    public static void save(String fileName, Component component, int x, int y, float ratio) {
+        try {
+            PDDocument doc = new PDDocument();
+            float POINTS_PER_INCH = 72;
+            float POINTS_PER_MM = 1 / (10 * 2.54f) * POINTS_PER_INCH;
+            PDPage page = new PDPage(new PDRectangle(297 * POINTS_PER_MM, 210 * POINTS_PER_MM));
+
+            doc.addPage(page);
+
+            PDPageContentStream contentStream = new PDPageContentStream(doc, page, AppendMode.APPEND, true);
+
+            BufferedImage img = new BufferedImage(component.getWidth(), component.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics g = img.getGraphics();
+            component.paint(g);
+            g.dispose();
+
+            try {
+                ImageIO.write(img, "png", new File("tmp.png"));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            PDImageXObject image = PDImageXObject.createFromFile("tmp.png", doc);
+            float width = component.getWidth() * ratio;
+            float height = component.getHeight() * ratio;
+            contentStream.drawImage(image, x, y, width, height);
+
+            contentStream.close();
+
+            doc.save(fileName);
+            doc.close();
+
+            JOptionPane.showMessageDialog(null, "Le fichier " + fileName + " a été créé", "Information", JOptionPane.INFORMATION_MESSAGE);
+            Desktop.getDesktop().open(new File(fileName));
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "La génération du fichier " + fileName + "  a échoué", "Erreur", JOptionPane.ERROR_MESSAGE);
+            LOGGER.error("La génération du fichier " + fileName + "  a échoué", e);
+        }
+    }
 
     public static void writeText(PDPageContentStream contentStream, int x, int y, int width, int height, String text, PdfTextConf conf)
             throws IOException {
