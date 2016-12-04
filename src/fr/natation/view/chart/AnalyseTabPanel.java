@@ -71,6 +71,8 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener, IEleveU
 
     private final Map<String, StatusLabel> mapEleve = new HashMap<String, StatusLabel>();
 
+    private final JScrollPane scrollPane;
+
     private final JButton exportButton = ButtonFactory.createExcelButton("Exporter");
     private final Component componentToExport;
 
@@ -102,10 +104,10 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener, IEleveU
         this.add(selectPanel, BorderLayout.NORTH);
 
         this.componentToExport = this.createViewPanel();
-        JScrollPane scrollPane = new JScrollPane(this.componentToExport);
+        this.scrollPane = new JScrollPane(this.componentToExport);
 
         this.setPreferredSize(new Dimension(450, 110));
-        this.add(scrollPane, BorderLayout.CENTER);
+        this.add(this.scrollPane, BorderLayout.CENTER);
 
         this.inputNiveau.addItemListener(new ItemListener() {
 
@@ -491,7 +493,9 @@ public class AnalyseTabPanel extends JPanel implements IRefreshListener, IEleveU
                 }
             }
 
-            this.validate();
+            for (Eleve eleve : visibleEleves)
+
+                this.validate();
             this.repaint();
 
         } catch (Exception e) {

@@ -74,7 +74,9 @@ public class EleveService {
             statement.setString(2, eleve.getPrenom().trim().toLowerCase());
             statement.setInt(3, eleve.getGroupeId());
             statement.setInt(4, eleve.getClasseId());
-            statement.setDate(5, new java.sql.Date(eleve.getDateDeNaissance().getTime()));
+            if (eleve.getDateDeNaissance() != null) {
+                statement.setDate(5, new java.sql.Date(eleve.getDateDeNaissance().getTime()));
+            }
 
             statement.execute();
 
@@ -155,6 +157,7 @@ public class EleveService {
     }
 
     public static void update(Eleve eleve) throws Exception {
+
         clearCache();
         Connection connection = ConnectionFactory.createConnection();
         try {
@@ -187,6 +190,7 @@ public class EleveService {
     }
 
     public static void clearCache() {
+        CompetenceService.clearCache();
         eleves.clear();
     }
 }

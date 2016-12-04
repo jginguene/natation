@@ -48,7 +48,7 @@ public class CompetenceListPanel extends JPanel {
     private final static int WIDTH = 200;
     private final static int HEIGHT = 60;
 
-    private final JButton exportButton = ButtonFactory.createExcelButton("Exporter");
+    private final JButton exportButton = ButtonFactory.createPdfButton("Exporter");
     private final JPanel panel;
 
     public CompetenceListPanel() throws Exception {

@@ -47,10 +47,12 @@ import fr.natation.view.CustomComboBoxModel;
 import fr.natation.view.EmptyGroupe;
 import fr.natation.view.EmptyNiveau;
 import fr.natation.view.GridBagConstraintsFactory;
+import fr.natation.view.IEleveUpdateListener;
 import fr.natation.view.IRefreshListener;
+import fr.natation.view.JLabelCompetence;
 import fr.natation.view.VerticalLabel;
 
-public class NavettePanel extends JPanel implements IRefreshListener {
+public class NavettePanel extends JPanel implements IRefreshListener, IEleveUpdateListener {
 
     private static final long serialVersionUID = 1L;
 
@@ -252,8 +254,9 @@ public class NavettePanel extends JPanel implements IRefreshListener {
                         }
                         constraint = GridBagConstraintsFactory.create(competenceX, y, 1, 1);
 
-                        JLabel labelCompetence = this.createLabelTitle(text, backgroundColor);
+                        JLabelCompetence labelCompetence = this.createLabelCompetence(text, backgroundColor);
                         panel.add(labelCompetence, constraint);
+                        labelCompetence.setCompetence(competence);
 
                         this.register(niveau, labelCompetence);
                         this.register(eleve, labelCompetence);
@@ -278,6 +281,19 @@ public class NavettePanel extends JPanel implements IRefreshListener {
         label.setBackground(backgroundColor);
         label.setOpaque(true);
 
+        return label;
+    }
+
+    private JLabelCompetence createLabelCompetence(String title, Color backgroundColor) {
+        JLabelCompetence label = new JLabelCompetence(title);
+        label.setBorder(BorderFactory.createMatteBorder(1, 1, 1, 1, Color.BLACK));
+
+        label.setHorizontalAlignment(JLabel.CENTER);
+        label.setVerticalAlignment(JLabel.CENTER);
+        label.setFont(new Font(label.getFont().getName(), Font.BOLD, 12));
+
+        label.setBackground(backgroundColor);
+        label.setOpaque(true);
         return label;
     }
 
@@ -385,20 +401,6 @@ public class NavettePanel extends JPanel implements IRefreshListener {
                 }
             }
 
-            for (Eleve eleve : visibleEleves) {
-                for (Component component : this.mapEleveComponent.get(eleve)) {
-                    if ("groupe".equals(component.getName())) {
-                        JLabel labelGroupe = (JLabel) component;
-                        labelGroupe.setText(eleve.getGroupeNom());
-                    }
-                    if ("nom".equals(component.getName())) {
-                        JLabel labelNom = (JLabel) component;
-                        labelNom.setText(eleve.toString());
-
-                    }
-                }
-            }
-
             long stop = System.currentTimeMillis();
 
             this.validate();
@@ -435,6 +437,30 @@ public class NavettePanel extends JPanel implements IRefreshListener {
 
     private void register(Niveau niveau, Component component) {
         this.mapNiveauComponent.get(niveau).add(component);
+    }
+
+    @Override
+    public void refresh(Eleve eleve) throws Exception {
+        for (Component component : this.mapEleveComponent.get(eleve)) {
+            if ("groupe".equals(component.getName())) {
+                JLabel labelGroupe = (JLabel) component;
+                labelGroupe.setText(eleve.getGroupeNom());
+            }
+            if ("nom".equals(component.getName())) {
+                JLabel labelNom = (JLabel) component;
+                labelNom.setText(eleve.toString());
+            }
+
+            if (component instanceof JLabelCompetence) {
+                JLabelCompetence labelCompetence = (JLabelCompetence) component;
+
+                if (eleve.getCompetences().contains(labelCompetence.getCompetence())) {
+                    labelCompetence.setText("X");
+                } else {
+                    labelCompetence.setText("");
+                }
+            }
+        }
     }
 
 }

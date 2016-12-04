@@ -296,7 +296,7 @@ public class CompetenceService {
         return competence;
     }
 
-    private static void clearCache() {
+    public static void clearCache() {
         mapNiveauDomaine.clear();
         competences.clear();
         mapNiveauDomaineEleve.clear();

@@ -270,6 +270,7 @@ public class EleveCompetenceAssociationPanel extends JPanel implements IEleveSel
     }
 
     public void updateEleve(Eleve eleve) {
+
         try {
             CompetenceService.removeAll(eleve);
 

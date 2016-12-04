@@ -78,6 +78,7 @@ public class NatationFrame extends JFrame implements IEleveSelectListener, INata
         this.ecolePanel = new EcoleInfoEditPanel();
 
         this.eleveTabPanel.addListener(this.analyseTabPanel);
+        this.eleveTabPanel.addListener(this.navettePanel);
 
         FRAME = this;
 

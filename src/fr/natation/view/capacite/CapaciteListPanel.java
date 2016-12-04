@@ -29,7 +29,7 @@ public class CapaciteListPanel extends ListPanel implements TableCellRenderer {
 
     private final static Logger LOGGER = Logger.getLogger(EleveListPanel.class.getName());
 
-    private JButton exportButton = ButtonFactory.createExcelButton("Exporter");
+    private JButton exportButton = ButtonFactory.createPdfButton("Exporter");
     private Component componentToExport;
 
     public CapaciteListPanel() throws Exception {

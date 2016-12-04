@@ -15,5 +15,15 @@
 	<classpathentry kind="lib" path="swing-layout.jar"/>
 	<classpathentry kind="lib" path="liquidlnf.jar"/>
 	<classpathentry kind="lib" path="pdfbox-app-2.0.3.jar"/>
+	<classpathentry kind="lib" path="poi-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="poi-excelant-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="poi-ooxml-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="poi-ooxml-schemas-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="poi-scratchpad-3.9-20121203.jar"/>
+	<classpathentry kind="lib" path="resolver.jar"/>
+	<classpathentry kind="lib" path="xbean_xpath.jar"/>
+	<classpathentry kind="lib" path="xbean.jar"/>
+	<classpathentry kind="lib" path="xmlbeans-qname.jar"/>
+	<classpathentry kind="lib" path="xmlpublic.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
